@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model PromoCode {
+  id     Int     @default(autoincrement()) @id
+  idUser String
+  code   String
+}
+
+model User {
+  id                   Int     @default(autoincrement()) @id
+  idUser               String
+  tariffPlan           String  @default("base")
+  subscriptionEndDate  String  @default("never")
+  createdOpt           Int     @default(0)
+  byOpt                Int     @default(0)
+  totalSavings         Int     @default(0)
+  invitedUsers         Int     @default(0)
+  totalEarned          Int     @default(0)
+  channels             Int     @default(0)
+  message_mode String @default("standart")
+  opts             Opt[]
+  // channels             UserChanel[]
+}
+
+model Opt {
+  id             Int     @default(autoincrement()) @id
+  chanel         String?
+  retail_price   String?
+  wholesale_cost String?
+  min_places     String?
+  max_places     String?
+  booking_date   String?
+  deadline_date  String?
+  placement_time String?
+  requisites     String?
+  status         String  @default("created")
+  user           User?   @relation(fields: [idUser], references: [id])
+  idUser         Int?
+}
+
+// model Notifications {
+//   id       Int     @default(autoincrement()) @id
+//   date String?
+//   time String?
+//   sum String?
+// }
+
+model UserChanel {
+  id       Int     @default(autoincrement()) @id
+  idUser   String
+  idChanel String
+}
+
+model Catalog {
+  id          Int     @default(autoincrement()) @id
+
+  category String?
+  username String?
+  title String?
+
+  link String?
+
+  //сумарный дневной охват
+  daily_reach Int?
+  //индекс цитирования
+  ci_index Int?
+  //количество подписчиков
+  participants_count Int?
+  //Средний охват публикаций
+  avg_post_reach Int?
+  //количнсвто репостов в другие каналы
+  forwards_count Int?
+}
+
+// model Mode {
+//   id       Int     @default(autoincrement()) @id
+//   idUser   String
+//   state    String  @default("standart")
+// }
+
+// model UserChanel {
+//   id       Int     @default(autoincrement()) @id
+//   idChanel String
+//   user     User? @relation(fields: [idUser], references: [id])
+//   idUser   Int?
+// }
+
