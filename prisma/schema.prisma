@@ -27,8 +27,9 @@ model User {
   invitedUsers         Int     @default(0)
   totalEarned          Int     @default(0)
   channels             Int     @default(0)
-  message_mode String @default("standart")
-  opts             Opt[]
+  filter               String? @default("none")
+  message_mode         String @default("standart")
+  opts                 Opt[]
   // channels             UserChanel[]
 }
 

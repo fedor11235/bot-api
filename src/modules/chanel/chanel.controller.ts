@@ -28,8 +28,8 @@ export class ChanelController {
   }
 
   @Get('categories')
-  async getChanelsCategories(@Res() res, @Query('category') category) {
-    const chanels = await this.chanelService.getChanelsCategories(category);
+  async getChanelsCategories(@Res() res, @Query('idUser') idUser, @Query('category') category, @Query('filter') filter) {
+    const chanels = await this.chanelService.getChanelsCategories(idUser, category, filter);
     return res.status(HttpStatus.OK).json(chanels);
   }
 }

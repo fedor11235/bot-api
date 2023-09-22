@@ -31,8 +31,8 @@ let ChanelController = class ChanelController {
         const chanels = await this.chanelService.getChanelsUser(idUser);
         return res.status(common_1.HttpStatus.OK).json(chanels);
     }
-    async getChanelsCategories(res, category) {
-        const chanels = await this.chanelService.getChanelsCategories(category);
+    async getChanelsCategories(res, idUser, category, filter) {
+        const chanels = await this.chanelService.getChanelsCategories(idUser, category, filter);
         return res.status(common_1.HttpStatus.OK).json(chanels);
     }
 };
@@ -65,9 +65,11 @@ __decorate([
 __decorate([
     (0, common_1.Get)('categories'),
     __param(0, (0, common_1.Res)()),
-    __param(1, (0, common_1.Query)('category')),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('category')),
+    __param(3, (0, common_1.Query)('filter')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ChanelController.prototype, "getChanelsCategories", null);
 exports.ChanelController = ChanelController = __decorate([

@@ -5,5 +5,6 @@ export declare class ChanelService {
     getChanels(username: any): Promise<any>;
     createChanelUser(idUser: any, idChanel: any): Promise<any>;
     getChanelsUser(idUser: any): Promise<any>;
-    getChanelsCategories(categoryQuery: any): Promise<any>;
+    parseFilter(name: any): "forwards_count" | "participants_count" | "avg_post_reach" | "daily_reach" | "ci_index";
+    getChanelsCategories(idUser: any, categoryQuery: any, filter: any): Promise<any>;
 }
