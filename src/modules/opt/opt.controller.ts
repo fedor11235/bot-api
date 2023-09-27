@@ -30,6 +30,18 @@ export class OptController {
     return res.status(HttpStatus.OK).json(opt);
   }
 
+  @Get('stat')
+  async getStatOpt(@Res() res, @Query('chanel') chanel) {
+    const opt = await this.modeService.getStatOpt(chanel);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Get('categories')
+  async getOptCategories(@Res() res, @Query('idUser') idUser, @Query('category') category, @Query('filter') filter) {
+    const opt = await this.modeService.getOptCategories(idUser, category, filter);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
   @Post('set')
   async setOpt(@Res() res, @Query('idUser') idUser, @Body() data) {
     const opt = await this.modeService.setOpt(idUser, data);

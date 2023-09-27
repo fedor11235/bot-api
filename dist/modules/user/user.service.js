@@ -17,11 +17,27 @@ let UserService = class UserService {
         this.prisma = prisma;
     }
     async getPromocode(idUser) {
-        const promocode = String(new Date().valueOf());
-        await this.prisma.promoCode.create({
-            data: {
+        let promocode = '';
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (let index = 0; index < 5; index += 1) {
+            const randomIndex = Math.floor(Math.random() * alphabet.length);
+            promocode += alphabet[randomIndex];
+        }
+        for (let index = 0; index < 2; index += 1) {
+            const randomIndex = Math.floor(Math.random() * 9);
+            promocode += String(randomIndex);
+        }
+        const user = await this.prisma.user.findFirst({
+            where: {
                 idUser: idUser,
-                code: promocode,
+            },
+        });
+        await this.prisma.user.update({
+            where: {
+                id: user.id,
+            },
+            data: {
+                promocode: promocode,
             },
         });
         return promocode;

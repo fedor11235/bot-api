@@ -6,19 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.RecommendationModule = void 0;
 const common_1 = require("@nestjs/common");
-const user_module_1 = require("./modules/user/user.module");
-const mode_module_1 = require("./modules/mode/mode.module");
-const opt_module_1 = require("./modules/opt/opt.module");
-const chanel_module_1 = require("./modules/chanel/chanel.module");
-const recommendation_module_1 = require("./modules/recommendation/recommendation.module");
-let AppModule = class AppModule {
+const recommendation_controller_1 = require("./recommendation.controller");
+const recommendation_service_1 = require("./recommendation.service");
+const prisma_service_1 = require("../prisma/prisma.service");
+let RecommendationModule = class RecommendationModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.RecommendationModule = RecommendationModule;
+exports.RecommendationModule = RecommendationModule = __decorate([
     (0, common_1.Module)({
-        imports: [user_module_1.UserModule, mode_module_1.ModeModule, opt_module_1.OptModule, chanel_module_1.ChanelModule, recommendation_module_1.RecommendationModule],
+        imports: [],
+        controllers: [recommendation_controller_1.RecommendationController],
+        providers: [recommendation_service_1.RecommendationService, prisma_service_1.PrismaService],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], RecommendationModule);
+//# sourceMappingURL=recommendation.module.js.map

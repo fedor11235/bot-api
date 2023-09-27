@@ -10,12 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PromoCode {
-  id     Int     @default(autoincrement()) @id
-  idUser String
-  code   String
-}
-
 model User {
   id                   Int     @default(autoincrement()) @id
   idUser               String
@@ -27,14 +21,19 @@ model User {
   invitedUsers         Int     @default(0)
   totalEarned          Int     @default(0)
   channels             Int     @default(0)
+  promocode            String?
+  //фильтр для категорий
   filter               String? @default("none")
-  message_mode         String @default("standart")
+  //фильтр для оптов
+  filter_opt            String? @default("none")
+  message_mode         String  @default("standart")
   opts                 Opt[]
   // channels             UserChanel[]
 }
 
 model Opt {
   id             Int     @default(autoincrement()) @id
+  category       String?
   chanel         String?
   retail_price   String?
   wholesale_cost String?
@@ -49,17 +48,20 @@ model Opt {
   idUser         Int?
 }
 
-// model Notifications {
-//   id       Int     @default(autoincrement()) @id
-//   date String?
-//   time String?
-//   sum String?
-// }
-
 model UserChanel {
   id       Int     @default(autoincrement()) @id
   idUser   String
   idChanel String
+
+  category String?
+  username String?
+  title String?
+  // link: chanel.link,
+  daily_reach Int?
+  ci_index Int?
+  participants_count Int?
+  avg_post_reach Int?
+  forwards_count Int?
 }
 
 model Catalog {
@@ -83,16 +85,16 @@ model Catalog {
   forwards_count Int?
 }
 
-// model Mode {
-//   id       Int     @default(autoincrement()) @id
-//   idUser   String
-//   state    String  @default("standart")
-// }
-
-// model UserChanel {
-//   id       Int     @default(autoincrement()) @id
-//   idChanel String
-//   user     User? @relation(fields: [idUser], references: [id])
-//   idUser   Int?
-// }
+model Recommendation {
+  id             Int     @default(autoincrement()) @id
+  username       String?
+  price_standart String?
+  price_now      String?
+  format         String?
+  number_posts   Int?
+  data_list      String?
+  requisites     String?
+  deadline       String?
+  info           String?
+}
 

@@ -27,6 +27,14 @@ let OptController = class OptController {
         const opt = await this.modeService.getOpt(idUser);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
+    async getStatOpt(res, chanel) {
+        const opt = await this.modeService.getStatOpt(chanel);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async getOptCategories(res, idUser, category, filter) {
+        const opt = await this.modeService.getOptCategories(idUser, category, filter);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
     async setOpt(res, idUser, data) {
         const opt = await this.modeService.setOpt(idUser, data);
         return res.status(common_1.HttpStatus.OK).json(opt);
@@ -50,6 +58,24 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "getOpt", null);
+__decorate([
+    (0, common_1.Get)('stat'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('chanel')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "getStatOpt", null);
+__decorate([
+    (0, common_1.Get)('categories'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('category')),
+    __param(3, (0, common_1.Query)('filter')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "getOptCategories", null);
 __decorate([
     (0, common_1.Post)('set'),
     __param(0, (0, common_1.Res)()),
