@@ -27,6 +27,10 @@ let UserController = class UserController {
         const profile = await this.userService.getProfile(idUser);
         return res.status(common_1.HttpStatus.OK).json(profile);
     }
+    async setProfile(res, idUser, tariffPlan, time) {
+        const status = await this.userService.setProfile(idUser, tariffPlan, time);
+        return res.status(common_1.HttpStatus.OK).json(status);
+    }
     async getCheckUser(res, idUser) {
         const check = await this.userService.getCheckUser(idUser);
         return res.status(common_1.HttpStatus.OK).json(check);
@@ -49,6 +53,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.Get)('set'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('tariffPlan')),
+    __param(3, (0, common_1.Query)('time')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "setProfile", null);
 __decorate([
     (0, common_1.Get)('check'),
     __param(0, (0, common_1.Res)()),

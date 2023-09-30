@@ -54,6 +54,22 @@ let UserService = class UserService {
         const resp = { ...user, userNumber: user.channels.length };
         return resp;
     }
+    async setProfile(idUser, tariffPlan, time) {
+        console.log("idUser: ", idUser);
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + Number(time));
+        console.log(currentDate);
+        await this.prisma.user.update({
+            where: {
+                id: idUser,
+            },
+            data: {
+                tariffPlan: tariffPlan,
+                subscriptionEndDate: String(currentDate)
+            },
+        });
+        return "ok";
+    }
     async getCheckUser(idUser) {
         const isUser = await this.prisma.user.findUnique({
             where: {

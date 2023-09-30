@@ -17,6 +17,12 @@ export class UserController {
     return res.status(HttpStatus.OK).json(profile);
   }
 
+  @Get('set')
+  async setProfile(@Res() res, @Query('idUser') idUser, @Query('tariffPlan') tariffPlan, @Query('time') time) {
+    const status = await this.userService.setProfile(idUser, tariffPlan, time);
+    return res.status(HttpStatus.OK).json(status);
+  }
+
   @Get('check')
   async getCheckUser(@Res() res, @Query('idUser') idUser) {
     const check = await this.userService.getCheckUser(idUser);
