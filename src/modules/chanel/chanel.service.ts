@@ -27,6 +27,18 @@ export class ChanelService {
     if (isUserChanel) {
       status = 'exist'
     } else {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id: idUser
+        }
+      });
+      if(!user) {
+        await this.prisma.user.create({
+          data: {
+            id: idUser,
+          },
+        });
+      }
       const categoryStat: any = await this.getUrlCategoryStat(idChanel)
       if(categoryStat) {
         await this.prisma.userChanel.create({
@@ -54,18 +66,6 @@ export class ChanelService {
           },
         });
       }
-      const user = await this.prisma.user.findFirst({
-        where: {
-          idUser: idUser,
-        },
-      });
-      if(!user) {
-        await this.prisma.user.create({
-          data: {
-            idUser: idUser,
-          },
-        });
-      }
       status = 'created'
     }
     return status;
@@ -84,10 +84,10 @@ export class ChanelService {
     
     if(filter && filter !== 'none') {
       const filterPrepar = this.parseFilter(filter)
-      const user = await this.prisma.user.findFirst({
+      const user = await this.prisma.user.findUnique({
         where: {
-          idUser: idUser
-        },
+          id: idUser
+        }
       });
       await this.prisma.user.update({
         where: { id: user.id },
@@ -113,11 +113,11 @@ export class ChanelService {
       return categoryFind;
     }
 
-    const user = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findUnique({
       where: {
-        idUser: idUser
-      },
-    })
+        id: idUser
+      }
+    });
 
     if(user.filter === "none") {
       if (categoryQuery === 'all') {

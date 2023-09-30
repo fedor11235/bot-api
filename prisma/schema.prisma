@@ -11,8 +11,8 @@ datasource db {
 }
 
 model User {
-  id                   Int     @default(autoincrement()) @id
-  idUser               String
+  // id                   Int     @default(autoincrement()) @id
+  id                   String  @id
   tariffPlan           String  @default("base")
   subscriptionEndDate  String  @default("never")
   createdOpt           Int     @default(0)
@@ -20,7 +20,6 @@ model User {
   totalSavings         Int     @default(0)
   invitedUsers         Int     @default(0)
   totalEarned          Int     @default(0)
-  channels             Int     @default(0)
   promocode            String?
   //фильтр для категорий
   filter               String? @default("none")
@@ -28,7 +27,7 @@ model User {
   filter_opt            String? @default("none")
   message_mode         String  @default("standart")
   opts                 Opt[]
-  // channels             UserChanel[]
+  channels             UserChanel[]
 }
 
 model Opt {
@@ -45,14 +44,12 @@ model Opt {
   requisites     String?
   status         String  @default("created")
   user           User?   @relation(fields: [idUser], references: [id])
-  idUser         Int?
+  idUser         String?
 }
 
 model UserChanel {
   id       Int     @default(autoincrement()) @id
-  idUser   String
   idChanel String
-
   category String?
   username String?
   title String?
@@ -62,6 +59,8 @@ model UserChanel {
   participants_count Int?
   avg_post_reach Int?
   forwards_count Int?
+  user           User?   @relation(fields: [idUser], references: [id])
+  idUser         String?
 }
 
 model Catalog {

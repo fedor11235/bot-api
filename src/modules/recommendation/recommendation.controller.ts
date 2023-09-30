@@ -14,7 +14,7 @@ export class RecommendationController {
   }
 
   @Get('get')
-  async recommendationGet(@Res() res, @Body() body) {
+  async recommendationGet(@Res() res) {
     const result = await this.recommendationService.recommendationGet();
     return res.status(HttpStatus.OK).json(result);
   }

@@ -17,8 +17,10 @@ let ModeService = class ModeService {
         this.prisma = prisma;
     }
     async getMode(idUser) {
-        const user = await this.prisma.user.findFirst({
-            where: { idUser: idUser },
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
         });
         if (user) {
             return user.message_mode;
@@ -26,8 +28,10 @@ let ModeService = class ModeService {
         return 'standart';
     }
     async setMode(idUser, mode) {
-        const user = await this.prisma.user.findFirst({
-            where: { idUser: idUser },
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
         });
         await this.prisma.user.update({
             where: { id: user.id },

@@ -6,8 +6,10 @@ import { User, Prisma } from '@prisma/client';
 export class ModeService {
   constructor(private prisma: PrismaService) {}
   async getMode(idUser: any): Promise<any> {
-    const user = await this.prisma.user.findFirst({
-      where: { idUser: idUser },
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
     });
 
     if (user) {
@@ -16,8 +18,10 @@ export class ModeService {
     return 'standart';
   }
   async setMode(idUser: any, mode: any): Promise<any> {
-    const user = await this.prisma.user.findFirst({
-      where: { idUser: idUser },
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
     });
 
     await this.prisma.user.update({

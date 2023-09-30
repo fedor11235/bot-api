@@ -24,7 +24,7 @@ let RecommendationController = class RecommendationController {
         const result = await this.recommendationService.recommendationCreate(body);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
-    async recommendationGet(res, body) {
+    async recommendationGet(res) {
         const result = await this.recommendationService.recommendationGet();
         return res.status(common_1.HttpStatus.OK).json(result);
     }
@@ -46,9 +46,8 @@ __decorate([
 __decorate([
     (0, common_1.Get)('get'),
     __param(0, (0, common_1.Res)()),
-    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationGet", null);
 __decorate([

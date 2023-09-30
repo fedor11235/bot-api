@@ -17,8 +17,10 @@ let OptService = class OptService {
         this.prisma = prisma;
     }
     async createOpt(idUser, chanel) {
-        const user = await this.prisma.user.findFirst({
-            where: { idUser: idUser },
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
         });
         const chanel_bd = await this.prisma.userChanel.findFirst({
             where: { idChanel: chanel },
@@ -36,8 +38,8 @@ let OptService = class OptService {
         return 'ok';
     }
     async getOpt(idUser) {
-        const user = await this.prisma.user.findFirst({
-            where: { idUser: idUser },
+        const user = await this.prisma.user.findUnique({
+            where: { id: idUser },
             include: {
                 opts: true,
             },
@@ -48,10 +50,10 @@ let OptService = class OptService {
         let opts;
         if (filter && filter !== 'none') {
             const filterPrepar = this.parseFilter(filter);
-            const user = await this.prisma.user.findFirst({
+            const user = await this.prisma.user.findUnique({
                 where: {
-                    idUser: idUser
-                },
+                    id: idUser
+                }
             });
             await this.prisma.user.update({
                 where: { id: user.id },
@@ -76,10 +78,10 @@ let OptService = class OptService {
                 return opts;
             }
         }
-        const user = await this.prisma.user.findFirst({
+        const user = await this.prisma.user.findUnique({
             where: {
-                idUser: idUser
-            },
+                id: idUser
+            }
         });
         if (user.filter_opt === "none") {
             if (category === 'all') {
@@ -111,8 +113,8 @@ let OptService = class OptService {
         return opts;
     }
     async setOpt(idUser, data) {
-        const user = await this.prisma.user.findFirst({
-            where: { idUser: idUser },
+        const user = await this.prisma.user.findUnique({
+            where: { id: idUser },
             include: {
                 opts: true,
             },
@@ -130,7 +132,7 @@ let OptService = class OptService {
         const user = await this.prisma.user.findFirst({
             where: { id: opt.idUser }
         });
-        const result = { ...opt, user_id: user.idUser };
+        const result = { ...opt, user_id: user.id };
         return result;
     }
     parseFilter(name) {

@@ -5,8 +5,10 @@ import { PrismaService } from '../prisma/prisma.service';
 export class OptService {
   constructor(private prisma: PrismaService) {}
   async createOpt(idUser: any, chanel: any): Promise<any> {
-    const user = await this.prisma.user.findFirst({
-      where: { idUser: idUser },
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
     });
     const chanel_bd = await this.prisma.userChanel.findFirst({
       where: { idChanel: chanel },
@@ -24,8 +26,8 @@ export class OptService {
     return 'ok';
   }
   async getOpt(idUser: any): Promise<any> {
-    const user = await this.prisma.user.findFirst({
-      where: { idUser: idUser },
+    const user = await this.prisma.user.findUnique({
+      where: { id: idUser },
       include: {
         opts: true,
       },
@@ -38,10 +40,10 @@ export class OptService {
     
     if(filter && filter !== 'none') {
       const filterPrepar = this.parseFilter(filter)
-      const user = await this.prisma.user.findFirst({
+      const user = await this.prisma.user.findUnique({
         where: {
-          idUser: idUser
-        },
+          id: idUser
+        }
       });
       await this.prisma.user.update({
         where: { id: user.id },
@@ -67,11 +69,11 @@ export class OptService {
       }
     }
 
-    const user = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findUnique({
       where: {
-        idUser: idUser
-      },
-    })
+        id: idUser
+      }
+    });
 
     if(user.filter_opt === "none") {
       if (category === 'all') {
@@ -103,8 +105,8 @@ export class OptService {
   }
 
   async setOpt(idUser: any, data: any): Promise<any> {
-    const user = await this.prisma.user.findFirst({
-      where: { idUser: idUser },
+    const user = await this.prisma.user.findUnique({
+      where: { id: idUser },
       include: {
         opts: true,
       },
@@ -127,7 +129,7 @@ export class OptService {
       where: { id: opt.idUser }
     });
 
-    const result = {...opt , user_id: user.idUser}
+    const result = {...opt , user_id: user.id}
     return result;
   }
 

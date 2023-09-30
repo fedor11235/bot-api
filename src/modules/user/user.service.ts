@@ -25,10 +25,10 @@ export class UserService {
       const randomIndex = Math.floor(Math.random() * 9);
       promocode += String(randomIndex)
     }
-    const user = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findUnique({
       where: {
-        idUser: idUser,
-      },
+        id: idUser
+      }
     });
 
     await this.prisma.user.update({
@@ -44,20 +44,24 @@ export class UserService {
     return promocode;
   }
   async getProfile(idUser: any): Promise<any> {
-    const user = await this.prisma.user.findFirst({
+    const user = await this.prisma.user.findUnique({
       where: {
-        idUser: idUser,
+        id: idUser
       },
+      include: {
+        channels: true
+      }
     });
-    return user;
+    const resp = {...user, userNumber: user.channels.length}
+    return resp;
   }
   async getCheckUser(idUser: any): Promise<any> {
-    const isUserChanel = await this.prisma.userChanel.findFirst({
+    const isUser = await this.prisma.user.findUnique({
       where: {
-        idUser: idUser,
-      },
+        id: idUser
+      }
     });
-    if (isUserChanel) {
+    if (isUser) {
       return 'exist';
     }
     return 'empty';

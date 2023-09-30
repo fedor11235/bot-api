@@ -38,6 +38,18 @@ let ChanelService = class ChanelService {
             status = 'exist';
         }
         else {
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: idUser
+                }
+            });
+            if (!user) {
+                await this.prisma.user.create({
+                    data: {
+                        id: idUser,
+                    },
+                });
+            }
             const categoryStat = await this.getUrlCategoryStat(idChanel);
             if (categoryStat) {
                 await this.prisma.userChanel.create({
@@ -64,18 +76,6 @@ let ChanelService = class ChanelService {
                     },
                 });
             }
-            const user = await this.prisma.user.findFirst({
-                where: {
-                    idUser: idUser,
-                },
-            });
-            if (!user) {
-                await this.prisma.user.create({
-                    data: {
-                        idUser: idUser,
-                    },
-                });
-            }
             status = 'created';
         }
         return status;
@@ -92,10 +92,10 @@ let ChanelService = class ChanelService {
         let categoryFind;
         if (filter && filter !== 'none') {
             const filterPrepar = this.parseFilter(filter);
-            const user = await this.prisma.user.findFirst({
+            const user = await this.prisma.user.findUnique({
                 where: {
-                    idUser: idUser
-                },
+                    id: idUser
+                }
             });
             await this.prisma.user.update({
                 where: { id: user.id },
@@ -120,10 +120,10 @@ let ChanelService = class ChanelService {
             }
             return categoryFind;
         }
-        const user = await this.prisma.user.findFirst({
+        const user = await this.prisma.user.findUnique({
             where: {
-                idUser: idUser
-            },
+                id: idUser
+            }
         });
         if (user.filter === "none") {
             if (categoryQuery === 'all') {
