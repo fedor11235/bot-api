@@ -17,16 +17,19 @@ let OptService = class OptService {
         this.prisma = prisma;
     }
     async createOpt(idUser, chanel) {
-        const user = await this.prisma.user.findUnique({
+        const user = await this.prisma.user.update({
             where: {
                 id: idUser
+            },
+            data: {
+                opt_chanel_create: chanel
             }
         });
         const chanel_bd = await this.prisma.userChanel.findFirst({
             where: { idChanel: chanel },
         });
-        await this.prisma.opt.deleteMany({
-            where: { idUser: user.id },
+        await this.prisma.opt.delete({
+            where: { chanel: chanel },
         });
         const opt = await this.prisma.opt.create({
             data: {
@@ -115,12 +118,9 @@ let OptService = class OptService {
     async setOpt(idUser, data) {
         const user = await this.prisma.user.findUnique({
             where: { id: idUser },
-            include: {
-                opts: true,
-            },
         });
         const opt = await this.prisma.opt.update({
-            where: { id: user.opts[0].id },
+            where: { chanel: user.opt_chanel_create },
             data: data,
         });
         return opt;

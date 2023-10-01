@@ -21,6 +21,7 @@ model User {
   invitedUsers         Int     @default(0)
   totalEarned          Int     @default(0)
   promocode            String?
+  opt_chanel_create    String?
   //фильтр для категорий
   filter               String? @default("none")
   //фильтр для оптов
@@ -31,9 +32,8 @@ model User {
 }
 
 model Opt {
-  id             Int     @default(autoincrement()) @id
+  chanel         String     @id
   category       String?
-  chanel         String?
   retail_price   String?
   wholesale_cost String?
   min_places     String?
