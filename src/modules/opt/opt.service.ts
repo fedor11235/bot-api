@@ -21,9 +21,17 @@ export class OptService {
     const chanel_bd = await this.prisma.userChanel.findFirst({
       where: { idChanel: chanel },
     });
-    await this.prisma.opt.delete({
+
+    const opt_bd = await this.prisma.opt.findUnique({
       where: { chanel: chanel },
     });
+    
+    if(opt_bd) {
+      await this.prisma.opt.delete({
+        where: { chanel: chanel },
+      });
+    }
+
     const opt = await this.prisma.opt.create({
       data: {
         idUser: user.id,
