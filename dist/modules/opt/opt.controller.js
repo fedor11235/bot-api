@@ -35,6 +35,14 @@ let OptController = class OptController {
         const opt = await this.modeService.getOptCategories(idUser, category, filter);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
+    async setOptInto(res, idUser, idOpt, bookingDate) {
+        const opt = await this.modeService.setOptInto(idUser, idOpt, bookingDate);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async getOptInto(res, idOpt) {
+        const opt = await this.modeService.getOptInto(idOpt);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
     async setOpt(res, idUser, data) {
         const opt = await this.modeService.setOpt(idUser, data);
         return res.status(common_1.HttpStatus.OK).json(opt);
@@ -76,6 +84,24 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "getOptCategories", null);
+__decorate([
+    (0, common_1.Post)('into/set'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('idOpt')),
+    __param(3, (0, common_1.Query)('bookingDate')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "setOptInto", null);
+__decorate([
+    (0, common_1.Get)('into/get'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idOpt')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "getOptInto", null);
 __decorate([
     (0, common_1.Post)('set'),
     __param(0, (0, common_1.Res)()),

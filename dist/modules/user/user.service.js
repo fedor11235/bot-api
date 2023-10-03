@@ -48,10 +48,11 @@ let UserService = class UserService {
                 id: idUser
             },
             include: {
-                channels: true
+                channels: true,
+                opts: true,
             }
         });
-        const resp = { ...user, userNumber: user.channels.length };
+        const resp = { ...user, userNumber: user.channels.length, optNumber: user.opts.length };
         return resp;
     }
     async setProfile(idUser, tariffPlan, time) {

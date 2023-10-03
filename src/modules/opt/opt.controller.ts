@@ -42,6 +42,18 @@ export class OptController {
     return res.status(HttpStatus.OK).json(opt);
   }
 
+  @Post('into/set')
+  async setOptInto(@Res() res, @Query('idUser') idUser, @Query('idOpt') idOpt, @Query('bookingDate') bookingDate) {
+    const opt = await this.modeService.setOptInto(idUser, idOpt, bookingDate);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Get('into/get')
+  async getOptInto(@Res() res, @Query('idOpt') idOpt) {
+    const opt = await this.modeService.getOptInto(idOpt);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
   @Post('set')
   async setOpt(@Res() res, @Query('idUser') idUser, @Body() data) {
     const opt = await this.modeService.setOpt(idUser, data);

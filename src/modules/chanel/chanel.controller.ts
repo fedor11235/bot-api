@@ -16,8 +16,9 @@ export class ChanelController {
     @Res() res,
     @Query('idUser') idUser,
     @Query('idChanel') idChanel,
+    @Query('title') title,
   ) {
-    const status = await this.chanelService.createChanelUser(idUser, idChanel);
+    const status = await this.chanelService.createChanelUser(idUser, idChanel, title);
     return res.status(HttpStatus.OK).json(status);
   }
 

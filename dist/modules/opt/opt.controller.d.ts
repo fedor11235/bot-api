@@ -6,5 +6,7 @@ export declare class OptController {
     getOpt(res: any, idUser: any): Promise<any>;
     getStatOpt(res: any, chanel: any): Promise<any>;
     getOptCategories(res: any, idUser: any, category: any, filter: any): Promise<any>;
+    setOptInto(res: any, idUser: any, idOpt: any, bookingDate: any): Promise<any>;
+    getOptInto(res: any, idOpt: any): Promise<any>;
     setOpt(res: any, idUser: any, data: any): Promise<any>;
 }

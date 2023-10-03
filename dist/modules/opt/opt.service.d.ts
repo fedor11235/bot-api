@@ -7,5 +7,7 @@ export declare class OptService {
     getOptCategories(idUser: any, category: any, filter: any): Promise<any>;
     setOpt(idUser: any, data: any): Promise<any>;
     getStatOpt(chanel: any): Promise<any>;
+    setOptInto(idUser: any, idOpt: any, bookingDate: any): Promise<any>;
+    getOptInto(idOpt: any): Promise<any>;
     parseFilter(name: any): "forwards_count" | "participants_count" | "avg_post_reach" | "daily_reach" | "ci_index";
 }

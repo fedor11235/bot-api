@@ -26,7 +26,7 @@ let ChanelService = class ChanelService {
         });
         return chanels;
     }
-    async createChanelUser(idUser, idChanel) {
+    async createChanelUser(idUser, idChanel, title) {
         let status;
         const isUserChanel = await this.prisma.userChanel.findFirst({
             where: {
@@ -46,7 +46,7 @@ let ChanelService = class ChanelService {
             if (!user) {
                 await this.prisma.user.create({
                     data: {
-                        id: idUser,
+                        id: idUser
                     },
                 });
             }
@@ -58,12 +58,12 @@ let ChanelService = class ChanelService {
                         idChanel: idChanel,
                         category: "other",
                         username: categoryStat.username,
-                        title: categoryStat.title,
                         daily_reach: categoryStat.daily_reach,
                         ci_index: categoryStat.ci_index,
                         participants_count: categoryStat.participants_count,
                         avg_post_reach: categoryStat.avg_post_reach,
                         forwards_count: categoryStat.forwards_count,
+                        title: title
                     },
                 });
             }
@@ -72,6 +72,7 @@ let ChanelService = class ChanelService {
                     data: {
                         idUser: idUser,
                         idChanel: idChanel,
+                        title: title,
                         category: "other"
                     },
                 });

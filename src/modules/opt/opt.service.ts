@@ -141,6 +141,54 @@ export class OptService {
     return result;
   }
 
+  async setOptInto(idUser: any, idOpt: any, bookingDate: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
+    });
+    const opt = await this.prisma.optInto.findUnique({
+      where: {
+        chanel: idOpt
+      }
+    });
+    if(!opt) {
+      const opt = await this.prisma.optInto.create({
+        data: {
+          chanel: idOpt,
+          booking_date: bookingDate,
+          user: {
+            connect: user
+          }
+        },
+      });
+    } else {
+      const opt = await this.prisma.optInto.update({
+        where: {
+          chanel: idOpt
+        },
+        data: {
+          chanel: idOpt,
+          booking_date: bookingDate,
+          user: {
+            connect: user
+          }
+        }
+      });
+    }
+    return opt;
+  }
+
+  async getOptInto(idOpt: any): Promise<any> {
+    const opt = await this.prisma.optInto.findFirst({
+      where: {
+        chanel: idOpt,
+      },
+    });
+
+    return opt;
+  }
+
   parseFilter(name: any) {
     if(name === 'repost') {
       return 'forwards_count'

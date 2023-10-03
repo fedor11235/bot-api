@@ -22,6 +22,7 @@ model User {
   totalEarned          Int     @default(0)
   promocode            String?
   opt_chanel_create    String?
+  opt_into             OptInto[]
   //фильтр для категорий
   filter               String? @default("none")
   //фильтр для оптов
@@ -29,6 +30,13 @@ model User {
   message_mode         String  @default("standart")
   opts                 Opt[]
   channels             UserChanel[]
+}
+
+model OptInto {
+  chanel         String     @id
+  booking_date   String?
+  status         String  @default("created")
+  user           User[]
 }
 
 model Opt {

@@ -23,8 +23,8 @@ let ChanelController = class ChanelController {
         const chanels = await this.chanelService.getChanels(username);
         return res.status(common_1.HttpStatus.OK).json(chanels);
     }
-    async createChanelUser(res, idUser, idChanel) {
-        const status = await this.chanelService.createChanelUser(idUser, idChanel);
+    async createChanelUser(res, idUser, idChanel, title) {
+        const status = await this.chanelService.createChanelUser(idUser, idChanel, title);
         return res.status(common_1.HttpStatus.OK).json(status);
     }
     async getChanelsUser(res, idUser) {
@@ -50,8 +50,9 @@ __decorate([
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('idChanel')),
+    __param(3, (0, common_1.Query)('title')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ChanelController.prototype, "createChanelUser", null);
 __decorate([
