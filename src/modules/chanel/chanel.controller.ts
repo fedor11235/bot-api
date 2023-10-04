@@ -17,8 +17,9 @@ export class ChanelController {
     @Query('idUser') idUser,
     @Query('idChanel') idChanel,
     @Query('title') title,
+    @Query('username') username,
   ) {
-    const status = await this.chanelService.createChanelUser(idUser, idChanel, title);
+    const status = await this.chanelService.createChanelUser(idUser, idChanel, title, username);
     return res.status(HttpStatus.OK).json(status);
   }
 
@@ -31,6 +32,12 @@ export class ChanelController {
   @Get('categories')
   async getChanelsCategories(@Res() res, @Query('idUser') idUser, @Query('category') category, @Query('filter') filter) {
     const chanels = await this.chanelService.getChanelsCategories(idUser, category, filter);
+    return res.status(HttpStatus.OK).json(chanels);
+  }
+
+  @Get('user/set-channel')
+  async setCategoryChanel(@Res() res, @Query('idUser') idUser, @Query('category') category) {
+    const chanels = await this.chanelService.setCategoryChanel(idUser, category);
     return res.status(HttpStatus.OK).json(chanels);
   }
 }

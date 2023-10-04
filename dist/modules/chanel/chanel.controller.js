@@ -23,8 +23,8 @@ let ChanelController = class ChanelController {
         const chanels = await this.chanelService.getChanels(username);
         return res.status(common_1.HttpStatus.OK).json(chanels);
     }
-    async createChanelUser(res, idUser, idChanel, title) {
-        const status = await this.chanelService.createChanelUser(idUser, idChanel, title);
+    async createChanelUser(res, idUser, idChanel, title, username) {
+        const status = await this.chanelService.createChanelUser(idUser, idChanel, title, username);
         return res.status(common_1.HttpStatus.OK).json(status);
     }
     async getChanelsUser(res, idUser) {
@@ -33,6 +33,10 @@ let ChanelController = class ChanelController {
     }
     async getChanelsCategories(res, idUser, category, filter) {
         const chanels = await this.chanelService.getChanelsCategories(idUser, category, filter);
+        return res.status(common_1.HttpStatus.OK).json(chanels);
+    }
+    async setCategoryChanel(res, idUser, category) {
+        const chanels = await this.chanelService.setCategoryChanel(idUser, category);
         return res.status(common_1.HttpStatus.OK).json(chanels);
     }
 };
@@ -51,8 +55,9 @@ __decorate([
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('idChanel')),
     __param(3, (0, common_1.Query)('title')),
+    __param(4, (0, common_1.Query)('username')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ChanelController.prototype, "createChanelUser", null);
 __decorate([
@@ -73,6 +78,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ChanelController.prototype, "getChanelsCategories", null);
+__decorate([
+    (0, common_1.Get)('user/set-channel'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('category')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ChanelController.prototype, "setCategoryChanel", null);
 exports.ChanelController = ChanelController = __decorate([
     (0, common_1.Controller)('chanel'),
     __metadata("design:paramtypes", [chanel_service_1.ChanelService])

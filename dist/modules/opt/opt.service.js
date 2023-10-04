@@ -39,6 +39,7 @@ let OptService = class OptService {
         const opt = await this.prisma.opt.create({
             data: {
                 idUser: user.id,
+                title: chanel_bd.title,
                 chanel: chanel,
                 category: chanel_bd.category
             },
@@ -134,6 +135,7 @@ let OptService = class OptService {
         const opt = await this.prisma.opt.findFirst({
             where: { chanel: chanel }
         });
+        console.log(opt);
         const user = await this.prisma.user.findFirst({
             where: { id: opt.idUser }
         });
@@ -146,7 +148,7 @@ let OptService = class OptService {
                 id: idUser
             }
         });
-        const opt = await this.prisma.optInto.findUnique({
+        const opt = await this.prisma.optInto.findFirst({
             where: {
                 chanel: idOpt
             }
@@ -163,18 +165,6 @@ let OptService = class OptService {
             });
         }
         else {
-            const opt = await this.prisma.optInto.update({
-                where: {
-                    chanel: idOpt
-                },
-                data: {
-                    chanel: idOpt,
-                    booking_date: bookingDate,
-                    user: {
-                        connect: user
-                    }
-                }
-            });
         }
         return opt;
     }

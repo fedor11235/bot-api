@@ -24,12 +24,14 @@ export class ModeService {
       }
     });
 
-    await this.prisma.user.update({
-      where: { id: user.id },
-      data: {
-        message_mode: mode,
-      },
-    });
+    if(user) {
+      await this.prisma.user.update({
+        where: { id: user.id },
+        data: {
+          message_mode: mode,
+        },
+      });
+    }
     return 'ok';
   }
 }

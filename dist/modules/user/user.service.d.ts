@@ -5,5 +5,7 @@ export declare class UserService {
     getPromocode(idUser: any): Promise<any>;
     getProfile(idUser: any): Promise<any>;
     setProfile(idUser: any, tariffPlan: any, time: any): Promise<any>;
+    setTariffTemp(idUser: any, tariffPlan: any): Promise<any>;
+    uploadPromocode(idUser: any, promocode: any): Promise<any>;
     getCheckUser(idUser: any): Promise<any>;
 }

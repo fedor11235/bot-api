@@ -23,6 +23,18 @@ export class UserController {
     return res.status(HttpStatus.OK).json(status);
   }
 
+  @Get('set/tariff-temp')
+  async setTariffTemp(@Res() res, @Query('idUser') idUser, @Query('tariffPlan') tariffPlan) {
+    const status = await this.userService.setTariffTemp(idUser, tariffPlan);
+    return res.status(HttpStatus.OK).json(status);
+  }
+
+  @Get('upload/promocode')
+  async uploadPromocode(@Res() res, @Query('idUser') idUser, @Query('promocode') promocode) {
+    const status = await this.userService.uploadPromocode(idUser, promocode);
+    return res.status(HttpStatus.OK).json(status);
+  }
+
   @Get('check')
   async getCheckUser(@Res() res, @Query('idUser') idUser) {
     const check = await this.userService.getCheckUser(idUser);

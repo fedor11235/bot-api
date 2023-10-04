@@ -17,6 +17,14 @@ let UserService = class UserService {
         this.prisma = prisma;
     }
     async getPromocode(idUser) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
+        });
+        if (user.promocode == 'LOL') {
+            return 'no';
+        }
         let promocode = '';
         const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for (let index = 0; index < 5; index += 1) {
@@ -27,11 +35,6 @@ let UserService = class UserService {
             const randomIndex = Math.floor(Math.random() * 9);
             promocode += String(randomIndex);
         }
-        const user = await this.prisma.user.findUnique({
-            where: {
-                id: idUser
-            }
-        });
         await this.prisma.user.update({
             where: {
                 id: user.id,
@@ -56,7 +59,6 @@ let UserService = class UserService {
         return resp;
     }
     async setProfile(idUser, tariffPlan, time) {
-        console.log("idUser: ", idUser);
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate() + Number(time));
         console.log(currentDate);
@@ -70,6 +72,47 @@ let UserService = class UserService {
             },
         });
         return "ok";
+    }
+    async setTariffTemp(idUser, tariffPlan) {
+        await this.prisma.user.update({
+            where: {
+                id: idUser,
+            },
+            data: {
+                tariffPlan_temp: tariffPlan,
+            },
+        });
+        return "ok";
+    }
+    async uploadPromocode(idUser, promocode) {
+        if (promocode === 'LOL') {
+            return 'expired';
+        }
+        const user = await this.prisma.user.findFirst({
+            where: {
+                promocode: promocode,
+            },
+        });
+        if (user) {
+            await this.prisma.user.update({
+                where: {
+                    id: user.id,
+                },
+                data: {
+                    promocode: 'LOL'
+                }
+            });
+            await this.prisma.user.update({
+                where: {
+                    id: idUser,
+                },
+                data: {
+                    discount: 20,
+                },
+            });
+            return 'ok';
+        }
+        return "not-exist";
     }
     async getCheckUser(idUser) {
         const isUser = await this.prisma.user.findUnique({

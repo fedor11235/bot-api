@@ -16,7 +16,7 @@ export class ChanelService {
     });
     return chanels;
   }
-  async createChanelUser(idUser: any, idChanel: any, title: any): Promise<any> {
+  async createChanelUser(idUser: any, idChanel: any, title: any, username: any): Promise<any> {
     let status
     const isUserChanel = await this.prisma.userChanel.findFirst({
       where: {
@@ -32,10 +32,21 @@ export class ChanelService {
           id: idUser
         }
       });
-      if(!user) {
+      if(user) {
+        await this.prisma.user.update({
+          where: {
+            id: idUser
+          },
+          data: {
+            channel_temp: idChanel
+          },
+        });
+      } else {
         await this.prisma.user.create({
           data: {
-            id: idUser
+            id: idUser,
+            channel_temp: idChanel,
+            username: username
           },
         });
       }
@@ -146,6 +157,28 @@ export class ChanelService {
       });
     }
     return categoryFind;
+  }
+
+  async setCategoryChanel(idUser: any, category: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
+    });
+    const userChanel = await this.prisma.userChanel.findFirst({
+      where: {
+        idChanel: user.channel_temp
+      },
+    })
+    await this.prisma.userChanel.update({
+      where: {
+        id: userChanel.id
+      },
+      data: {
+        category: category
+      },
+    });
+    return 'ok';
   }
 
   parseFilter(name: any) {

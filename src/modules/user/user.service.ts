@@ -14,6 +14,14 @@ import { User, Prisma } from '@prisma/client';
 export class UserService {
   constructor(private prisma: PrismaService) {}
   async getPromocode(idUser: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
+    });
+    if(user.promocode == 'LOL') {
+      return 'no'
+    }
     let promocode = ''
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -25,11 +33,6 @@ export class UserService {
       const randomIndex = Math.floor(Math.random() * 9);
       promocode += String(randomIndex)
     }
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: idUser
-      }
-    });
 
     await this.prisma.user.update({
       where: {
@@ -57,7 +60,6 @@ export class UserService {
     return resp;
   }
   async setProfile(idUser: any, tariffPlan: any, time:any): Promise<any> {
-    console.log("idUser: ", idUser)
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + Number(time));
     console.log(currentDate);
@@ -72,6 +74,53 @@ export class UserService {
     });
 
     return "ok";
+  }
+
+  async setTariffTemp(idUser: any, tariffPlan: any): Promise<any> {
+    await this.prisma.user.update({
+      where: {
+        id: idUser,
+      },
+      data: {
+        tariffPlan_temp: tariffPlan,
+      },
+    });
+
+    return "ok";
+  }
+
+  async uploadPromocode(idUser: any, promocode: any): Promise<any> {
+    if (promocode === 'LOL') {
+      return 'expired'
+    }
+    const user = await this.prisma.user.findFirst({
+      where: {
+        promocode: promocode,
+      },
+    });
+
+    if(user) {
+      await this.prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          promocode: 'LOL'
+        }
+      });
+
+      await this.prisma.user.update({
+        where: {
+          id: idUser,
+        },
+        data: {
+          discount: 20,
+        },
+      });
+      return 'ok'
+    }
+
+    return "not-exist";
   }
   async getCheckUser(idUser: any): Promise<any> {
     const isUser = await this.prisma.user.findUnique({
