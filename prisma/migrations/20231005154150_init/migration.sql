@@ -79,6 +79,18 @@ CREATE TABLE "Catalog" (
 );
 
 -- CreateTable
+CREATE TABLE "RecommendationInto" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "chanel" TEXT,
+    "booking_date" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'created',
+    "idUser" TEXT,
+    "username_recommendation" TEXT,
+    CONSTRAINT "RecommendationInto_idUser_fkey" FOREIGN KEY ("idUser") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "RecommendationInto_username_recommendation_fkey" FOREIGN KEY ("username_recommendation") REFERENCES "Recommendation" ("username") ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+-- CreateTable
 CREATE TABLE "Recommendation" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "username" TEXT,
@@ -91,3 +103,6 @@ CREATE TABLE "Recommendation" (
     "deadline" TEXT,
     "info" TEXT
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Recommendation_username_key" ON "Recommendation"("username");

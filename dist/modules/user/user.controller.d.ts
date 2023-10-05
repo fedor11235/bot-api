@@ -7,5 +7,6 @@ export declare class UserController {
     setProfile(res: any, idUser: any, tariffPlan: any, time: any): Promise<any>;
     setTariffTemp(res: any, idUser: any, tariffPlan: any): Promise<any>;
     uploadPromocode(res: any, idUser: any, promocode: any): Promise<any>;
+    setAllDateProfile(res: any, idUser: any, body: any): Promise<any>;
     getCheckUser(res: any, idUser: any): Promise<any>;
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Res, Req, Query, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Res, Req, Post, Query, Body, HttpStatus } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -32,6 +32,12 @@ export class UserController {
   @Get('upload/promocode')
   async uploadPromocode(@Res() res, @Query('idUser') idUser, @Query('promocode') promocode) {
     const status = await this.userService.uploadPromocode(idUser, promocode);
+    return res.status(HttpStatus.OK).json(status);
+  }
+
+  @Post('set/profile')
+  async setAllDateProfile(@Res() res, @Query('idUser') idUser, @Body() body) {
+    const status = await this.userService.setAllDateProfile(idUser, body);
     return res.status(HttpStatus.OK).json(status);
   }
 

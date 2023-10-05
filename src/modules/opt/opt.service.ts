@@ -142,8 +142,6 @@ export class OptService {
       where: { chanel: chanel }
     });
 
-    console.log(opt)
-
     const user = await this.prisma.user.findFirst({
       where: { id: opt.idUser }
     });
@@ -153,6 +151,8 @@ export class OptService {
   }
 
   async setOptInto(idUser: any, idOpt: any, body: any): Promise<any> {
+    console.log()
+
     const optOld = await this.prisma.optInto.findFirst({
       where: {
         chanel: idOpt,
@@ -168,11 +168,17 @@ export class OptService {
       });
       return opt
     } else {
+      const optParent = await this.prisma.opt.findUnique({
+        where: {
+          chanel: idOpt,
+        }
+      });
       const opt = await this.prisma.optInto.create({
         data : {
           ...body,
           chanel: idOpt,
-          idUser: idUser
+          idUser: idUser,
+          allowed_dates: optParent.booking_date
         }
       });
       return opt
@@ -180,6 +186,7 @@ export class OptService {
   }
 
   async setRecommendationInto(idUser: any, idOpt: any, body: any): Promise<any> {
+
     const optOld = await this.prisma.recommendationInto.findFirst({
       where: {
         chanel: idOpt,
@@ -195,11 +202,17 @@ export class OptService {
       });
       return opt
     } else {
+      const optParent = await this.prisma.recommendation.findUnique({
+        where: {
+          username: idOpt,
+        }
+      });
       const opt = await this.prisma.recommendationInto.create({
         data : {
           ...body,
           chanel: idOpt,
-          idUser: idUser
+          idUser: idUser,
+          allowed_dates: optParent.data_list
         }
       });
       return opt

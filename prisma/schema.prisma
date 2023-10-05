@@ -16,7 +16,9 @@ model User {
   username             String?
   tariffPlan           String  @default("base")
   tariffPlan_temp      String?
-  channel_temp      String?
+  opt_into_temp        String?
+  rec_into_temp        String?
+  channel_temp         String?
   subscriptionEndDate  String  @default("never")
   createdOpt           Int     @default(0)
   byOpt                Int     @default(0)
@@ -39,7 +41,9 @@ model User {
 
 model OptInto {
   id             Int     @default(autoincrement()) @id
-  booking_date   String?
+  booking_date   String  @default("")
+  creatives      String  @default("")
+  allowed_dates  String  @default("")
   status         String  @default("created")
   user           User?   @relation(fields: [idUser], references: [id])
   idUser         String?
@@ -55,7 +59,7 @@ model Opt {
   wholesale_cost String?
   min_places     String?
   max_places     String?
-  booking_date   String?
+  booking_date   String  @default("")
   deadline_date  String?
   placement_time String?
   requisites     String?
@@ -103,27 +107,31 @@ model Catalog {
 }
 
 model RecommendationInto {
-  id                Int     @default(autoincrement()) @id
-  chanel             String?
-  booking_date      String?
-  status            String  @default("created")
-  user              User?   @relation(fields: [idUser], references: [id])
-  idUser            String?
-  recommendation    Recommendation?    @relation(fields: [id], references: [id])
-  idRecommendation  Int?
+  id                       Int     @default(autoincrement()) @id
+  chanel                   String?
+  creatives                String  @default("")
+  booking_date             String  @default("")
+  allowed_dates            String  @default("")
+  status                   String  @default("created")
+  user                     User?   @relation(fields: [idUser], references: [id])
+  idUser                   String?
+  recommendation           Recommendation?    @relation(fields: [username_recommendation], references: [username])
+  username_recommendation  String?
 }
 
 model Recommendation {
-  id             Int     @default(autoincrement()) @id
-  username       String?
-  price_standart String?
-  price_now      String?
-  format         String?
-  number_posts   Int?
-  data_list      String?
-  requisites     String?
-  deadline       String?
-  info           String?
+  id                 Int      @default(autoincrement()) @id
+  username           String?  @unique()
+  price_standart     String?
+  price_now          String?
+  format             String?
+  number_posts       Int?
+  coverage           String? @default("?")
+  subscribers        String? @default("?")
+  data_list          String?
+  requisites         String?
+  deadline           String?
+  info               String?
   RecommendationInto RecommendationInto[]
 }
 
