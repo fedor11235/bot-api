@@ -152,43 +152,60 @@ export class OptService {
     return result;
   }
 
-  async setOptInto(idUser: any, idOpt: any, bookingDate: any): Promise<any> {
-    const user = await this.prisma.user.findUnique({
+  async setOptInto(idUser: any, idOpt: any, body: any): Promise<any> {
+    const optOld = await this.prisma.optInto.findFirst({
       where: {
-        id: idUser
+        chanel: idOpt,
+        idUser: idUser
       }
     });
-    const opt = await this.prisma.optInto.findFirst({
-      where: {
-        chanel: idOpt
-      }
-    });
-    if(!opt) {
-      const opt = await this.prisma.optInto.create({
-        data: {
-          chanel: idOpt,
-          booking_date: bookingDate,
-          user: {
-            connect: user
-          }
+    if(optOld) {
+      const opt = await this.prisma.optInto.update({
+        where: {
+          id: optOld.id,
         },
+        data : body
       });
+      return opt
     } else {
-      // const opt = await this.prisma.optInto.update({
-      //   where: {
-      //     chanel: idOpt
-      //   },
-      //   data: {
-      //     chanel: idOpt,
-      //     booking_date: bookingDate,
-      //     user: {
-      //       connect: user
-      //     }
-      //   }
-      // });
+      const opt = await this.prisma.optInto.create({
+        data : {
+          ...body,
+          chanel: idOpt,
+          idUser: idUser
+        }
+      });
+      return opt
     }
-    return opt;
   }
+
+  async setRecommendationInto(idUser: any, idOpt: any, body: any): Promise<any> {
+    const optOld = await this.prisma.recommendationInto.findFirst({
+      where: {
+        chanel: idOpt,
+        idUser: idUser
+      }
+    });
+    if(optOld) {
+      const opt = await this.prisma.recommendationInto.update({
+        where: {
+          id: optOld.id,
+        },
+        data : body
+      });
+      return opt
+    } else {
+      const opt = await this.prisma.recommendationInto.create({
+        data : {
+          ...body,
+          chanel: idOpt,
+          idUser: idUser
+        }
+      });
+      return opt
+    }
+  }
+
 
   async getOptInto(idOpt: any): Promise<any> {
     const opt = await this.prisma.optInto.findFirst({

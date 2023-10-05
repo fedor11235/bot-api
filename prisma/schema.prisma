@@ -26,6 +26,7 @@ model User {
   promocode            String?
   opt_chanel_create    String?
   opt_into             OptInto[]
+  RecommendationInto RecommendationInto[]
   discount             Int     @default(0)
   //фильтр для категорий
   filter               String? @default("none")
@@ -37,11 +38,13 @@ model User {
 }
 
 model OptInto {
-  id             Int    @default(autoincrement()) @id
-  chanel         String     
+  id             Int     @default(autoincrement()) @id
   booking_date   String?
   status         String  @default("created")
-  user           User[]
+  user           User?   @relation(fields: [idUser], references: [id])
+  idUser         String?
+  opt            Opt?    @relation(fields: [chanel], references: [chanel])
+  chanel         String?
 }
 
 model Opt {
@@ -57,6 +60,7 @@ model Opt {
   placement_time String?
   requisites     String?
   status         String  @default("created")
+  opt_into       OptInto[]
   user           User?   @relation(fields: [idUser], references: [id])
   idUser         String?
 }
@@ -98,6 +102,17 @@ model Catalog {
   forwards_count Int?
 }
 
+model RecommendationInto {
+  id                Int     @default(autoincrement()) @id
+  chanel             String?
+  booking_date      String?
+  status            String  @default("created")
+  user              User?   @relation(fields: [idUser], references: [id])
+  idUser            String?
+  recommendation    Recommendation?    @relation(fields: [id], references: [id])
+  idRecommendation  Int?
+}
+
 model Recommendation {
   id             Int     @default(autoincrement()) @id
   username       String?
@@ -109,5 +124,6 @@ model Recommendation {
   requisites     String?
   deadline       String?
   info           String?
+  RecommendationInto RecommendationInto[]
 }
 
