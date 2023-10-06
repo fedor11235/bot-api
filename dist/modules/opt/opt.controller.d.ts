@@ -10,4 +10,5 @@ export declare class OptController {
     setRecommendationInto(res: any, idUser: any, idOpt: any, payload: any): Promise<any>;
     getOptInto(res: any, idOpt: any): Promise<any>;
     setOpt(res: any, idUser: any, data: any): Promise<any>;
+    getAllOpts(res: any): Promise<any>;
 }

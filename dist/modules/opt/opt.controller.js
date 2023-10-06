@@ -51,6 +51,10 @@ let OptController = class OptController {
         const opt = await this.modeService.setOpt(idUser, data);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
+    async getAllOpts(res) {
+        const opt = await this.modeService.getAllOpts();
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
 };
 exports.OptController = OptController;
 __decorate([
@@ -125,6 +129,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "setOpt", null);
+__decorate([
+    (0, common_1.Get)('all'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "getAllOpts", null);
 exports.OptController = OptController = __decorate([
     (0, common_1.Controller)('opt'),
     __metadata("design:paramtypes", [opt_service_1.OptService])

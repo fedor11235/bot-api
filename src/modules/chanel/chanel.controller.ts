@@ -1,4 +1,5 @@
-import { Controller, Get, Res, Req, Query, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Res, Req, Query, HttpStatus, Post, UseInterceptors, Body } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ChanelService } from './chanel.service';
 
 @Controller('chanel')
@@ -39,5 +40,12 @@ export class ChanelController {
   async setCategoryChanel(@Res() res, @Query('idUser') idUser, @Query('category') category) {
     const chanels = await this.chanelService.setCategoryChanel(idUser, category);
     return res.status(HttpStatus.OK).json(chanels);
+  }
+
+  @UseInterceptors(FileInterceptor('formdata'))
+  @Post('add-channel')
+  async addChannelInCatalog(@Res() res, @Body() data) {
+    const result = await this.chanelService.addChannelInCatalog(data);
+    return res.status(HttpStatus.OK).json(result);
   }
 }

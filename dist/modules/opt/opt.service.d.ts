@@ -10,5 +10,6 @@ export declare class OptService {
     setOptInto(idUser: any, idOpt: any, body: any): Promise<any>;
     setRecommendationInto(idUser: any, idOpt: any, body: any): Promise<any>;
     getOptInto(idOpt: any): Promise<any>;
+    getAllOpts(): Promise<any>;
     parseFilter(name: any): "forwards_count" | "participants_count" | "avg_post_reach" | "daily_reach" | "ci_index";
 }

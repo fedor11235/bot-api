@@ -24,4 +24,12 @@ export class RecommendationService {
     });
     return recommendation
   }
+  async recommendationGetIntoChannel(channel: any): Promise<any> {
+    const recommendations = await this.prisma.recommendationInto.findMany({
+      where: {
+        chanel: channel
+      }
+    });
+    return recommendations
+  }
 }

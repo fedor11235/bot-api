@@ -187,6 +187,12 @@ let ChanelService = class ChanelService {
         });
         return 'ok';
     }
+    async addChannelInCatalog(data) {
+        await this.prisma.catalog.create({
+            data: data
+        });
+        return 'ok';
+    }
     parseFilter(name) {
         if (name === 'repost') {
             return 'forwards_count';

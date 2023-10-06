@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChanelController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
 const chanel_service_1 = require("./chanel.service");
 let ChanelController = class ChanelController {
     constructor(chanelService) {
@@ -38,6 +39,10 @@ let ChanelController = class ChanelController {
     async setCategoryChanel(res, idUser, category) {
         const chanels = await this.chanelService.setCategoryChanel(idUser, category);
         return res.status(common_1.HttpStatus.OK).json(chanels);
+    }
+    async addChannelInCatalog(res, data) {
+        const result = await this.chanelService.addChannelInCatalog(data);
+        return res.status(common_1.HttpStatus.OK).json(result);
     }
 };
 exports.ChanelController = ChanelController;
@@ -87,6 +92,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], ChanelController.prototype, "setCategoryChanel", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('formdata')),
+    (0, common_1.Post)('add-channel'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], ChanelController.prototype, "addChannelInCatalog", null);
 exports.ChanelController = ChanelController = __decorate([
     (0, common_1.Controller)('chanel'),
     __metadata("design:paramtypes", [chanel_service_1.ChanelService])

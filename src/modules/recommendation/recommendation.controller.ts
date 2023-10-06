@@ -16,12 +16,19 @@ export class RecommendationController {
   @Get('get')
   async recommendationGet(@Res() res) {
     const result = await this.recommendationService.recommendationGet();
+    console.log(result)
     return res.status(HttpStatus.OK).json(result);
   }
 
   @Get('individual')
   async recommendationGetIndividual(@Res() res, @Query("idRecommendation") idRecommendation) {
     const result = await this.recommendationService.recommendationGetIndividual(idRecommendation);
+    return res.status(HttpStatus.OK).json(result);
+  }
+
+  @Get('into-channel')
+  async recommendationGetIntoChannel(@Res() res, @Query("channel") channel) {
+    const result = await this.recommendationService.recommendationGetIntoChannel(channel);
     return res.status(HttpStatus.OK).json(result);
   }
 }

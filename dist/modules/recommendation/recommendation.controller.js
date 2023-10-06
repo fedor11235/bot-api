@@ -26,10 +26,15 @@ let RecommendationController = class RecommendationController {
     }
     async recommendationGet(res) {
         const result = await this.recommendationService.recommendationGet();
+        console.log(result);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
     async recommendationGetIndividual(res, idRecommendation) {
         const result = await this.recommendationService.recommendationGetIndividual(idRecommendation);
+        return res.status(common_1.HttpStatus.OK).json(result);
+    }
+    async recommendationGetIntoChannel(res, channel) {
+        const result = await this.recommendationService.recommendationGetIntoChannel(channel);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
 };
@@ -58,6 +63,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationGetIndividual", null);
+__decorate([
+    (0, common_1.Get)('into-channel'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)("channel")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RecommendationController.prototype, "recommendationGetIntoChannel", null);
 exports.RecommendationController = RecommendationController = __decorate([
     (0, common_1.Controller)('recommendations'),
     __metadata("design:paramtypes", [recommendation_service_1.RecommendationService])

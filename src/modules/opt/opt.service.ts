@@ -230,6 +230,13 @@ export class OptService {
     return opt;
   }
 
+  //Получить все опты
+  async getAllOpts(): Promise<any> {
+    const opts = await this.prisma.opt.findMany();
+    console.log('SSSS')
+    return opts;
+  }
+
   parseFilter(name: any) {
     if(name === 'repost') {
       return 'forwards_count'

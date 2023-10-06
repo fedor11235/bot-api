@@ -7,4 +7,5 @@ export declare class ChanelController {
     getChanelsUser(res: any, idUser: any): Promise<any>;
     getChanelsCategories(res: any, idUser: any, category: any, filter: any): Promise<any>;
     setCategoryChanel(res: any, idUser: any, category: any): Promise<any>;
+    addChannelInCatalog(res: any, data: any): Promise<any>;
 }

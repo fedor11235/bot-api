@@ -65,4 +65,13 @@ export class OptController {
     const opt = await this.modeService.setOpt(idUser, data);
     return res.status(HttpStatus.OK).json(opt);
   }
+
+
+
+
+  @Get('all')
+  async getAllOpts(@Res() res) {
+    const opt = await this.modeService.getAllOpts();
+    return res.status(HttpStatus.OK).json(opt);
+  }
 }

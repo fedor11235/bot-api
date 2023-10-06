@@ -216,6 +216,11 @@ let OptService = class OptService {
         });
         return opt;
     }
+    async getAllOpts() {
+        const opts = await this.prisma.opt.findMany();
+        console.log('SSSS');
+        return opts;
+    }
     parseFilter(name) {
         if (name === 'repost') {
             return 'forwards_count';

@@ -5,4 +5,5 @@ export declare class RecommendationService {
     recommendationCreate(payload: any): Promise<any>;
     recommendationGet(): Promise<any>;
     recommendationGetIndividual(idRecommendation: any): Promise<any>;
+    recommendationGetIntoChannel(channel: any): Promise<any>;
 }

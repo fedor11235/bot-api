@@ -181,6 +181,14 @@ export class ChanelService {
     return 'ok';
   }
 
+  async addChannelInCatalog(data: any): Promise<any> {
+    await this.prisma.catalog.create({
+      data: data
+    });
+
+    return 'ok';
+  }
+
   parseFilter(name: any) {
     if(name === 'repost') {
       return 'forwards_count'

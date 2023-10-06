@@ -94,16 +94,16 @@ model Catalog {
 
   link String?
 
-  //сумарный дневной охват
-  daily_reach Int?
-  //индекс цитирования
-  ci_index Int?
   //количество подписчиков
-  participants_count Int?
-  //Средний охват публикаций
-  avg_post_reach Int?
-  //количнсвто репостов в другие каналы
-  forwards_count Int?
+  participants_count String?
+  //охват
+  coverage String?
+  //цена рекламы
+  advertising_price String?
+  //рекомендации
+  recommendations String?
+  //контакты для связи
+  communication String?
 }
 
 model RecommendationInto {
