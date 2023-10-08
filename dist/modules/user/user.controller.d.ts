@@ -9,4 +9,7 @@ export declare class UserController {
     uploadPromocode(res: any, idUser: any, promocode: any): Promise<any>;
     setAllDateProfile(res: any, idUser: any, body: any): Promise<any>;
     getCheckUser(res: any, idUser: any): Promise<any>;
+    optProfile(res: any, idUser: any): Promise<any>;
+    recommendationsProfile(res: any, idUser: any): Promise<any>;
+    optUser(res: any, idUser: any): Promise<any>;
 }

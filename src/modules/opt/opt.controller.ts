@@ -7,7 +7,9 @@ import {
   Req,
   Query,
   HttpStatus,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { OptService } from './opt.service';
 
 @Controller('opt')
@@ -43,14 +45,15 @@ export class OptController {
   }
 
   @Post('into/set')
-  async setOptInto(@Res() res, @Query('idUser') idUser, @Query('idOpt') idOpt, @Body() payload) {
-    const opt = await this.modeService.setOptInto(idUser, idOpt, payload);
+  async setOptInto(@Res() res, @Query('idUser') idUser, @Query('idOpt') idOpt, @Query('isDel') isDel, @Body() payload) {
+    const opt = await this.modeService.setOptInto(idUser, idOpt, isDel, payload);
     return res.status(HttpStatus.OK).json(opt);
   }
 
+  // @UseInterceptors(FileInterceptor('formdata'))
   @Post('into-recommendation/set')
-  async setRecommendationInto(@Res() res, @Query('idUser') idUser, @Query('idOpt') idOpt, @Body() payload) {
-    const opt = await this.modeService.setRecommendationInto(idUser, idOpt, payload);
+  async setRecommendationInto(@Res() res, @Query('idUser') idUser, @Query('idOpt') idOpt, @Query('isDel') isDel, @Body() payload) {
+    const opt = await this.modeService.setRecommendationInto(idUser, idOpt, isDel, payload);
     return res.status(HttpStatus.OK).json(opt);
   }
 
@@ -72,6 +75,18 @@ export class OptController {
   @Get('all')
   async getAllOpts(@Res() res) {
     const opt = await this.modeService.getAllOpts();
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Get('requisites')
+  async optGetRequisites(@Res() res, @Query('channel') channel) {
+    const opt = await this.modeService.optGetRequisites(channel);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Get('set-check')
+  async optGetSetCheck(@Res() res, @Query('idUser') idUser, @Query('channel') channel, @Query('check') check) {
+    const opt = await this.modeService.optGetSetCheck(idUser, channel, check);
     return res.status(HttpStatus.OK).json(opt);
   }
 }

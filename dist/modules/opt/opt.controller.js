@@ -35,12 +35,12 @@ let OptController = class OptController {
         const opt = await this.modeService.getOptCategories(idUser, category, filter);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
-    async setOptInto(res, idUser, idOpt, payload) {
-        const opt = await this.modeService.setOptInto(idUser, idOpt, payload);
+    async setOptInto(res, idUser, idOpt, isDel, payload) {
+        const opt = await this.modeService.setOptInto(idUser, idOpt, isDel, payload);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
-    async setRecommendationInto(res, idUser, idOpt, payload) {
-        const opt = await this.modeService.setRecommendationInto(idUser, idOpt, payload);
+    async setRecommendationInto(res, idUser, idOpt, isDel, payload) {
+        const opt = await this.modeService.setRecommendationInto(idUser, idOpt, isDel, payload);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
     async getOptInto(res, idOpt) {
@@ -53,6 +53,14 @@ let OptController = class OptController {
     }
     async getAllOpts(res) {
         const opt = await this.modeService.getAllOpts();
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async optGetRequisites(res, channel) {
+        const opt = await this.modeService.optGetRequisites(channel);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async optGetSetCheck(res, idUser, channel, check) {
+        const opt = await this.modeService.optGetSetCheck(idUser, channel, check);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
 };
@@ -97,9 +105,10 @@ __decorate([
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('idOpt')),
-    __param(3, (0, common_1.Body)()),
+    __param(3, (0, common_1.Query)('isDel')),
+    __param(4, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "setOptInto", null);
 __decorate([
@@ -107,9 +116,10 @@ __decorate([
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('idOpt')),
-    __param(3, (0, common_1.Body)()),
+    __param(3, (0, common_1.Query)('isDel')),
+    __param(4, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "setRecommendationInto", null);
 __decorate([
@@ -136,6 +146,24 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "getAllOpts", null);
+__decorate([
+    (0, common_1.Get)('requisites'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('channel')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "optGetRequisites", null);
+__decorate([
+    (0, common_1.Get)('set-check'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('channel')),
+    __param(3, (0, common_1.Query)('check')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "optGetSetCheck", null);
 exports.OptController = OptController = __decorate([
     (0, common_1.Controller)('opt'),
     __metadata("design:paramtypes", [opt_service_1.OptService])

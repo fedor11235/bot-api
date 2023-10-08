@@ -26,7 +26,6 @@ let RecommendationController = class RecommendationController {
     }
     async recommendationGet(res) {
         const result = await this.recommendationService.recommendationGet();
-        console.log(result);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
     async recommendationGetIndividual(res, idRecommendation) {
@@ -35,6 +34,18 @@ let RecommendationController = class RecommendationController {
     }
     async recommendationGetIntoChannel(res, channel) {
         const result = await this.recommendationService.recommendationGetIntoChannel(channel);
+        return res.status(common_1.HttpStatus.OK).json(result);
+    }
+    async recommendationDelete(res, body) {
+        const result = await this.recommendationService.recommendationDelete(body);
+        return res.status(common_1.HttpStatus.OK).json(result);
+    }
+    async recommendationGetRequisites(res, username) {
+        const result = await this.recommendationService.recommendationGetRequisites(username);
+        return res.status(common_1.HttpStatus.OK).json(result);
+    }
+    async recommendationSetChek(res, idUser, chennel, check) {
+        const result = await this.recommendationService.recommendationSetChek(idUser, chennel, check);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
 };
@@ -71,6 +82,35 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationGetIntoChannel", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('formdata')),
+    (0, common_1.Delete)('delete'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RecommendationController.prototype, "recommendationDelete", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('formdata')),
+    (0, common_1.Get)('requisites'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('username')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RecommendationController.prototype, "recommendationGetRequisites", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('formdata')),
+    (0, common_1.Get)('set-check'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('chennel')),
+    __param(3, (0, common_1.Query)('check')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], RecommendationController.prototype, "recommendationSetChek", null);
 exports.RecommendationController = RecommendationController = __decorate([
     (0, common_1.Controller)('recommendations'),
     __metadata("design:paramtypes", [recommendation_service_1.RecommendationService])

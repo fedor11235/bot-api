@@ -6,4 +6,7 @@ export declare class RecommendationController {
     recommendationGet(res: any): Promise<any>;
     recommendationGetIndividual(res: any, idRecommendation: any): Promise<any>;
     recommendationGetIntoChannel(res: any, channel: any): Promise<any>;
+    recommendationDelete(res: any, body: any): Promise<any>;
+    recommendationGetRequisites(res: any, username: any): Promise<any>;
+    recommendationSetChek(res: any, idUser: any, chennel: any, check: any): Promise<any>;
 }

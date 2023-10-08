@@ -28,7 +28,7 @@ model User {
   promocode            String?
   opt_chanel_create    String?
   opt_into             OptInto[]
-  RecommendationInto RecommendationInto[]
+  RecommendationInto   RecommendationInto[]
   discount             Int     @default(0)
   //фильтр для категорий
   filter               String? @default("none")
@@ -49,6 +49,7 @@ model OptInto {
   idUser         String?
   opt            Opt?    @relation(fields: [chanel], references: [chanel])
   chanel         String?
+  check          String?
 }
 
 model Opt {
@@ -117,6 +118,7 @@ model RecommendationInto {
   idUser                   String?
   recommendation           Recommendation?    @relation(fields: [username_recommendation], references: [username])
   username_recommendation  String?
+  check                    String?
 }
 
 model Recommendation {
@@ -128,6 +130,7 @@ model Recommendation {
   number_posts       Int?
   coverage           String? @default("?")
   subscribers        String? @default("?")
+  // Выбор разрешенных мест
   data_list          String?
   requisites         String?
   deadline           String?

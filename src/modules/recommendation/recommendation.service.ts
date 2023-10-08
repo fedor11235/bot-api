@@ -32,4 +32,42 @@ export class RecommendationService {
     });
     return recommendations
   }
+  async recommendationDelete(data: any): Promise<any> {
+    const idArray: number[] = Object.values(data).map((id) => Number(id))
+    await this.prisma.recommendation.deleteMany({
+      where: {
+        id: {
+          in: idArray
+        }
+      }
+    })
+    return 'ok'
+  }
+
+  async recommendationGetRequisites(username: any): Promise<any> {
+    const recommendation = await this.prisma.recommendation.findFirst({
+      where: {
+        username: username
+      }
+    })
+    return recommendation.requisites
+  }
+
+  async recommendationSetChek(idUser: any, chennel: any, check: any): Promise<any> {
+    const recommendation = await this.prisma.recommendationInto.findFirst({
+      where: {
+        idUser: idUser,
+        chanel: chennel
+      }
+    })
+    await this.prisma.recommendationInto.update({
+      where: {
+        id: recommendation.id,
+      },
+      data: {
+        check: check
+      }
+    })
+    return 'ok'
+  }
 }

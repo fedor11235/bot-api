@@ -9,4 +9,7 @@ export declare class UserService {
     setTariffTemp(idUser: any, tariffPlan: any): Promise<any>;
     uploadPromocode(idUser: any, promocode: any): Promise<any>;
     getCheckUser(idUser: any): Promise<any>;
+    optUser(idUser: any): Promise<any>;
+    recommendationsProfile(idUser: any): Promise<any>;
+    optProfile(idUser: any): Promise<any>;
 }

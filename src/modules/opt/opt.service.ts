@@ -150,15 +150,40 @@ export class OptService {
     return result;
   }
 
-  async setOptInto(idUser: any, idOpt: any, body: any): Promise<any> {
-    console.log()
-
-    const optOld = await this.prisma.optInto.findFirst({
+  async setOptInto(idUser: any, idOpt: any, isDel: any, body: any): Promise<any> {
+ 
+    let optParent = await this.prisma.opt.findUnique({
+      where: {
+        chanel: idOpt,
+      }
+    });
+    let optOld = await this.prisma.optInto.findFirst({
       where: {
         chanel: idOpt,
         idUser: idUser
       }
     });
+    
+    if(optOld && isDel === 'enabled') {
+
+      if(optParent?.booking_date && optOld?.booking_date) {
+        const dateAllowed = optParent.booking_date + '_' + optOld.booking_date
+        optParent = await this.prisma.opt.update({
+          where: {
+            chanel: optParent.chanel,
+          },
+          data: {
+            booking_date: dateAllowed
+          }
+        });
+      }
+      await this.prisma.optInto.delete({
+        where: {
+          id: optOld.id,
+        }
+      });
+      optOld = null
+    }
     if(optOld) {
       const opt = await this.prisma.optInto.update({
         where: {
@@ -166,13 +191,25 @@ export class OptService {
         },
         data : body
       });
-      return opt
-    } else {
-      const optParent = await this.prisma.opt.findUnique({
+
+      const dataList = opt.allowed_dates.split('_')
+      const bookingDate = opt.booking_date.split('_')
+
+      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+
+      const dataListFilterJoin = dataListFilter.join('_')
+
+
+      await this.prisma.opt.update({
         where: {
-          chanel: idOpt,
+          chanel: optParent.chanel,
+        },
+        data: {
+          booking_date: dataListFilterJoin
         }
       });
+      return opt
+    } else {
       const opt = await this.prisma.optInto.create({
         data : {
           ...body,
@@ -181,38 +218,114 @@ export class OptService {
           allowed_dates: optParent.booking_date
         }
       });
+
+      const dataList = opt.allowed_dates.split('_')
+      const bookingDate = opt.booking_date.split('_')
+
+      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+
+      const dataListFilterJoin = dataListFilter.join('_')
+
+
+      await this.prisma.opt.update({
+        where: {
+          chanel: optParent.chanel,
+        },
+        data: {
+          booking_date: dataListFilterJoin
+        }
+      });
       return opt
     }
   }
 
-  async setRecommendationInto(idUser: any, idOpt: any, body: any): Promise<any> {
+  async setRecommendationInto(idUser: any, idOpt: any, isDelete: any, body: any): Promise<any> {
 
-    const optOld = await this.prisma.recommendationInto.findFirst({
+    let optParent = await this.prisma.recommendation.findUnique({
+      where: {
+        username: idOpt,
+      }
+    });
+
+    let optOld = await this.prisma.recommendationInto.findFirst({
       where: {
         chanel: idOpt,
         idUser: idUser
-      }
+      },
     });
+
+    if(optOld && isDelete === 'enabled') {
+
+      if(optParent?.data_list && optOld?.booking_date) {
+        const dateAllowed = optParent.data_list + '_' + optOld.booking_date
+        optParent = await this.prisma.recommendation.update({
+          where: {
+            id: optParent.id,
+          },
+          data: {
+            data_list: dateAllowed
+          }
+        });
+      }
+      await this.prisma.recommendationInto.delete({
+        where: {
+          id: optOld.id,
+        }
+      });
+      optOld = null
+    }
     if(optOld) {
+      
       const opt = await this.prisma.recommendationInto.update({
         where: {
           id: optOld.id,
         },
         data : body
       });
-      return opt
-    } else {
-      const optParent = await this.prisma.recommendation.findUnique({
+
+
+
+      const dataList = opt.allowed_dates.split('_')
+      const bookingDate = opt.booking_date.split('_')
+
+      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+
+      const dataListFilterJoin = dataListFilter.join('_')
+
+
+      await this.prisma.recommendation.update({
         where: {
-          username: idOpt,
+          id: optParent.id,
+        },
+        data: {
+          data_list: dataListFilterJoin
         }
       });
+
+      return opt
+    } else {
       const opt = await this.prisma.recommendationInto.create({
         data : {
           ...body,
           chanel: idOpt,
           idUser: idUser,
-          allowed_dates: optParent.data_list
+          allowed_dates: optParent?.data_list,
+        }
+      });
+      const dataList = opt.allowed_dates.split('_')
+      const bookingDate = opt.booking_date.split('_')
+
+      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+
+      const dataListFilterJoin = dataListFilter.join('_')
+
+
+      await this.prisma.recommendation.update({
+        where: {
+          id: optParent.id,
+        },
+        data: {
+          data_list: dataListFilterJoin
         }
       });
       return opt
@@ -233,8 +346,34 @@ export class OptService {
   //Получить все опты
   async getAllOpts(): Promise<any> {
     const opts = await this.prisma.opt.findMany();
-    console.log('SSSS')
     return opts;
+  }
+
+  async optGetRequisites(channel: any): Promise<any> {
+    const opt = await this.prisma.opt.findUnique({
+      where: {
+        chanel: channel
+      }
+    });
+    return opt.requisites;
+  }
+
+  async optGetSetCheck(idUser: any, chennel: any, check: any): Promise<any> {
+    const opt = await this.prisma.optInto.findFirst({
+      where: {
+        idUser: idUser,
+        chanel: chennel
+      }
+    })
+    await this.prisma.optInto.update({
+      where: {
+        id: opt.id,
+      },
+      data: {
+        check: check
+      }
+    })
+    return 'ok'
   }
 
   parseFilter(name: any) {

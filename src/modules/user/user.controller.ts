@@ -46,4 +46,25 @@ export class UserController {
     const check = await this.userService.getCheckUser(idUser);
     return res.status(HttpStatus.OK).json(check);
   }
+
+  //в оптах в которых учавствуешь
+  @Get('opt-into-user')
+  async optProfile(@Res() res, @Query('idUser') idUser) {
+    const status = await this.userService.optProfile(idUser);
+    return res.status(HttpStatus.OK).json(status);
+  } 
+
+  //в подборках в которых учавствуешь
+  @Get('recommendation-into-user')
+  async recommendationsProfile(@Res() res, @Query('idUser') idUser) {
+    const status = await this.userService.recommendationsProfile(idUser);
+    return res.status(HttpStatus.OK).json(status);
+  }
+
+  //твои опты
+  @Get('opt-user')
+  async optUser(@Res() res, @Query('idUser') idUser) {
+    const status = await this.userService.optUser(idUser);
+    return res.status(HttpStatus.OK).json(status);
+  }
 }

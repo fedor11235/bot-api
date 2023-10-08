@@ -116,7 +116,8 @@ export class UserService {
           id: user.id,
         },
         data: {
-          promocode: 'LOL'
+          promocode: 'LOL',
+          totalEarned: user.totalEarned + 1
         }
       });
 
@@ -143,5 +144,52 @@ export class UserService {
       return 'exist';
     }
     return 'empty';
+  }
+
+  async optUser(idUser: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      },
+      include: {
+        opts: true,
+      }
+    });
+    for(const opt of user.opts) {
+      const usersOptInto = await this.prisma.optInto.findMany({
+        where: {
+          chanel: opt.chanel
+        },
+        include: {
+          user: true,
+        }
+      })
+      opt['users'] = usersOptInto
+    }
+    return user.opts;
+  }
+
+  async recommendationsProfile(idUser: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      },
+      include: {
+        RecommendationInto: true,
+      }
+    });
+    return user.RecommendationInto;
+  }
+
+  async optProfile(idUser: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      },
+      include: {
+        opt_into: true,
+      }
+    });
+    return user.opt_into;
   }
 }

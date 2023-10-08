@@ -6,4 +6,7 @@ export declare class RecommendationService {
     recommendationGet(): Promise<any>;
     recommendationGetIndividual(idRecommendation: any): Promise<any>;
     recommendationGetIntoChannel(channel: any): Promise<any>;
+    recommendationDelete(data: any): Promise<any>;
+    recommendationGetRequisites(username: any): Promise<any>;
+    recommendationSetChek(idUser: any, chennel: any, check: any): Promise<any>;
 }

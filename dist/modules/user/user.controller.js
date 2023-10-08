@@ -47,6 +47,18 @@ let UserController = class UserController {
         const check = await this.userService.getCheckUser(idUser);
         return res.status(common_1.HttpStatus.OK).json(check);
     }
+    async optProfile(res, idUser) {
+        const status = await this.userService.optProfile(idUser);
+        return res.status(common_1.HttpStatus.OK).json(status);
+    }
+    async recommendationsProfile(res, idUser) {
+        const status = await this.userService.recommendationsProfile(idUser);
+        return res.status(common_1.HttpStatus.OK).json(status);
+    }
+    async optUser(res, idUser) {
+        const status = await this.userService.optUser(idUser);
+        return res.status(common_1.HttpStatus.OK).json(status);
+    }
 };
 exports.UserController = UserController;
 __decorate([
@@ -110,6 +122,30 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getCheckUser", null);
+__decorate([
+    (0, common_1.Get)('opt-into-user'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "optProfile", null);
+__decorate([
+    (0, common_1.Get)('recommendation-into-user'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "recommendationsProfile", null);
+__decorate([
+    (0, common_1.Get)('opt-user'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "optUser", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)('user'),
     __metadata("design:paramtypes", [user_service_1.UserService])

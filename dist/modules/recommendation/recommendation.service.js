@@ -43,6 +43,42 @@ let RecommendationService = class RecommendationService {
         });
         return recommendations;
     }
+    async recommendationDelete(data) {
+        const idArray = Object.values(data).map((id) => Number(id));
+        await this.prisma.recommendation.deleteMany({
+            where: {
+                id: {
+                    in: idArray
+                }
+            }
+        });
+        return 'ok';
+    }
+    async recommendationGetRequisites(username) {
+        const recommendation = await this.prisma.recommendation.findFirst({
+            where: {
+                username: username
+            }
+        });
+        return recommendation.requisites;
+    }
+    async recommendationSetChek(idUser, chennel, check) {
+        const recommendation = await this.prisma.recommendationInto.findFirst({
+            where: {
+                idUser: idUser,
+                chanel: chennel
+            }
+        });
+        await this.prisma.recommendationInto.update({
+            where: {
+                id: recommendation.id,
+            },
+            data: {
+                check: check
+            }
+        });
+        return 'ok';
+    }
 };
 exports.RecommendationService = RecommendationService;
 exports.RecommendationService = RecommendationService = __decorate([
