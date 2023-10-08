@@ -62,7 +62,7 @@ export class UserService {
   async setProfile(idUser: any, tariffPlan: any, time:any): Promise<any> {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + Number(time));
-    const dateEnd = currentDate.getDate() + '.' + currentDate.getMonth() + 1 + '.' + currentDate.getFullYear()
+    const dateEnd = currentDate.getDate() + '.' + Number(currentDate.getMonth()) + 1 + '.' + currentDate.getFullYear()
     await this.prisma.user.update({
       where: {
         id: idUser,
@@ -182,6 +182,7 @@ export class UserService {
   }
 
   async optProfile(idUser: any): Promise<any> {
+    console.log('!!!!!')
     const user = await this.prisma.user.findUnique({
       where: {
         id: idUser
