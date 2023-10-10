@@ -85,8 +85,8 @@ export class OptController {
   }
 
   @Get('set-check')
-  async optGetSetCheck(@Res() res, @Query('idUser') idUser, @Query('channel') channel, @Query('check') check) {
-    const opt = await this.modeService.optGetSetCheck(idUser, channel, check);
+  async optSetCheck(@Res() res, @Query('idUser') idUser, @Query('channel') channel, @Query('check') check, @Query('checkPath') checkPath) {
+    const opt = await this.modeService.optSetCheck(idUser, channel, check, checkPath);
     return res.status(HttpStatus.OK).json(opt);
   }
 }

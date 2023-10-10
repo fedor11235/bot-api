@@ -59,8 +59,8 @@ let OptController = class OptController {
         const opt = await this.modeService.optGetRequisites(channel);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
-    async optGetSetCheck(res, idUser, channel, check) {
-        const opt = await this.modeService.optGetSetCheck(idUser, channel, check);
+    async optSetCheck(res, idUser, channel, check, checkPath) {
+        const opt = await this.modeService.optSetCheck(idUser, channel, check, checkPath);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
 };
@@ -160,10 +160,11 @@ __decorate([
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('channel')),
     __param(3, (0, common_1.Query)('check')),
+    __param(4, (0, common_1.Query)('checkPath')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
-], OptController.prototype, "optGetSetCheck", null);
+], OptController.prototype, "optSetCheck", null);
 exports.OptController = OptController = __decorate([
     (0, common_1.Controller)('opt'),
     __metadata("design:paramtypes", [opt_service_1.OptService])

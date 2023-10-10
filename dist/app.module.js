@@ -12,13 +12,14 @@ const user_module_1 = require("./modules/user/user.module");
 const mode_module_1 = require("./modules/mode/mode.module");
 const opt_module_1 = require("./modules/opt/opt.module");
 const chanel_module_1 = require("./modules/chanel/chanel.module");
+const file_module_1 = require("./modules/file/file.module");
 const recommendation_module_1 = require("./modules/recommendation/recommendation.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [user_module_1.UserModule, mode_module_1.ModeModule, opt_module_1.OptModule, chanel_module_1.ChanelModule, recommendation_module_1.RecommendationModule],
+        imports: [user_module_1.UserModule, mode_module_1.ModeModule, opt_module_1.OptModule, chanel_module_1.ChanelModule, recommendation_module_1.RecommendationModule, file_module_1.FileModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

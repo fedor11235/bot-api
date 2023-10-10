@@ -53,7 +53,7 @@ export class RecommendationService {
     return recommendation.requisites
   }
 
-  async recommendationSetChek(idUser: any, chennel: any, check: any): Promise<any> {
+  async recommendationSetChek(idUser: any, chennel: any, check: any, checkPath: any): Promise<any> {
     const recommendation = await this.prisma.recommendationInto.findFirst({
       where: {
         idUser: idUser,
@@ -65,7 +65,8 @@ export class RecommendationService {
         id: recommendation.id,
       },
       data: {
-        check: check
+        check: check,
+        path_check: checkPath
       }
     })
     return 'ok'

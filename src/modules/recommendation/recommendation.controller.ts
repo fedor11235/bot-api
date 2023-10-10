@@ -47,8 +47,8 @@ export class RecommendationController {
 
   @UseInterceptors(FileInterceptor('formdata'))
   @Get('set-check')
-  async recommendationSetChek(@Res() res, @Query('idUser') idUser, @Query('chennel') chennel, @Query('check') check) {
-    const result = await this.recommendationService.recommendationSetChek(idUser, chennel, check);
+  async recommendationSetChek(@Res() res, @Query('idUser') idUser, @Query('chennel') chennel, @Query('check') check, @Query('checkPath') checkPath) {
+    const result = await this.recommendationService.recommendationSetChek(idUser, chennel, check, checkPath);
     return res.status(HttpStatus.OK).json(result);
   }
 }

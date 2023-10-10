@@ -8,5 +8,5 @@ export declare class RecommendationService {
     recommendationGetIntoChannel(channel: any): Promise<any>;
     recommendationDelete(data: any): Promise<any>;
     recommendationGetRequisites(username: any): Promise<any>;
-    recommendationSetChek(idUser: any, chennel: any, check: any): Promise<any>;
+    recommendationSetChek(idUser: any, chennel: any, check: any, checkPath: any): Promise<any>;
 }

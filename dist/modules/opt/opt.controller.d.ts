@@ -12,5 +12,5 @@ export declare class OptController {
     setOpt(res: any, idUser: any, data: any): Promise<any>;
     getAllOpts(res: any): Promise<any>;
     optGetRequisites(res: any, channel: any): Promise<any>;
-    optGetSetCheck(res: any, idUser: any, channel: any, check: any): Promise<any>;
+    optSetCheck(res: any, idUser: any, channel: any, check: any, checkPath: any): Promise<any>;
 }

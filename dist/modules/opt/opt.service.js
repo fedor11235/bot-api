@@ -313,7 +313,7 @@ let OptService = class OptService {
         });
         return opt.requisites;
     }
-    async optGetSetCheck(idUser, chennel, check) {
+    async optSetCheck(idUser, chennel, check, checkPath) {
         const opt = await this.prisma.optInto.findFirst({
             where: {
                 idUser: idUser,
@@ -325,7 +325,8 @@ let OptService = class OptService {
                 id: opt.id,
             },
             data: {
-                check: check
+                check: check,
+                path_check: checkPath
             }
         });
         return 'ok';

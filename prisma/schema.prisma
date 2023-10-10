@@ -50,6 +50,7 @@ model OptInto {
   opt            Opt?    @relation(fields: [chanel], references: [chanel])
   chanel         String?
   check          String?
+  path_check     String?
 }
 
 model Opt {
@@ -119,6 +120,7 @@ model RecommendationInto {
   recommendation           Recommendation?    @relation(fields: [username_recommendation], references: [username])
   username_recommendation  String?
   check                    String?
+  path_check               String?
 }
 
 model Recommendation {

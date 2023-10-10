@@ -44,8 +44,8 @@ let RecommendationController = class RecommendationController {
         const result = await this.recommendationService.recommendationGetRequisites(username);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
-    async recommendationSetChek(res, idUser, chennel, check) {
-        const result = await this.recommendationService.recommendationSetChek(idUser, chennel, check);
+    async recommendationSetChek(res, idUser, chennel, check, checkPath) {
+        const result = await this.recommendationService.recommendationSetChek(idUser, chennel, check, checkPath);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
 };
@@ -107,8 +107,9 @@ __decorate([
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('chennel')),
     __param(3, (0, common_1.Query)('check')),
+    __param(4, (0, common_1.Query)('checkPath')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationSetChek", null);
 exports.RecommendationController = RecommendationController = __decorate([
