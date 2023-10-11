@@ -28,6 +28,9 @@ export class RecommendationService {
     const recommendations = await this.prisma.recommendationInto.findMany({
       where: {
         chanel: channel
+      },
+      include: {
+        user: true
       }
     });
     return recommendations
