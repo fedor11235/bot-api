@@ -60,8 +60,9 @@ let UserService = class UserService {
     }
     async setProfile(idUser, tariffPlan, time) {
         const currentDate = new Date();
-        currentDate.setDate(Number(currentDate.getDate()) + Number(time));
-        const dateEnd = currentDate.getDate() + '.' + Number(currentDate.getMonth()) + 1 + '.' + currentDate.getFullYear();
+        currentDate.setDate(Number(currentDate.getDate()) + 1 + Number(time));
+        const monthNext = currentDate.getMonth() + 1;
+        const dateEnd = currentDate.getDate() + '.' + monthNext + '.' + currentDate.getFullYear();
         await this.prisma.user.update({
             where: {
                 id: idUser,
