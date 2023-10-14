@@ -22,7 +22,10 @@ let UserService = class UserService {
                 id: idUser
             }
         });
-        if (user.promocode == 'LOL') {
+        if (user.promocode === 'LOL') {
+            return 'no';
+        }
+        else if (user.promocode) {
             return 'no';
         }
         let promocode = '';
