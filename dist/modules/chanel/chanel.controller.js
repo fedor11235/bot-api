@@ -102,7 +102,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChanelController.prototype, "addChannelInCatalog", null);
 exports.ChanelController = ChanelController = __decorate([
-    (0, common_1.Controller)('chanel'),
+    (0, common_1.Controller)('test/chanel'),
     __metadata("design:paramtypes", [chanel_service_1.ChanelService])
 ], ChanelController);
 //# sourceMappingURL=chanel.controller.js.map

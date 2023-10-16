@@ -47,7 +47,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ModeController.prototype, "setMode", null);
 exports.ModeController = ModeController = __decorate([
-    (0, common_1.Controller)('mode'),
+    (0, common_1.Controller)('test/mode'),
     __metadata("design:paramtypes", [mode_service_1.ModeService])
 ], ModeController);
 //# sourceMappingURL=mode.controller.js.map

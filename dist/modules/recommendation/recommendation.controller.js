@@ -113,7 +113,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationSetChek", null);
 exports.RecommendationController = RecommendationController = __decorate([
-    (0, common_1.Controller)('recommendations'),
+    (0, common_1.Controller)('test/recommendations'),
     __metadata("design:paramtypes", [recommendation_service_1.RecommendationService])
 ], RecommendationController);
 //# sourceMappingURL=recommendation.controller.js.map
