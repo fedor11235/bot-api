@@ -13,7 +13,7 @@ datasource db {
 model Promocode {
   id         Int      @default(autoincrement()) @id
   value      String?
-  discount   Int?     @default(10)
+  discount   Int?     @default(20)
   users_used User[]   @relation("used")
   owner      User     @relation(fields: [owner_id], references: [id])
   owner_id   String
