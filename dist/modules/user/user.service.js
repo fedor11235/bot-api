@@ -20,13 +20,13 @@ let UserService = class UserService {
         const user = await this.prisma.user.findUnique({
             where: {
                 id: idUser
+            },
+            include: {
+                promocode: true
             }
         });
-        if (user.promocode === 'LOL') {
-            return 'no';
-        }
-        else if (user.promocode) {
-            return 'no';
+        if (user.promocode.length > 0) {
+            return user.promocode[0].value;
         }
         let promocode = '';
         const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -38,12 +38,10 @@ let UserService = class UserService {
             const randomIndex = Math.floor(Math.random() * 9);
             promocode += String(randomIndex);
         }
-        await this.prisma.user.update({
-            where: {
-                id: user.id,
-            },
+        await this.prisma.promocode.create({
             data: {
-                promocode: promocode,
+                owner_id: user.id,
+                value: promocode
             },
         });
         return promocode;
@@ -98,35 +96,44 @@ let UserService = class UserService {
         return "ok";
     }
     async uploadPromocode(idUser, promocode) {
-        if (promocode === 'LOL') {
+        const promocodeBd = await this.prisma.promocode.findFirst({
+            where: {
+                value: promocode,
+            },
+            include: {
+                users_used: true,
+                owner: true
+            }
+        });
+        if (!promocodeBd) {
+            return "not-exist";
+        }
+        const usersUsed = promocodeBd.users_used.find(user => user.id === idUser);
+        if (usersUsed) {
             return 'expired';
         }
-        const user = await this.prisma.user.findFirst({
+        if (promocodeBd.owner_id === idUser) {
+            return 'owner';
+        }
+        const user = await this.prisma.user.update({
             where: {
-                promocode: promocode,
+                id: idUser,
+            },
+            data: {
+                discount: promocodeBd.discount
+            }
+        });
+        await this.prisma.promocode.update({
+            where: {
+                id: promocodeBd.id,
+            },
+            data: {
+                users_used: {
+                    create: user
+                }
             },
         });
-        if (user) {
-            await this.prisma.user.update({
-                where: {
-                    id: user.id,
-                },
-                data: {
-                    promocode: 'LOL',
-                    totalEarned: user.totalEarned + 1
-                }
-            });
-            await this.prisma.user.update({
-                where: {
-                    id: idUser,
-                },
-                data: {
-                    discount: 20,
-                },
-            });
-            return 'ok';
-        }
-        return "not-exist";
+        return 'ok';
     }
     async getCheckUser(idUser) {
         const isUser = await this.prisma.user.findUnique({

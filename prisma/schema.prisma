@@ -10,22 +10,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Promocode {
+  id         Int      @default(autoincrement()) @id
+  value      String?
+  discount   Int?     @default(10)
+  users_used User[]   @relation("used")
+  owner      User     @relation(fields: [owner_id], references: [id])
+  owner_id   String
+}
+
 model User {
   // id                   Int     @default(autoincrement()) @id
-  id                   String  @id
+  id                   String      @id
+  promocode_used       Promocode[] @relation("used")
   username             String?
-  tariffPlan           String  @default("base")
+  tariffPlan           String      @default("base")
   tariffPlan_temp      String?
   opt_into_temp        String?
   rec_into_temp        String?
   channel_temp         String?
-  subscriptionEndDate  String  @default("never")
-  createdOpt           Int     @default(0)
-  byOpt                Int     @default(0)
-  totalSavings         Int     @default(0)
-  invitedUsers         Int     @default(0)
-  totalEarned          Int     @default(0)
-  promocode            String?
+  subscriptionEndDate  String      @default("never")
+  createdOpt           Int         @default(0)
+  byOpt                Int         @default(0)
+  totalSavings         Int         @default(0)
+  invitedUsers         Int         @default(0)
+  totalEarned          Int         @default(0)
+  promocode            Promocode[]
   opt_chanel_create    String?
   opt_into             OptInto[]
   RecommendationInto   RecommendationInto[]
