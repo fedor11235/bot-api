@@ -136,6 +136,7 @@ model RecommendationInto {
 model Recommendation {
   id                 Int      @default(autoincrement()) @id
   username           String?  @unique()
+  title              String?
   price_standart     String?
   price_now          String?
   format             String?
