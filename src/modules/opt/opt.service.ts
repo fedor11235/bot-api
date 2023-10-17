@@ -240,6 +240,7 @@ export class OptService {
   }
 
   async setRecommendationInto(idUser: any, idOpt: any, isDelete: any, body: any): Promise<any> {
+    console.log(idOpt)
 
     let optParent = await this.prisma.recommendation.findUnique({
       where: {

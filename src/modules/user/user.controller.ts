@@ -18,8 +18,8 @@ export class UserController {
   }
 
   @Get('set')
-  async setProfile(@Res() res, @Query('idUser') idUser, @Query('tariffPlan') tariffPlan, @Query('time') time) {
-    const status = await this.userService.setProfile(idUser, tariffPlan, time);
+  async setProfile(@Res() res, @Query('idUser') idUser, @Query('tariffPlan') tariffPlan, @Query('time') time, @Query('isOne') isOne) {
+    const status = await this.userService.setProfile(idUser, tariffPlan, time, isOne);
     return res.status(HttpStatus.OK).json(status);
   }
 

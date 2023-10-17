@@ -27,8 +27,8 @@ let UserController = class UserController {
         const profile = await this.userService.getProfile(idUser);
         return res.status(common_1.HttpStatus.OK).json(profile);
     }
-    async setProfile(res, idUser, tariffPlan, time) {
-        const status = await this.userService.setProfile(idUser, tariffPlan, time);
+    async setProfile(res, idUser, tariffPlan, time, isOne) {
+        const status = await this.userService.setProfile(idUser, tariffPlan, time, isOne);
         return res.status(common_1.HttpStatus.OK).json(status);
     }
     async setTariffTemp(res, idUser, tariffPlan) {
@@ -83,8 +83,9 @@ __decorate([
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('tariffPlan')),
     __param(3, (0, common_1.Query)('time')),
+    __param(4, (0, common_1.Query)('isOne')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "setProfile", null);
 __decorate([

@@ -59,7 +59,35 @@ let UserService = class UserService {
         const resp = { ...user, userNumber: user.channels.length, optNumber: user.opts.length };
         return resp;
     }
-    async setProfile(idUser, tariffPlan, time) {
+    async setProfile(idUser, tariffPlan, time, isOne) {
+        if (isOne === 'enabled') {
+            console.log('bebebe');
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: idUser,
+                },
+            });
+            if (user.used_command_business) {
+                return "no";
+            }
+            else {
+                const currentDate = new Date();
+                currentDate.setDate(Number(currentDate.getDate()) + 1 + Number(time));
+                const monthNext = currentDate.getMonth() + 1;
+                const dateEnd = currentDate.getDate() + '.' + monthNext + '.' + currentDate.getFullYear();
+                await this.prisma.user.update({
+                    where: {
+                        id: idUser,
+                    },
+                    data: {
+                        tariffPlan: tariffPlan,
+                        subscriptionEndDate: dateEnd,
+                        used_command_business: true
+                    },
+                });
+                return "ok";
+            }
+        }
         const currentDate = new Date();
         currentDate.setDate(Number(currentDate.getDate()) + 1 + Number(time));
         const monthNext = currentDate.getMonth() + 1;
