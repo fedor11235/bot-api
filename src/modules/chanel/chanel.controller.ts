@@ -2,7 +2,7 @@ import { Controller, Get, Res, Req, Query, HttpStatus, Post, UseInterceptors, Bo
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ChanelService } from './chanel.service';
 
-@Controller('test/chanel')
+@Controller('chanel')
 export class ChanelController {
   constructor(private chanelService: ChanelService) {}
 

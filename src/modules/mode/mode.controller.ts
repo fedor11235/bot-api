@@ -1,7 +1,7 @@
 import { Controller, Get, Res, Req, Query, HttpStatus } from '@nestjs/common';
 import { ModeService } from './mode.service';
 
-@Controller('test/mode')
+@Controller('mode')
 export class ModeController {
   constructor(private modeService: ModeService) {}
 

@@ -12,7 +12,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { OptService } from './opt.service';
 
-@Controller('test/opt')
+@Controller('opt')
 export class OptController {
   constructor(private modeService: OptService) {}
 

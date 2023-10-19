@@ -20,7 +20,7 @@ let FileController = class FileController {
 };
 exports.FileController = FileController;
 exports.FileController = FileController = __decorate([
-    (0, common_1.Controller)('test/file'),
+    (0, common_1.Controller)('file'),
     __metadata("design:paramtypes", [file_service_1.FileService])
 ], FileController);
 //# sourceMappingURL=file.controller.js.map

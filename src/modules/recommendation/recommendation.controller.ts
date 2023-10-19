@@ -2,7 +2,7 @@ import { Controller, Get, Post, Res, Req, Query, Body, UseInterceptors, HttpStat
 import { FileInterceptor } from '@nestjs/platform-express';
 import { RecommendationService } from './recommendation.service';
 
-@Controller('test/recommendations')
+@Controller('recommendations')
 export class RecommendationController {
   constructor(private recommendationService: RecommendationService) {}
 

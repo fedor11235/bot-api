@@ -17,7 +17,7 @@ import { createReadStream } from 'fs';
 
 const checksFolder = '/media/checks/'
 
-@Controller('test/file')
+@Controller('file')
 export class FileController {
   constructor(private fileService: FileService) {}
 

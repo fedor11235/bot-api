@@ -166,7 +166,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "optSetCheck", null);
 exports.OptController = OptController = __decorate([
-    (0, common_1.Controller)('test/opt'),
+    (0, common_1.Controller)('opt'),
     __metadata("design:paramtypes", [opt_service_1.OptService])
 ], OptController);
 //# sourceMappingURL=opt.controller.js.map
