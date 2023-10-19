@@ -21,64 +21,33 @@ model Promocode {
 
 model User {
   // id                   Int     @default(autoincrement()) @id
-  id                   String      @id
-  promocode_used       Promocode[] @relation("used")
-  username             String?
-  tariffPlan           String      @default("base")
-  tariffPlan_temp      String?
-  opt_into_temp        String?
-  rec_into_temp        String?
-  channel_temp         String?
-  subscriptionEndDate  String      @default("never")
-  createdOpt           Int         @default(0)
-  byOpt                Int         @default(0)
-  totalSavings         Int         @default(0)
-  invitedUsers         Int         @default(0)
-  totalEarned          Int         @default(0)
-  promocode            Promocode[]
-  opt_chanel_create    String?
-  opt_into             OptInto[]
-  RecommendationInto   RecommendationInto[]
-  discount             Int     @default(0)
+  id                    String      @id
+  promocode_used        Promocode[] @relation("used")
+  username              String?
+  tariffPlan            String      @default("base")
+  tariffPlan_temp       String?
+  opt_into_temp         String?
+  rec_into_temp         String?
+  channel_temp          String?
+  subscriptionEndDate   String      @default("never")
+  createdOpt            Int         @default(0)
+  byOpt                 Int         @default(0)
+  totalSavings          Int         @default(0)
+  invitedUsers          Int         @default(0)
+  totalEarned           Int         @default(0)
+  promocode             Promocode[]
+  opt_chanel_create     String?
+  opt_into              OptInto[]
+  RecommendationInto    RecommendationInto[]
+  discount              Int     @default(0)
   //фильтр для категорий
-  filter               String? @default("none")
+  filter                String? @default("none")
   //фильтр для оптов
   filter_opt            String? @default("none")
-  message_mode         String  @default("standart")
-  opts                 Opt[]
-  channels             UserChanel[]
-}
-
-model OptInto {
-  id             Int     @default(autoincrement()) @id
-  booking_date   String  @default("")
-  creatives      String  @default("")
-  allowed_dates  String  @default("")
-  status         String  @default("created")
-  user           User?   @relation(fields: [idUser], references: [id])
-  idUser         String?
-  opt            Opt?    @relation(fields: [chanel], references: [chanel])
-  chanel         String?
-  check          String?
-  path_check     String?
-}
-
-model Opt {
-  chanel         String     @id
-  title          String?
-  category       String?
-  retail_price   String?
-  wholesale_cost String?
-  min_places     String?
-  max_places     String?
-  booking_date   String  @default("")
-  deadline_date  String?
-  placement_time String?
-  requisites     String?
-  status         String  @default("created")
-  opt_into       OptInto[]
-  user           User?   @relation(fields: [idUser], references: [id])
-  idUser         String?
+  message_mode          String  @default("standart")
+  opts                  Opt[]
+  channels              UserChanel[]
+  used_command_business Boolean @default(false)       
 }
 
 model UserChanel {
@@ -118,6 +87,40 @@ model Catalog {
   communication String?
 }
 
+model OptInto {
+  id             Int     @default(autoincrement()) @id
+  booking_date   String  @default("")
+  creatives      String  @default("")
+  allowed_dates  String  @default("")
+  status         String  @default("created")
+  user           User?   @relation(fields: [idUser], references: [id])
+  idUser         String?
+  opt            Opt?    @relation(fields: [chanel], references: [chanel])
+  chanel         String?
+  check          String?
+  path_check     String?
+  posts                    Post[]
+}
+
+model Opt {
+  chanel         String     @id
+  title          String?
+  link           String?  @unique()
+  category       String?
+  retail_price   String?
+  wholesale_cost String?
+  min_places     String?
+  max_places     String?
+  booking_date   String  @default("")
+  deadline_date  String?
+  placement_time String?
+  requisites     String?
+  status         String  @default("created")
+  opt_into       OptInto[]
+  user           User?   @relation(fields: [idUser], references: [id])
+  idUser         String?
+}
+
 model RecommendationInto {
   id                       Int     @default(autoincrement()) @id
   chanel                   String?
@@ -131,11 +134,14 @@ model RecommendationInto {
   username_recommendation  String?
   check                    String?
   path_check               String?
+  posts                    Post[]
 }
 
 model Recommendation {
   id                 Int      @default(autoincrement()) @id
   username           String?  @unique()
+  link               String?  @unique()
+  title              String?
   price_standart     String?
   price_now          String?
   format             String?
@@ -149,4 +155,15 @@ model Recommendation {
   info               String?
   RecommendationInto RecommendationInto[]
 }
+
+model Post {
+  id                     Int                 @default(autoincrement()) @id
+  file_id                String?
+  type                   String?
+  recommendation_into    RecommendationInto? @relation(fields: [recommendation_into_id], references: [id])
+  recommendation_into_id Int?
+  recommendation_opt     OptInto?            @relation(fields: [opt_into_id], references: [id])
+  opt_into_id            Int?
+}
+
 

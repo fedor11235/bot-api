@@ -153,25 +153,6 @@ let OptService = class OptService {
                 idUser: idUser
             }
         });
-        if (optOld && isDel === 'enabled') {
-            if (optParent?.booking_date && optOld?.booking_date) {
-                const dateAllowed = optParent.booking_date + '_' + optOld.booking_date;
-                optParent = await this.prisma.opt.update({
-                    where: {
-                        chanel: optParent.chanel,
-                    },
-                    data: {
-                        booking_date: dateAllowed
-                    }
-                });
-            }
-            await this.prisma.optInto.delete({
-                where: {
-                    id: optOld.id,
-                }
-            });
-            optOld = null;
-        }
         if (optOld) {
             const opt = await this.prisma.optInto.update({
                 where: {
@@ -218,6 +199,8 @@ let OptService = class OptService {
         }
     }
     async setRecommendationInto(idUser, idOpt, isDelete, body) {
+        console.log("Вхождение в рекомендацию");
+        console.log(idOpt);
         let optParent = await this.prisma.recommendation.findUnique({
             where: {
                 username: idOpt,
@@ -229,25 +212,6 @@ let OptService = class OptService {
                 idUser: idUser
             },
         });
-        if (optOld && isDelete === 'enabled') {
-            if (optParent?.data_list && optOld?.booking_date) {
-                const dateAllowed = optParent.data_list + '_' + optOld.booking_date;
-                optParent = await this.prisma.recommendation.update({
-                    where: {
-                        id: optParent.id,
-                    },
-                    data: {
-                        data_list: dateAllowed
-                    }
-                });
-            }
-            await this.prisma.recommendationInto.delete({
-                where: {
-                    id: optOld.id,
-                }
-            });
-            optOld = null;
-        }
         if (optOld) {
             const opt = await this.prisma.recommendationInto.update({
                 where: {

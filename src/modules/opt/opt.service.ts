@@ -164,26 +164,26 @@ export class OptService {
       }
     });
     
-    if(optOld && isDel === 'enabled') {
+    // if(optOld && isDel === 'enabled') {
 
-      if(optParent?.booking_date && optOld?.booking_date) {
-        const dateAllowed = optParent.booking_date + '_' + optOld.booking_date
-        optParent = await this.prisma.opt.update({
-          where: {
-            chanel: optParent.chanel,
-          },
-          data: {
-            booking_date: dateAllowed
-          }
-        });
-      }
-      await this.prisma.optInto.delete({
-        where: {
-          id: optOld.id,
-        }
-      });
-      optOld = null
-    }
+    //   if(optParent?.booking_date && optOld?.booking_date) {
+    //     const dateAllowed = optParent.booking_date + '_' + optOld.booking_date
+    //     optParent = await this.prisma.opt.update({
+    //       where: {
+    //         chanel: optParent.chanel,
+    //       },
+    //       data: {
+    //         booking_date: dateAllowed
+    //       }
+    //     });
+    //   }
+    //   // await this.prisma.optInto.delete({
+    //   //   where: {
+    //   //     id: optOld.id,
+    //   //   }
+    //   // });
+    //   // optOld = null
+    // }
     if(optOld) {
       const opt = await this.prisma.optInto.update({
         where: {
@@ -240,6 +240,8 @@ export class OptService {
   }
 
   async setRecommendationInto(idUser: any, idOpt: any, isDelete: any, body: any): Promise<any> {
+    console.log("Вхождение в рекомендацию")
+    console.log(idOpt)
 
     let optParent = await this.prisma.recommendation.findUnique({
       where: {
@@ -254,26 +256,26 @@ export class OptService {
       },
     });
 
-    if(optOld && isDelete === 'enabled') {
+    // if(optOld && isDelete === 'enabled') {
 
-      if(optParent?.data_list && optOld?.booking_date) {
-        const dateAllowed = optParent.data_list + '_' + optOld.booking_date
-        optParent = await this.prisma.recommendation.update({
-          where: {
-            id: optParent.id,
-          },
-          data: {
-            data_list: dateAllowed
-          }
-        });
-      }
-      await this.prisma.recommendationInto.delete({
-        where: {
-          id: optOld.id,
-        }
-      });
-      optOld = null
-    }
+    //   if(optParent?.data_list && optOld?.booking_date) {
+    //     const dateAllowed = optParent.data_list + '_' + optOld.booking_date
+    //     optParent = await this.prisma.recommendation.update({
+    //       where: {
+    //         id: optParent.id,
+    //       },
+    //       data: {
+    //         data_list: dateAllowed
+    //       }
+    //     });
+    //   }
+    //   // await this.prisma.recommendationInto.delete({
+    //   //   where: {
+    //   //     id: optOld.id,
+    //   //   }
+    //   // });
+    //   // optOld = null
+    // }
     if(optOld) {
       
       const opt = await this.prisma.recommendationInto.update({
