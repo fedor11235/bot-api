@@ -47,6 +47,7 @@ let UserService = class UserService {
         return promocode;
     }
     async getProfile(idUser) {
+        console.log(idUser);
         const user = await this.prisma.user.findUnique({
             where: {
                 id: idUser
@@ -56,8 +57,11 @@ let UserService = class UserService {
                 opts: true,
             }
         });
-        const resp = { ...user, userNumber: user.channels.length, optNumber: user.opts.length };
-        return resp;
+        if (user) {
+            const resp = { ...user, userNumber: user.channels.length, optNumber: user.opts.length };
+            return resp;
+        }
+        return "no";
     }
     async setProfile(idUser, tariffPlan, time, isOne) {
         if (isOne === 'enabled') {
@@ -208,7 +212,6 @@ let UserService = class UserService {
         return user.RecommendationInto;
     }
     async optProfile(idUser) {
-        console.log('!!!!!');
         const user = await this.prisma.user.findUnique({
             where: {
                 id: idUser

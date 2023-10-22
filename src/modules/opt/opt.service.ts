@@ -379,6 +379,62 @@ export class OptService {
     return 'ok'
   }
 
+  async optPostDelete(idUser: any, chennel: any, type: any, postNumber: any): Promise<any> {
+    if(type === 'recommendation') {
+      const recommendationInto = await this.prisma.recommendationInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: chennel
+        }
+      })
+      const creatives = recommendationInto.creatives
+      const creativesArray =  creatives.split('///')
+      const creativesNewArray = creativesArray.splice(postNumber, 1)
+      let creativesNew
+      if(creativesNewArray.length > 1) {
+        creativesNew = '///' + creativesNewArray.join("///")
+      } else {
+        creativesNew = ''
+      }
+      await this.prisma.optInto.update({
+        where: {
+          id: recommendationInto.id
+        },
+        data: {
+          creatives: creativesNew
+        }
+      })
+    }
+
+    if(type === 'opt') {
+      const optInto = await this.prisma.optInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: chennel
+        }
+      })
+      const creatives = optInto.creatives
+      const creativesArray =  creatives.split('///')
+      const creativesNewArray = creativesArray.splice(postNumber, 1)
+      let creativesNew
+      if(creativesNewArray.length > 1) {
+        creativesNew = '///' + creativesNewArray.join("///")
+      } else {
+        creativesNew = ''
+      }
+      await this.prisma.optInto.update({
+        where: {
+          id: optInto.id
+        },
+        data: {
+          creatives: creativesNew
+        }
+      })
+    }
+
+    return 'ok'
+  }
+
   parseFilter(name: any) {
     if(name === 'repost') {
       return 'forwards_count'

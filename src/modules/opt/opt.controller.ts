@@ -8,6 +8,7 @@ import {
   Query,
   HttpStatus,
   UseInterceptors,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { OptService } from './opt.service';
@@ -87,6 +88,12 @@ export class OptController {
   @Get('set-check')
   async optSetCheck(@Res() res, @Query('idUser') idUser, @Query('channel') channel, @Query('check') check, @Query('checkPath') checkPath) {
     const opt = await this.modeService.optSetCheck(idUser, channel, check, checkPath);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Delete('post-delete')
+  async optPostDelete(@Res() res, @Query('idUser') idUser, @Query('chennel') chennel, @Query('type') type, @Query('postNumber') postNumber) {
+    const opt = await this.modeService.optPostDelete(idUser, chennel, type, postNumber);
     return res.status(HttpStatus.OK).json(opt);
   }
 }

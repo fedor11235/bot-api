@@ -13,4 +13,5 @@ export declare class OptController {
     getAllOpts(res: any): Promise<any>;
     optGetRequisites(res: any, channel: any): Promise<any>;
     optSetCheck(res: any, idUser: any, channel: any, check: any, checkPath: any): Promise<any>;
+    optPostDelete(res: any, idUser: any, chennel: any, type: any, postNumber: any): Promise<any>;
 }

@@ -93,6 +93,7 @@ model OptInto {
   creatives      String  @default("")
   allowed_dates  String  @default("")
   status         String  @default("created")
+  type           String  @default("opt")
   user           User?   @relation(fields: [idUser], references: [id])
   idUser         String?
   opt            Opt?    @relation(fields: [chanel], references: [chanel])
@@ -128,6 +129,7 @@ model RecommendationInto {
   booking_date             String  @default("")
   allowed_dates            String  @default("")
   status                   String  @default("created")
+  type                     String  @default("recommendation")
   user                     User?   @relation(fields: [idUser], references: [id])
   idUser                   String?
   recommendation           Recommendation?    @relation(fields: [username_recommendation], references: [username])

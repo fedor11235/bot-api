@@ -47,6 +47,7 @@ export class UserService {
     return promocode;
   }
   async getProfile(idUser: any): Promise<any> {
+    console.log(idUser)
     const user = await this.prisma.user.findUnique({
       where: {
         id: idUser
@@ -56,8 +57,11 @@ export class UserService {
         opts: true,
       }
     });
-    const resp = {...user, userNumber: user.channels.length, optNumber: user.opts.length}
-    return resp;
+    if(user) {
+      const resp = {...user, userNumber: user.channels.length, optNumber: user.opts.length}
+      return resp;
+    }
+    return "no";
   }
   async setProfile(idUser: any, tariffPlan: any, time:any, isOne: any): Promise<any> {
     if(isOne === 'enabled') {
@@ -228,7 +232,6 @@ export class UserService {
   }
 
   async optProfile(idUser: any): Promise<any> {
-    console.log('!!!!!')
     const user = await this.prisma.user.findUnique({
       where: {
         id: idUser

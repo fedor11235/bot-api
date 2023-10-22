@@ -13,5 +13,6 @@ export declare class OptService {
     getAllOpts(): Promise<any>;
     optGetRequisites(channel: any): Promise<any>;
     optSetCheck(idUser: any, chennel: any, check: any, checkPath: any): Promise<any>;
+    optPostDelete(idUser: any, chennel: any, type: any, postNumber: any): Promise<any>;
     parseFilter(name: any): "forwards_count" | "participants_count" | "avg_post_reach" | "daily_reach" | "ci_index";
 }
