@@ -225,10 +225,21 @@ export class UserService {
         id: idUser
       },
       include: {
-        RecommendationInto: true,
+        RecommendationInto: true
       }
     });
-    return user.RecommendationInto;
+    let recommendations = []
+
+    for (const recommendationTemp of user.RecommendationInto) {
+      const recommendation = await this.prisma.recommendation.findUnique({
+        where: {
+          username: recommendationTemp.chanel
+        }
+      });
+      (recommendationTemp as any).title = recommendation.title
+      recommendations.push(recommendationTemp)
+    }
+    return recommendations;
   }
 
   async optProfile(idUser: any): Promise<any> {
@@ -237,9 +248,18 @@ export class UserService {
         id: idUser
       },
       include: {
-        opt_into: true,
+        opt_into: {
+          include: {
+            opt: true
+          }
+        },
       }
     });
-    return user.opt_into;
+    let opts: any = {}
+    user.opt_into.forEach(elem => {
+      opts = {...elem}
+      opts.title = elem.opt.title
+    })
+    return opts;
   }
 }

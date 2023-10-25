@@ -350,6 +350,158 @@ let OptService = class OptService {
         }
         return 'ok';
     }
+    async saveEditOptTemp(idUser, chanelEdit, postId, optType) {
+        await this.prisma.user.update({
+            where: {
+                id: idUser
+            },
+            data: {
+                chanel_edit_temp: chanelEdit,
+                post_id_temp: postId,
+                opt_type_temp: optType,
+            }
+        });
+        return 'ok';
+    }
+    async saveEditOptTempCheck(idUser, chanelEdit, optType) {
+        await this.prisma.user.update({
+            where: {
+                id: idUser
+            },
+            data: {
+                chanel_edit_temp: chanelEdit,
+                opt_type_temp: optType
+            }
+        });
+        return 'ok';
+    }
+    async postEditOptTemp(idUser, post) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
+        });
+        if (user.opt_type_temp === 'recommendation') {
+            const recommendation = await this.prisma.recommendationInto.findFirst({
+                where: {
+                    idUser: idUser,
+                    chanel: user.chanel_edit_temp
+                }
+            });
+            const postArray = recommendation.creatives.split('///');
+            postArray[Number(user.post_id_temp)] = post.post;
+            const creatives = postArray.join('///');
+            await this.prisma.recommendationInto.update({
+                where: {
+                    id: recommendation.id
+                },
+                data: {
+                    creatives: creatives
+                }
+            });
+        }
+        else if (user.opt_type_temp === 'opt') {
+            const opt = await this.prisma.optInto.findFirst({
+                where: {
+                    idUser: idUser,
+                    chanel: user.chanel_edit_temp
+                }
+            });
+            const postArray = opt.creatives.split('///');
+            postArray[Number(user.post_id_temp)] = post.post;
+            const creatives = postArray.join('///');
+            await this.prisma.optInto.update({
+                where: {
+                    id: opt.id
+                },
+                data: {
+                    creatives: creatives
+                }
+            });
+        }
+        return 'ok';
+    }
+    async checkEditOptTemp(idUser, check) {
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
+        });
+        if (user.opt_type_temp === 'recommendation') {
+            const recommendation = await this.prisma.recommendationInto.findFirst({
+                where: {
+                    idUser: idUser,
+                    chanel: user.chanel_edit_temp
+                }
+            });
+            await this.prisma.recommendationInto.update({
+                where: {
+                    id: recommendation.id
+                },
+                data: {
+                    check: check
+                }
+            });
+        }
+        else if (user.opt_type_temp === 'opt') {
+            const opt = await this.prisma.optInto.findFirst({
+                where: {
+                    idUser: idUser,
+                    chanel: user.chanel_edit_temp
+                }
+            });
+            await this.prisma.recommendationInto.update({
+                where: {
+                    id: opt.id
+                },
+                data: {
+                    check: check
+                }
+            });
+        }
+        return 'ok';
+    }
+    async addNewPost(idUser, data) {
+        let result = null;
+        const user = await this.prisma.user.findUnique({
+            where: {
+                id: idUser
+            }
+        });
+        if (user.opt_type_temp === 'recommendation') {
+            const recommendation = await this.prisma.recommendationInto.findFirst({
+                where: {
+                    idUser: idUser,
+                    chanel: user.chanel_edit_temp
+                }
+            });
+            result = await this.prisma.recommendationInto.update({
+                where: {
+                    id: recommendation.id
+                },
+                data: {
+                    creatives: recommendation.creatives + '///' + data.creatives
+                }
+            });
+        }
+        else if (user.opt_type_temp === 'opt') {
+            const opt = await this.prisma.optInto.findFirst({
+                where: {
+                    idUser: idUser,
+                    chanel: user.chanel_edit_temp
+                }
+            });
+            result = await this.prisma.recommendationInto.update({
+                where: {
+                    id: opt.id
+                },
+                data: {
+                    creatives: opt.creatives + '///' + data.creatives
+                }
+            });
+        }
+        return result;
+    }
     parseFilter(name) {
         if (name === 'repost') {
             return 'forwards_count';

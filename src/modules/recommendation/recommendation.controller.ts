@@ -14,10 +14,18 @@ export class RecommendationController {
   }
 
   @Get('get')
-  async recommendationGet(@Res() res) {
-    const result = await this.recommendationService.recommendationGet();
+  async recommendationGet(@Res() res, @Query('isBot') isBot) {
+    console.log(isBot)
+    const result = await this.recommendationService.recommendationGet(isBot);
     return res.status(HttpStatus.OK).json(result);
   }
+
+  @Get('delete-bot')
+  async recommendationDeleteBot(@Res() res, @Query('id') id) {
+    const result = await this.recommendationService.recommendationDeleteBot(id);
+    return res.status(HttpStatus.OK).json(result);
+  }
+
 
   @Get('individual')
   async recommendationGetIndividual(@Res() res, @Query("idRecommendation") idRecommendation) {

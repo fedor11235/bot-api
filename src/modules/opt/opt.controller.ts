@@ -96,4 +96,34 @@ export class OptController {
     const opt = await this.modeService.optPostDelete(idUser, chennel, type, postNumber);
     return res.status(HttpStatus.OK).json(opt);
   }
+
+  @Get('post-save-temp')
+  async saveEditOptTemp(@Res() res, @Query('idUser') idUser, @Query('chanelEdit') chanelEdit, @Query('postId') postId, @Query('optType') optType) {
+    const opt = await this.modeService.saveEditOptTemp(idUser, chanelEdit, postId, optType);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Get('check-save-temp')
+  async saveEditOptTempCheck(@Res() res, @Query('idUser') idUser, @Query('chanelEdit') chanelEdit, @Query('optType') optType) {
+    const opt = await this.modeService.saveEditOptTempCheck(idUser, chanelEdit, optType);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Post('post-edit-temp')
+  async postEditOptTemp(@Res() res, @Query('idUser') idUser, @Body() payload) {
+    const opt = await this.modeService.postEditOptTemp(idUser, payload);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Get('check-edit-temp')
+  async checkEditOptTemp(@Res() res, @Query('idUser') idUser, @Query('check') check) {
+    const opt = await this.modeService.checkEditOptTemp(idUser, check);
+    return res.status(HttpStatus.OK).json(opt);
+  }
+
+  @Post('add-new-post')
+  async addNewPost(@Res() res, @Query('idUser') idUser, @Body() body) {
+    const opt = await this.modeService.addNewPost(idUser, body);
+    return res.status(HttpStatus.OK).json(opt);
+  }
 }

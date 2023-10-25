@@ -67,6 +67,26 @@ let OptController = class OptController {
         const opt = await this.modeService.optPostDelete(idUser, chennel, type, postNumber);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
+    async saveEditOptTemp(res, idUser, chanelEdit, postId, optType) {
+        const opt = await this.modeService.saveEditOptTemp(idUser, chanelEdit, postId, optType);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async saveEditOptTempCheck(res, idUser, chanelEdit, optType) {
+        const opt = await this.modeService.saveEditOptTempCheck(idUser, chanelEdit, optType);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async postEditOptTemp(res, idUser, payload) {
+        const opt = await this.modeService.postEditOptTemp(idUser, payload);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async checkEditOptTemp(res, idUser, check) {
+        const opt = await this.modeService.checkEditOptTemp(idUser, check);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
+    async addNewPost(res, idUser, body) {
+        const opt = await this.modeService.addNewPost(idUser, body);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
 };
 exports.OptController = OptController;
 __decorate([
@@ -180,6 +200,54 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "optPostDelete", null);
+__decorate([
+    (0, common_1.Get)('post-save-temp'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('chanelEdit')),
+    __param(3, (0, common_1.Query)('postId')),
+    __param(4, (0, common_1.Query)('optType')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "saveEditOptTemp", null);
+__decorate([
+    (0, common_1.Get)('check-save-temp'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('chanelEdit')),
+    __param(3, (0, common_1.Query)('optType')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "saveEditOptTempCheck", null);
+__decorate([
+    (0, common_1.Post)('post-edit-temp'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "postEditOptTemp", null);
+__decorate([
+    (0, common_1.Get)('check-edit-temp'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('check')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "checkEditOptTemp", null);
+__decorate([
+    (0, common_1.Post)('add-new-post'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "addNewPost", null);
 exports.OptController = OptController = __decorate([
     (0, common_1.Controller)('opt'),
     __metadata("design:paramtypes", [opt_service_1.OptService])

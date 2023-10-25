@@ -24,8 +24,13 @@ let RecommendationController = class RecommendationController {
         const result = await this.recommendationService.recommendationCreate(body);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
-    async recommendationGet(res) {
-        const result = await this.recommendationService.recommendationGet();
+    async recommendationGet(res, isBot) {
+        console.log(isBot);
+        const result = await this.recommendationService.recommendationGet(isBot);
+        return res.status(common_1.HttpStatus.OK).json(result);
+    }
+    async recommendationDeleteBot(res, id) {
+        const result = await this.recommendationService.recommendationDeleteBot(id);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
     async recommendationGetIndividual(res, idRecommendation) {
@@ -62,10 +67,19 @@ __decorate([
 __decorate([
     (0, common_1.Get)('get'),
     __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('isBot')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationGet", null);
+__decorate([
+    (0, common_1.Get)('delete-bot'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RecommendationController.prototype, "recommendationDeleteBot", null);
 __decorate([
     (0, common_1.Get)('individual'),
     __param(0, (0, common_1.Res)()),

@@ -48,6 +48,10 @@ model User {
   opts                  Opt[]
   channels              UserChanel[]
   used_command_business Boolean @default(false)       
+
+  chanel_edit_temp      String?
+  post_id_temp          String?
+  opt_type_temp         String?
 }
 
 model UserChanel {
@@ -112,6 +116,7 @@ model Opt {
   wholesale_cost String?
   min_places     String?
   max_places     String?
+  now_places     String? @default("0")
   booking_date   String  @default("")
   deadline_date  String?
   placement_time String?
@@ -155,6 +160,7 @@ model Recommendation {
   requisites         String?
   deadline           String?
   info               String?
+  view               Boolean @default(true)
   RecommendationInto RecommendationInto[]
 }
 

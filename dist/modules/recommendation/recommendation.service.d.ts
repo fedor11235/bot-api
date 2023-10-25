@@ -3,7 +3,8 @@ export declare class RecommendationService {
     private prisma;
     constructor(prisma: PrismaService);
     recommendationCreate(payload: any): Promise<any>;
-    recommendationGet(): Promise<any>;
+    recommendationGet(isBot: any): Promise<any>;
+    recommendationDeleteBot(id: any): Promise<any>;
     recommendationGetIndividual(idRecommendation: any): Promise<any>;
     recommendationGetIntoChannel(channel: any): Promise<any>;
     recommendationDelete(data: any): Promise<any>;

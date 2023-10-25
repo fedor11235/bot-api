@@ -23,9 +23,23 @@ let RecommendationService = class RecommendationService {
         });
         return recommendation;
     }
-    async recommendationGet() {
-        const recommendations = await this.prisma.recommendation.findMany();
+    async recommendationGet(isBot) {
+        let recommendations = await this.prisma.recommendation.findMany();
+        if (isBot === 'enable') {
+            recommendations = recommendations.filter(recommendation => recommendation.view === true);
+        }
         return recommendations;
+    }
+    async recommendationDeleteBot(id) {
+        await this.prisma.recommendation.update({
+            where: {
+                id: Number(id)
+            },
+            data: {
+                view: false
+            }
+        });
+        return "ok";
     }
     async recommendationGetIndividual(idRecommendation) {
         const recommendation = await this.prisma.recommendation.findUnique({

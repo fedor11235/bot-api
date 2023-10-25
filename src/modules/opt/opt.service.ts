@@ -435,6 +435,161 @@ export class OptService {
     return 'ok'
   }
 
+  async saveEditOptTemp(idUser:any, chanelEdit: any, postId: any, optType: any): Promise<any> {
+    await this.prisma.user.update({
+      where: {
+        id: idUser
+      },
+      data: {
+        chanel_edit_temp: chanelEdit,
+        post_id_temp: postId,
+        opt_type_temp: optType,
+      }
+    })
+    return 'ok'
+  }
+
+  async saveEditOptTempCheck(idUser:any, chanelEdit: any, optType: any): Promise<any> {
+    await this.prisma.user.update({
+      where: {
+        id: idUser
+      },
+      data: {
+        chanel_edit_temp: chanelEdit, 
+        opt_type_temp: optType
+      }
+    })
+    return 'ok'
+  }
+
+  async postEditOptTemp(idUser:any, post: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
+    })
+    if (user.opt_type_temp === 'recommendation') {
+      const recommendation = await this.prisma.recommendationInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: user.chanel_edit_temp
+        }
+      })
+      const postArray = recommendation.creatives.split('///')
+      postArray[Number(user.post_id_temp)] = post.post
+      const creatives = postArray.join('///');
+      await this.prisma.recommendationInto.update({
+        where: {
+          id: recommendation.id
+        },
+        data: {
+          creatives: creatives
+        }
+      })
+    } else if (user.opt_type_temp === 'opt') {
+      const opt = await this.prisma.optInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: user.chanel_edit_temp
+        }
+      })
+      const postArray = opt.creatives.split('///')
+      postArray[Number(user.post_id_temp)] = post.post
+      const creatives = postArray.join('///');
+      await this.prisma.optInto.update({
+        where: {
+          id: opt.id
+        },
+        data: {
+          creatives: creatives
+        }
+      })
+    }
+
+    return 'ok'
+  }
+
+  async checkEditOptTemp(idUser:any, check: any): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
+    })
+    if (user.opt_type_temp === 'recommendation') {
+      const recommendation = await this.prisma.recommendationInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: user.chanel_edit_temp
+        }
+      })
+      await this.prisma.recommendationInto.update({
+        where: {
+          id: recommendation.id
+        },
+        data: {
+          check: check
+        }
+      })
+    } else if (user.opt_type_temp === 'opt') {
+      const opt = await this.prisma.optInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: user.chanel_edit_temp
+        }
+      })
+      await this.prisma.recommendationInto.update({
+        where: {
+          id: opt.id
+        },
+        data: {
+          check: check
+        }
+      })
+    }
+    return 'ok'
+  }
+
+  async addNewPost(idUser:any, data: any): Promise<any> {
+    let result = null
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: idUser
+      }
+    })
+    if (user.opt_type_temp === 'recommendation') {
+      const recommendation = await this.prisma.recommendationInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: user.chanel_edit_temp
+        }
+      })
+      result = await this.prisma.recommendationInto.update({
+        where: {
+          id: recommendation.id
+        },
+        data: {
+          creatives: recommendation.creatives + '///' + data.creatives
+        }
+      })
+    } else if (user.opt_type_temp === 'opt') {
+      const opt = await this.prisma.optInto.findFirst({
+        where: {
+          idUser: idUser,
+          chanel: user.chanel_edit_temp
+        }
+      })
+      result = await this.prisma.recommendationInto.update({
+        where: {
+          id: opt.id
+        },
+        data: {
+          creatives: opt.creatives + '///' + data.creatives
+        }
+      })
+    }
+    return result
+  }
+
   parseFilter(name: any) {
     if(name === 'repost') {
       return 'forwards_count'
