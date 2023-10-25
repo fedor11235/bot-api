@@ -234,9 +234,10 @@ export class UserService {
           username: recommendationTemp.chanel
         }
       });
-      console.log(recommendation);
-      (recommendationTemp as any).title = recommendation.title? recommendation.title: recommendation.username
-      recommendations.push(recommendationTemp)
+      if(recommendation) {
+        (recommendationTemp as any).title = recommendation.title? recommendation.title: recommendation.username
+        recommendations.push(recommendationTemp)
+      }
     }
     return recommendations;
   }
@@ -257,9 +258,10 @@ export class UserService {
           chanel: optInto.chanel
         }
       });
-      console.log(opt);
-      (optInto as any).title = opt.title? opt.title: opt.chanel
-      opts.push(opt)
+      if(opt) {
+        (optInto as any).title = opt.title? opt.title: opt.chanel
+        opts.push(opt)
+      }
     }
     return opts;
   }

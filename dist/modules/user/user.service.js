@@ -214,8 +214,10 @@ let UserService = class UserService {
                     username: recommendationTemp.chanel
                 }
             });
-            recommendationTemp.title = recommendation.title;
-            recommendations.push(recommendationTemp);
+            if (recommendation) {
+                recommendationTemp.title = recommendation.title ? recommendation.title : recommendation.username;
+                recommendations.push(recommendationTemp);
+            }
         }
         return recommendations;
     }
@@ -235,9 +237,10 @@ let UserService = class UserService {
                     chanel: optInto.chanel
                 }
             });
-            console.log(opt);
-            optInto.title = opt.title ? opt.title : opt.chanel;
-            opts.push(opt);
+            if (opt) {
+                optInto.title = opt.title ? opt.title : opt.chanel;
+                opts.push(opt);
+            }
         }
         return opts;
     }
