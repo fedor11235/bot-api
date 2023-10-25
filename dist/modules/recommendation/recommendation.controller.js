@@ -25,7 +25,6 @@ let RecommendationController = class RecommendationController {
         return res.status(common_1.HttpStatus.OK).json(result);
     }
     async recommendationGet(res, isBot) {
-        console.log(isBot);
         const result = await this.recommendationService.recommendationGet(isBot);
         return res.status(common_1.HttpStatus.OK).json(result);
     }

@@ -47,7 +47,6 @@ export class UserService {
     return promocode;
   }
   async getProfile(idUser: any): Promise<any> {
-    console.log(idUser)
     const user = await this.prisma.user.findUnique({
       where: {
         id: idUser
@@ -65,7 +64,6 @@ export class UserService {
   }
   async setProfile(idUser: any, tariffPlan: any, time:any, isOne: any): Promise<any> {
     if(isOne === 'enabled') {
-      console.log('bebebe')
       const user = await this.prisma.user.findUnique({
         where: {
           id: idUser,
@@ -248,18 +246,19 @@ export class UserService {
         id: idUser
       },
       include: {
-        opt_into: {
-          include: {
-            opt: true
-          }
-        },
+        opt_into: true
       }
     });
-    let opts: any = {}
-    user.opt_into.forEach(elem => {
-      opts = {...elem}
-      opts.title = elem.opt.title
-    })
+    let opts: any = []
+    for (const optInto of user.opt_into) {
+      const opt = await this.prisma.opt.findUnique({
+        where: {
+          chanel: optInto.chanel
+        }
+      });
+      (optInto as any).title = opt.title
+      opts.push(opt)
+    }
     return opts;
   }
 }

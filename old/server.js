@@ -176,7 +176,6 @@ app.get('/opt-get', async  (req, res) => {
       opt: true,
     },
   });
-  console.log('opt', user.opt)
   res.send(user.opt)
 })
 
