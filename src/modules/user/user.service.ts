@@ -234,7 +234,8 @@ export class UserService {
           username: recommendationTemp.chanel
         }
       });
-      (recommendationTemp as any).title = recommendation.title
+      console.log(recommendation);
+      (recommendationTemp as any).title = recommendation.title? recommendation.title: recommendation.username
       recommendations.push(recommendationTemp)
     }
     return recommendations;
