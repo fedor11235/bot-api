@@ -235,7 +235,8 @@ let UserService = class UserService {
                     chanel: optInto.chanel
                 }
             });
-            optInto.title = opt.title;
+            console.log(opt);
+            optInto.title = opt.title ? opt.title : opt.chanel;
             opts.push(opt);
         }
         return opts;

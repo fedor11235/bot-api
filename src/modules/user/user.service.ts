@@ -256,7 +256,8 @@ export class UserService {
           chanel: optInto.chanel
         }
       });
-      (optInto as any).title = opt.title
+      console.log(opt);
+      (optInto as any).title = opt.title? opt.title: opt.chanel
       opts.push(opt)
     }
     return opts;
