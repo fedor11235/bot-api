@@ -216,7 +216,7 @@ let UserService = class UserService {
             });
             console.log(recommendation);
             if (recommendation) {
-                recommendationTemp.title = recommendation.title ? recommendation.title : recommendation.username;
+                recommendationTemp.title = recommendation.title;
                 recommendations.push(recommendationTemp);
             }
         }
@@ -240,8 +240,8 @@ let UserService = class UserService {
             });
             console.log(opt);
             if (opt) {
-                optInto.title = opt.title ? opt.title : opt.chanel;
-                opts.push(opt);
+                optInto.title = opt.title;
+                opts.push(optInto);
             }
         }
         return opts;
