@@ -234,7 +234,6 @@ export class UserService {
           username: recommendationTemp.chanel
         }
       });
-      console.log(recommendation)
       if(recommendation) {
         (recommendationTemp as any).title = recommendation.title
         recommendations.push(recommendationTemp)
@@ -259,7 +258,6 @@ export class UserService {
           chanel: optInto.chanel
         }
       });
-      console.log(opt)
       if(opt) {
         (optInto as any).title = opt.title
         opts.push(optInto)

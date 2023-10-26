@@ -214,7 +214,6 @@ let UserService = class UserService {
                     username: recommendationTemp.chanel
                 }
             });
-            console.log(recommendation);
             if (recommendation) {
                 recommendationTemp.title = recommendation.title;
                 recommendations.push(recommendationTemp);
@@ -238,7 +237,6 @@ let UserService = class UserService {
                     chanel: optInto.chanel
                 }
             });
-            console.log(opt);
             if (opt) {
                 optInto.title = opt.title;
                 opts.push(optInto);

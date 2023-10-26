@@ -116,8 +116,8 @@ export class OptController {
   }
 
   @Get('check-edit-temp')
-  async checkEditOptTemp(@Res() res, @Query('idUser') idUser, @Query('check') check) {
-    const opt = await this.modeService.checkEditOptTemp(idUser, check);
+  async checkEditOptTemp(@Res() res, @Query('idUser') idUser, @Query('check') check, @Query('checkPath') checkPath) {
+    const opt = await this.modeService.checkEditOptTemp(idUser, check, checkPath);
     return res.status(HttpStatus.OK).json(opt);
   }
 

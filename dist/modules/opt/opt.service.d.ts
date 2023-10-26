@@ -17,7 +17,7 @@ export declare class OptService {
     saveEditOptTemp(idUser: any, chanelEdit: any, postId: any, optType: any): Promise<any>;
     saveEditOptTempCheck(idUser: any, chanelEdit: any, optType: any): Promise<any>;
     postEditOptTemp(idUser: any, post: any): Promise<any>;
-    checkEditOptTemp(idUser: any, check: any): Promise<any>;
+    checkEditOptTemp(idUser: any, check: any, checkPath: any): Promise<any>;
     addNewPost(idUser: any, data: any): Promise<any>;
     parseFilter(name: any): "forwards_count" | "participants_count" | "avg_post_reach" | "daily_reach" | "ci_index";
 }

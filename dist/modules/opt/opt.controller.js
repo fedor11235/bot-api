@@ -79,8 +79,8 @@ let OptController = class OptController {
         const opt = await this.modeService.postEditOptTemp(idUser, payload);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
-    async checkEditOptTemp(res, idUser, check) {
-        const opt = await this.modeService.checkEditOptTemp(idUser, check);
+    async checkEditOptTemp(res, idUser, check, checkPath) {
+        const opt = await this.modeService.checkEditOptTemp(idUser, check, checkPath);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
     async addNewPost(res, idUser, body) {
@@ -235,8 +235,9 @@ __decorate([
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)('idUser')),
     __param(2, (0, common_1.Query)('check')),
+    __param(3, (0, common_1.Query)('checkPath')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "checkEditOptTemp", null);
 __decorate([

@@ -304,14 +304,11 @@ let OptService = class OptService {
             const creatives = recommendationInto.creatives;
             const creativesArray = creatives.split('///');
             const creativesNewArray = creativesArray.splice(postNumber, 1);
-            let creativesNew;
+            let creativesNew = '';
             if (creativesNewArray.length > 1) {
                 creativesNew = '///' + creativesNewArray.join("///");
             }
-            else {
-                creativesNew = '';
-            }
-            await this.prisma.optInto.update({
+            await this.prisma.recommendationInto.update({
                 where: {
                     id: recommendationInto.id
                 },
@@ -330,13 +327,11 @@ let OptService = class OptService {
             const creatives = optInto.creatives;
             const creativesArray = creatives.split('///');
             const creativesNewArray = creativesArray.splice(postNumber, 1);
-            let creativesNew;
+            let creativesNew = '';
             if (creativesNewArray.length > 1) {
                 creativesNew = '///' + creativesNewArray.join("///");
             }
-            else {
-                creativesNew = '';
-            }
+            console.log(optInto);
             await this.prisma.optInto.update({
                 where: {
                     id: optInto.id
@@ -419,7 +414,7 @@ let OptService = class OptService {
         }
         return 'ok';
     }
-    async checkEditOptTemp(idUser, check) {
+    async checkEditOptTemp(idUser, check, checkPath) {
         const user = await this.prisma.user.findUnique({
             where: {
                 id: idUser
@@ -429,7 +424,7 @@ let OptService = class OptService {
             const recommendation = await this.prisma.recommendationInto.findFirst({
                 where: {
                     idUser: idUser,
-                    chanel: user.chanel_edit_temp
+                    chanel: user.chanel_edit_temp,
                 }
             });
             await this.prisma.recommendationInto.update({
@@ -437,7 +432,8 @@ let OptService = class OptService {
                     id: recommendation.id
                 },
                 data: {
-                    check: check
+                    check: check,
+                    path_check: checkPath
                 }
             });
         }
@@ -453,7 +449,8 @@ let OptService = class OptService {
                     id: opt.id
                 },
                 data: {
-                    check: check
+                    check: check,
+                    path_check: checkPath
                 }
             });
         }

@@ -17,6 +17,6 @@ export declare class OptController {
     saveEditOptTemp(res: any, idUser: any, chanelEdit: any, postId: any, optType: any): Promise<any>;
     saveEditOptTempCheck(res: any, idUser: any, chanelEdit: any, optType: any): Promise<any>;
     postEditOptTemp(res: any, idUser: any, payload: any): Promise<any>;
-    checkEditOptTemp(res: any, idUser: any, check: any): Promise<any>;
+    checkEditOptTemp(res: any, idUser: any, check: any, checkPath: any): Promise<any>;
     addNewPost(res: any, idUser: any, body: any): Promise<any>;
 }

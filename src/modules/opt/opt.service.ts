@@ -387,13 +387,11 @@ export class OptService {
       const creatives = recommendationInto.creatives
       const creativesArray =  creatives.split('///')
       const creativesNewArray = creativesArray.splice(postNumber, 1)
-      let creativesNew
+      let creativesNew = ''
       if(creativesNewArray.length > 1) {
         creativesNew = '///' + creativesNewArray.join("///")
-      } else {
-        creativesNew = ''
       }
-      await this.prisma.optInto.update({
+      await this.prisma.recommendationInto.update({
         where: {
           id: recommendationInto.id
         },
@@ -413,12 +411,11 @@ export class OptService {
       const creatives = optInto.creatives
       const creativesArray =  creatives.split('///')
       const creativesNewArray = creativesArray.splice(postNumber, 1)
-      let creativesNew
+      let creativesNew = ''
       if(creativesNewArray.length > 1) {
         creativesNew = '///' + creativesNewArray.join("///")
-      } else {
-        creativesNew = ''
       }
+      console.log(optInto)
       await this.prisma.optInto.update({
         where: {
           id: optInto.id
@@ -506,7 +503,7 @@ export class OptService {
     return 'ok'
   }
 
-  async checkEditOptTemp(idUser:any, check: any): Promise<any> {
+  async checkEditOptTemp(idUser:any, check: any, checkPath: any): Promise<any> {
     const user = await this.prisma.user.findUnique({
       where: {
         id: idUser
@@ -516,7 +513,7 @@ export class OptService {
       const recommendation = await this.prisma.recommendationInto.findFirst({
         where: {
           idUser: idUser,
-          chanel: user.chanel_edit_temp
+          chanel: user.chanel_edit_temp,
         }
       })
       await this.prisma.recommendationInto.update({
@@ -524,7 +521,8 @@ export class OptService {
           id: recommendation.id
         },
         data: {
-          check: check
+          check: check,
+          path_check: checkPath
         }
       })
     } else if (user.opt_type_temp === 'opt') {
@@ -539,7 +537,8 @@ export class OptService {
           id: opt.id
         },
         data: {
-          check: check
+          check: check,
+          path_check: checkPath
         }
       })
     }
