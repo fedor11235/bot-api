@@ -95,7 +95,7 @@ model OptInto {
   id             Int     @default(autoincrement()) @id
   booking_date   String  @default("")
   creatives      String  @default("")
-  allowed_dates  String  @default("")
+  // allowed_dates  String  @default("")
   status         String  @default("created")
   type           String  @default("opt")
   user           User?   @relation(fields: [idUser], references: [id])
@@ -118,6 +118,7 @@ model Opt {
   max_places     String?
   now_places     String? @default("0")
   booking_date   String  @default("")
+  allowed_dates  String?
   deadline_date  String?
   placement_time String?
   requisites     String?
@@ -132,7 +133,7 @@ model RecommendationInto {
   chanel                   String?
   creatives                String  @default("")
   booking_date             String  @default("")
-  allowed_dates            String  @default("")
+  // allowed_dates            String  @default("")
   status                   String  @default("created")
   type                     String  @default("recommendation")
   user                     User?   @relation(fields: [idUser], references: [id])
@@ -157,6 +158,7 @@ model Recommendation {
   subscribers        String? @default("?")
   // Выбор разрешенных мест
   data_list          String?
+  allowed_dates      String?
   requisites         String?
   deadline           String?
   info               String?

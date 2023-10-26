@@ -184,59 +184,62 @@ export class OptService {
     //   // });
     //   // optOld = null
     // }
-    if(optOld) {
-      const opt = await this.prisma.optInto.update({
-        where: {
-          id: optOld.id,
-        },
-        data : body
-      });
-
-      const dataList = opt.allowed_dates.split('_')
-      const bookingDate = opt.booking_date.split('_')
-
-      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
-
-      const dataListFilterJoin = dataListFilter.join('_')
 
 
-      await this.prisma.opt.update({
-        where: {
-          chanel: optParent.chanel,
-        },
-        data: {
-          booking_date: dataListFilterJoin
-        }
-      });
-      return opt
-    } else {
-      const opt = await this.prisma.optInto.create({
-        data : {
-          ...body,
-          chanel: idOpt,
-          idUser: idUser,
-          allowed_dates: optParent.booking_date
-        }
-      });
 
-      const dataList = opt.allowed_dates.split('_')
-      const bookingDate = opt.booking_date.split('_')
+    // if(optOld) {
+    //   const opt = await this.prisma.optInto.update({
+    //     where: {
+    //       id: optOld.id,
+    //     },
+    //     data : body
+    //   });
 
-      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+    //   const dataList = opt.allowed_dates.split('_')
+    //   const bookingDate = opt.booking_date.split('_')
 
-      const dataListFilterJoin = dataListFilter.join('_')
+    //   const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+
+    //   const dataListFilterJoin = dataListFilter.join('_')
 
 
-      await this.prisma.opt.update({
-        where: {
-          chanel: optParent.chanel,
-        },
-        data: {
-          booking_date: dataListFilterJoin
-        }
-      });
-      return opt
-    }
+    //   await this.prisma.opt.update({
+    //     where: {
+    //       chanel: optParent.chanel,
+    //     },
+    //     data: {
+    //       booking_date: dataListFilterJoin
+    //     }
+    //   });
+    //   return opt
+    // } else {
+    //   const opt = await this.prisma.optInto.create({
+    //     data : {
+    //       ...body,
+    //       chanel: idOpt,
+    //       idUser: idUser,
+    //       allowed_dates: optParent.booking_date
+    //     }
+    //   });
+
+    //   const dataList = opt.allowed_dates.split('_')
+    //   const bookingDate = opt.booking_date.split('_')
+
+    //   const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+
+    //   const dataListFilterJoin = dataListFilter.join('_')
+
+
+    //   await this.prisma.opt.update({
+    //     where: {
+    //       chanel: optParent.chanel,
+    //     },
+    //     data: {
+    //       booking_date: dataListFilterJoin
+    //     }
+    //   });
+    //   return opt
+    // }
   }
 
   async setRecommendationInto(idUser: any, idOpt: any, isDelete: any, body: any): Promise<any> {
@@ -252,82 +255,69 @@ export class OptService {
         idUser: idUser
       },
     });
-
-    // if(optOld && isDelete === 'enabled') {
-
-    //   if(optParent?.data_list && optOld?.booking_date) {
-    //     const dateAllowed = optParent.data_list + '_' + optOld.booking_date
-    //     optParent = await this.prisma.recommendation.update({
-    //       where: {
-    //         id: optParent.id,
-    //       },
-    //       data: {
-    //         data_list: dateAllowed
-    //       }
-    //     });
-    //   }
-    //   // await this.prisma.recommendationInto.delete({
-    //   //   where: {
-    //   //     id: optOld.id,
-    //   //   }
-    //   // });
-    //   // optOld = null
-    // }
     if(optOld) {
+      let allowed_dates = ''
+
+      if("allowed_dates" in body) {
+        allowed_dates = body.allowed_dates
+      }
+
+      delete body.allowed_dates
       
-      const opt = await this.prisma.recommendationInto.update({
+      const recommendationInto = await this.prisma.recommendationInto.update({
         where: {
           id: optOld.id,
         },
         data : body
       });
 
+      let dataListFilterJoin = optParent.allowed_dates
+      if("booking_date" in body) {
+        const dataList = optParent.allowed_dates.split('_')
+        // const dataList = optParent.allowed_dates.split('_')
+        const bookingDate = recommendationInto.booking_date.split('_')
+  
+        const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
+  
+        dataListFilterJoin = dataListFilter.join('_')
+        
+        if(allowed_dates) {
+          if(dataListFilterJoin) {
+            dataListFilterJoin += '_' + allowed_dates
+          } else {
+            dataListFilterJoin = allowed_dates
+          }
+        }
 
-
-      const dataList = opt.allowed_dates.split('_')
-      const bookingDate = opt.booking_date.split('_')
-
-      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
-
-      const dataListFilterJoin = dataListFilter.join('_')
-
-
-      await this.prisma.recommendation.update({
+        console.log('пришло повторение ', allowed_dates)
+        console.log('разрешенные даты для записи ', dataListFilterJoin)
+      }
+      const recommendation = await this.prisma.recommendation.update({
         where: {
           id: optParent.id,
         },
         data: {
-          data_list: dataListFilterJoin
+          allowed_dates: dataListFilterJoin
         }
       });
 
-      return opt
+      return {...recommendationInto, allowed_dates: recommendation.allowed_dates}
     } else {
-      const opt = await this.prisma.recommendationInto.create({
+      const recommendationInto = await this.prisma.recommendationInto.create({
         data : {
           ...body,
           chanel: idOpt,
           idUser: idUser,
-          allowed_dates: optParent?.data_list,
         }
       });
-      const dataList = opt.allowed_dates.split('_')
-      const bookingDate = opt.booking_date.split('_')
 
-      const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem))
-
-      const dataListFilterJoin = dataListFilter.join('_')
-
-
-      await this.prisma.recommendation.update({
+      const recommendation = await this.prisma.recommendation.findUnique({
         where: {
           id: optParent.id,
-        },
-        data: {
-          data_list: dataListFilterJoin
         }
       });
-      return opt
+
+      return {...recommendationInto, allowed_dates: recommendation.allowed_dates}
     }
   }
 
