@@ -125,10 +125,18 @@ let OptService = class OptService {
         const user = await this.prisma.user.findUnique({
             where: { id: idUser },
         });
-        const opt = await this.prisma.opt.update({
+        let opt = await this.prisma.opt.update({
             where: { chanel: user.opt_chanel_create },
             data: data,
         });
+        if ("requisites" in data) {
+            opt = await this.prisma.opt.update({
+                where: { chanel: user.opt_chanel_create },
+                data: {
+                    allowed_dates: opt.booking_date
+                },
+            });
+        }
         return opt;
     }
     async getStatOpt(chanel) {
@@ -151,8 +159,60 @@ let OptService = class OptService {
             where: {
                 chanel: idOpt,
                 idUser: idUser
-            }
+            },
         });
+        if (optOld) {
+            let allowed_dates = '';
+            if ("allowed_dates" in body) {
+                allowed_dates = body.allowed_dates;
+            }
+            delete body.allowed_dates;
+            const optInto = await this.prisma.optInto.update({
+                where: {
+                    id: optOld.id,
+                },
+                data: body
+            });
+            let dataListFilterJoin = optParent.allowed_dates;
+            if ("booking_date" in body) {
+                const dataList = optParent.allowed_dates.split('_');
+                const bookingDate = optInto.booking_date.split('_');
+                const dataListFilter = dataList.filter(elem => !bookingDate.includes(elem));
+                dataListFilterJoin = dataListFilter.join('_');
+                if (allowed_dates) {
+                    if (dataListFilterJoin) {
+                        dataListFilterJoin += '_' + allowed_dates;
+                    }
+                    else {
+                        dataListFilterJoin = allowed_dates;
+                    }
+                }
+            }
+            const opt = await this.prisma.opt.update({
+                where: {
+                    chanel: optParent.chanel,
+                },
+                data: {
+                    allowed_dates: dataListFilterJoin
+                }
+            });
+            return { ...optInto, allowed_dates: opt.allowed_dates };
+        }
+        else {
+            const optInto = await this.prisma.optInto.create({
+                data: {
+                    ...body,
+                    chanel: idOpt,
+                    idUser: idUser,
+                }
+            });
+            const opt = await this.prisma.opt.findUnique({
+                where: {
+                    chanel: optParent.chanel,
+                }
+            });
+            return { ...optInto, allowed_dates: opt.allowed_dates };
+        }
     }
     async setRecommendationInto(idUser, idOpt, isDelete, body) {
         let optParent = await this.prisma.recommendation.findUnique({
@@ -269,10 +329,11 @@ let OptService = class OptService {
             });
             const creatives = recommendationInto.creatives;
             const creativesArray = creatives.split('///');
-            const creativesNewArray = creativesArray.splice(postNumber, 1);
+            creativesArray.shift();
+            creativesArray.splice(Number(postNumber) - 1, 1);
             let creativesNew = '';
-            if (creativesNewArray.length > 1) {
-                creativesNew = '///' + creativesNewArray.join("///");
+            if (creativesArray.length > 0) {
+                creativesNew = '///' + creativesArray.join("///");
             }
             await this.prisma.recommendationInto.update({
                 where: {
@@ -292,12 +353,12 @@ let OptService = class OptService {
             });
             const creatives = optInto.creatives;
             const creativesArray = creatives.split('///');
-            const creativesNewArray = creativesArray.splice(postNumber, 1);
+            creativesArray.shift();
+            creativesArray.splice(Number(postNumber) - 1, 1);
             let creativesNew = '';
-            if (creativesNewArray.length > 1) {
-                creativesNew = '///' + creativesNewArray.join("///");
+            if (creativesArray.length > 0) {
+                creativesNew = '///' + creativesArray.join("///");
             }
-            console.log(optInto);
             await this.prisma.optInto.update({
                 where: {
                     id: optInto.id
@@ -436,6 +497,7 @@ let OptService = class OptService {
                     chanel: user.chanel_edit_temp
                 }
             });
+            console.log(recommendation);
             result = await this.prisma.recommendationInto.update({
                 where: {
                     id: recommendation.id
@@ -452,7 +514,7 @@ let OptService = class OptService {
                     chanel: user.chanel_edit_temp
                 }
             });
-            result = await this.prisma.recommendationInto.update({
+            result = await this.prisma.optInto.update({
                 where: {
                     id: opt.id
                 },
