@@ -56,8 +56,8 @@ export class UserController {
 
   //в подборках в которых учавствуешь
   @Get('recommendation-into-user')
-  async recommendationsProfile(@Res() res, @Query('idUser') idUser) {
-    const status = await this.userService.recommendationsProfile(idUser);
+  async recommendationsProfile(@Res() res, @Query('idUser') idUser, @Query('bot') bot) {
+    const status = await this.userService.recommendationsProfile(idUser, bot);
     return res.status(HttpStatus.OK).json(status);
   }
 

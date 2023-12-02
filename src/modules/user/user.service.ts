@@ -217,7 +217,8 @@ export class UserService {
     return user.opts;
   }
 
-  async recommendationsProfile(idUser: any): Promise<any> {
+  async recommendationsProfile(idUser: any, isBotProp:string): Promise<any> {
+    const isBot = isBotProp === 'enabled'? true: false
     const user = await this.prisma.user.findUnique({
       where: {
         id: idUser
@@ -234,9 +235,11 @@ export class UserService {
           username: recommendationTemp.chanel
         }
       });
-      if(recommendation) {
-        (recommendationTemp as any).title = recommendation.title
-        recommendations.push(recommendationTemp)
+      if(!isBot || recommendationTemp.view) {
+        if(recommendation) {
+          (recommendationTemp as any).title = recommendation.title
+          recommendations.push(recommendationTemp)
+        }
       }
     }
     return recommendations;

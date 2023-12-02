@@ -51,8 +51,8 @@ let UserController = class UserController {
         const status = await this.userService.optProfile(idUser);
         return res.status(common_1.HttpStatus.OK).json(status);
     }
-    async recommendationsProfile(res, idUser) {
-        const status = await this.userService.recommendationsProfile(idUser);
+    async recommendationsProfile(res, idUser, bot) {
+        const status = await this.userService.recommendationsProfile(idUser, bot);
         return res.status(common_1.HttpStatus.OK).json(status);
     }
     async optUser(res, idUser) {
@@ -135,8 +135,9 @@ __decorate([
     (0, common_1.Get)('recommendation-into-user'),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('bot')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "recommendationsProfile", null);
 __decorate([
