@@ -9,9 +9,9 @@ const DELAY_BEFORE_START = 86400000
 const prisma = new PrismaClient()
 
 export async function updateTable() {
-  // createBackupBd()
-  // await updateSubscription()
-  await deleteIntoOpt()
+  createBackupBd()
+  await updateSubscription()
+  // await deleteIntoOpt()
   setTimeout(() => {
     console.log("Delayed for 1 second.");
     updateTable()

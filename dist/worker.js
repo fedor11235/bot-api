@@ -9,7 +9,8 @@ const MAX_NUMBER_BACKUPS = 10;
 const DELAY_BEFORE_START = 86400000;
 const prisma = new client_1.PrismaClient();
 async function updateTable() {
-    await deleteIntoOpt();
+    createBackupBd();
+    await updateSubscription();
     setTimeout(() => {
         console.log("Delayed for 1 second.");
         updateTable();
