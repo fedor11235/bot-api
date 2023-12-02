@@ -51,6 +51,10 @@ let OptController = class OptController {
         const opt = await this.modeService.setOpt(idUser, data);
         return res.status(common_1.HttpStatus.OK).json(opt);
     }
+    async optDelete(res, chanel) {
+        const opt = await this.modeService.optDelete(chanel);
+        return res.status(common_1.HttpStatus.OK).json(opt);
+    }
     async getAllOpts(res) {
         const opt = await this.modeService.getAllOpts();
         return res.status(common_1.HttpStatus.OK).json(opt);
@@ -163,6 +167,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], OptController.prototype, "setOpt", null);
+__decorate([
+    (0, common_1.Delete)('opt-delete'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('chanel')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OptController.prototype, "optDelete", null);
 __decorate([
     (0, common_1.Get)('all'),
     __param(0, (0, common_1.Res)()),

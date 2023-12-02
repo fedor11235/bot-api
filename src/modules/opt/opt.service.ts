@@ -309,7 +309,30 @@ export class OptService {
       return {...recommendationInto, allowed_dates: recommendation.allowed_dates}
     }
   }
+  
+  // async getReleaseSchedule(idUser: any): Promise<any> {
+  //   const user = await this.prisma.user.findUnique({
+  //     where: {
+  //       id: idUser,
+  //     },
+  //     include: {
+  //       channels: true,
+  //       opts: true,
+  //     }
+  //   });
 
+  //   // return opt;
+  // }
+
+  async optDelete(chanel: any): Promise<any> {
+    const opt = await this.prisma.opt.delete({
+      where: {
+        chanel: chanel,
+      },
+    });
+
+    return opt;
+  }
 
   async getOptInto(idOpt: any): Promise<any> {
     const opt = await this.prisma.optInto.findFirst({

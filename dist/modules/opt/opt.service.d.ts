@@ -9,6 +9,7 @@ export declare class OptService {
     getStatOpt(chanel: any): Promise<any>;
     setOptInto(idUser: any, idOpt: any, isDel: any, body: any): Promise<any>;
     setRecommendationInto(idUser: any, idOpt: any, isDelete: any, body: any): Promise<any>;
+    optDelete(chanel: any): Promise<any>;
     getOptInto(idOpt: any): Promise<any>;
     getAllOpts(): Promise<any>;
     optGetRequisites(channel: any): Promise<any>;
