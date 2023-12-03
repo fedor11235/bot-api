@@ -145,6 +145,7 @@ model RecommendationInto {
   username_recommendation  String?
   check                    String?
   path_check               String?
+  check_mark               Boolean  @default(false)
   view                     Boolean  @default(true)
   posts                    Post[]
 }

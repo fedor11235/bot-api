@@ -20,10 +20,24 @@ export class RecommendationController {
     return res.status(HttpStatus.OK).json(result);
   }
 
+  // редактирование дат пользователя войденных в опт
+  @UseInterceptors(FileInterceptor('formdata'))
+  @Post('edit-date')
+  async recommendationIntoEdit(@Res() res, @Body() body) {
+    const result = await this.recommendationService.recommendationIntoEdit(body);
+    return res.status(HttpStatus.OK).json(result);
+  }
+
 
   @Get('get')
   async recommendationGet(@Res() res, @Query('isBot') isBot) {
     const result = await this.recommendationService.recommendationGet(isBot);
+    return res.status(HttpStatus.OK).json(result);
+  }
+
+  @Get('mark')
+  async recommendationCheckMark(@Res() res, @Query('idRecommendation') idRecommendation, @Query('mark') mark) {
+    const result = await this.recommendationService.recommendationCheckMark(idRecommendation, mark);
     return res.status(HttpStatus.OK).json(result);
   }
 

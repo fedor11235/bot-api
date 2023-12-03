@@ -12,6 +12,19 @@ export class RecommendationService {
     });
     return recommendation
   }
+  async recommendationCheckMark(idRecommendation:any, mark: string): Promise<any> {
+    const markLocal = mark === 'enabled'? true: false
+    const recommendation = await this.prisma.recommendationInto.update({
+      where: {
+        id: Number(idRecommendation)
+      },
+      data: {
+        check_mark: markLocal
+      },
+    });
+    return recommendation
+  }
+
   async recommendationGet(isBot: any): Promise<any> {
     let recommendations = await this.prisma.recommendation.findMany();
     if (isBot === 'enable') {
@@ -32,6 +45,19 @@ export class RecommendationService {
     });
     return recommendation
   }
+
+  async recommendationIntoEdit(payload:any): Promise<any> {
+    const recommendation = await this.prisma.recommendationInto.update({
+      where: {
+        id: Number(payload.id)
+      },
+      data: {
+        booking_date: payload.booking_date
+      },
+    });
+    return recommendation
+  }
+
   async recommendationDeleteBot(id: any): Promise<any> {
     await this.prisma.recommendation.update({
       where: {

@@ -23,6 +23,18 @@ let RecommendationService = class RecommendationService {
         });
         return recommendation;
     }
+    async recommendationCheckMark(idRecommendation, mark) {
+        const markLocal = mark === 'enabled' ? true : false;
+        const recommendation = await this.prisma.recommendationInto.update({
+            where: {
+                id: Number(idRecommendation)
+            },
+            data: {
+                check_mark: markLocal
+            },
+        });
+        return recommendation;
+    }
     async recommendationGet(isBot) {
         let recommendations = await this.prisma.recommendation.findMany();
         if (isBot === 'enable') {
@@ -40,6 +52,17 @@ let RecommendationService = class RecommendationService {
                 id: Number(id)
             },
             data: payload
+        });
+        return recommendation;
+    }
+    async recommendationIntoEdit(payload) {
+        const recommendation = await this.prisma.recommendationInto.update({
+            where: {
+                id: Number(payload.id)
+            },
+            data: {
+                booking_date: payload.booking_date
+            },
         });
         return recommendation;
     }
