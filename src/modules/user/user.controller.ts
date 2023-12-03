@@ -5,9 +5,22 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
+
+  @Get('suggestion')
+  async allowSuggestions(@Res() res, @Query('idUser') idUser, @Query('isSuggestion') isSuggestion) {
+    const promocode = await this.userService.allowSuggestions(idUser, isSuggestion);
+    return res.status(HttpStatus.OK).json(promocode);
+  }
+
   @Get('promocode')
   async getPromocode(@Res() res, @Query('idUser') idUser) {
     const promocode = await this.userService.getPromocode(idUser);
+    return res.status(HttpStatus.OK).json(promocode);
+  }
+
+  @Get('all')
+  async getUserAll(@Res() res) {
+    const promocode = await this.userService.getUserAll();
     return res.status(HttpStatus.OK).json(promocode);
   }
 

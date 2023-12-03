@@ -2,7 +2,9 @@ import { UserService } from './user.service';
 export declare class UserController {
     private userService;
     constructor(userService: UserService);
+    allowSuggestions(res: any, idUser: any, isSuggestion: any): Promise<any>;
     getPromocode(res: any, idUser: any): Promise<any>;
+    getUserAll(res: any): Promise<any>;
     getProfile(res: any, idUser: any): Promise<any>;
     setProfile(res: any, idUser: any, tariffPlan: any, time: any, isOne: any): Promise<any>;
     setTariffTemp(res: any, idUser: any, tariffPlan: any): Promise<any>;

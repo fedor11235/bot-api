@@ -3,6 +3,8 @@ export declare class UserService {
     private prisma;
     constructor(prisma: PrismaService);
     getPromocode(idUser: any): Promise<any>;
+    allowSuggestions(idUser: string, isSuggestion: string): Promise<any>;
+    getUserAll(): Promise<any>;
     getProfile(idUser: any): Promise<any>;
     setProfile(idUser: any, tariffPlan: any, time: any, isOne: any): Promise<any>;
     setAllDateProfile(idUser: any, data: any): Promise<any>;

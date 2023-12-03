@@ -30,6 +30,19 @@ let RecommendationService = class RecommendationService {
         }
         return recommendations;
     }
+    async recommendationSet(payload) {
+        const { id } = payload;
+        delete payload.id;
+        payload.number_posts = Number(payload.number_posts);
+        payload.view = payload.view === 'true' ? true : false;
+        const recommendation = await this.prisma.recommendation.update({
+            where: {
+                id: Number(id)
+            },
+            data: payload
+        });
+        return recommendation;
+    }
     async recommendationDeleteBot(id) {
         await this.prisma.recommendation.update({
             where: {

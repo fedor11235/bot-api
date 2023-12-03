@@ -19,6 +19,19 @@ export class RecommendationService {
     }
     return recommendations
   }
+  async recommendationSet(payload: any): Promise<any> {
+    const { id } =  payload
+    delete payload.id
+    payload.number_posts = Number(payload.number_posts)
+    payload.view = payload.view === 'true'? true: false
+    const recommendation = await this.prisma.recommendation.update({
+      where: {
+        id: Number(id)
+      },
+      data: payload
+    });
+    return recommendation
+  }
   async recommendationDeleteBot(id: any): Promise<any> {
     await this.prisma.recommendation.update({
       where: {

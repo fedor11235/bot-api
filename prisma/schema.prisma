@@ -39,6 +39,8 @@ model User {
   opt_chanel_create     String?
   opt_into              OptInto[]
   RecommendationInto    RecommendationInto[]
+
+  allow_suggestions     Boolean @default(false)   
   discount              Int     @default(0)
   //фильтр для категорий
   filter                String? @default("none")
@@ -159,6 +161,7 @@ model Recommendation {
   coverage           String? @default("?")
   subscribers        String? @default("?")
   // Выбор разрешенных мест
+  placement_time     String?
   data_list          String?
   allowed_dates      String?
   requisites         String?

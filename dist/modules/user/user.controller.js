@@ -19,8 +19,16 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
+    async allowSuggestions(res, idUser, isSuggestion) {
+        const promocode = await this.userService.allowSuggestions(idUser, isSuggestion);
+        return res.status(common_1.HttpStatus.OK).json(promocode);
+    }
     async getPromocode(res, idUser) {
         const promocode = await this.userService.getPromocode(idUser);
+        return res.status(common_1.HttpStatus.OK).json(promocode);
+    }
+    async getUserAll(res) {
+        const promocode = await this.userService.getUserAll();
         return res.status(common_1.HttpStatus.OK).json(promocode);
     }
     async getProfile(res, idUser) {
@@ -62,6 +70,15 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
+    (0, common_1.Get)('suggestion'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)('idUser')),
+    __param(2, (0, common_1.Query)('isSuggestion')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "allowSuggestions", null);
+__decorate([
     (0, common_1.Get)('promocode'),
     __param(0, (0, common_1.Res)()),
     __param(1, (0, common_1.Query)('idUser')),
@@ -69,6 +86,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getPromocode", null);
+__decorate([
+    (0, common_1.Get)('all'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserAll", null);
 __decorate([
     (0, common_1.Get)('profile'),
     __param(0, (0, common_1.Res)()),

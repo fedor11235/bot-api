@@ -13,6 +13,14 @@ export class RecommendationController {
     return res.status(HttpStatus.OK).json(result);
   }
 
+  @UseInterceptors(FileInterceptor('formdata'))
+  @Post('edit')
+  async recommendationSet(@Res() res, @Body() body) {
+    const result = await this.recommendationService.recommendationSet(body);
+    return res.status(HttpStatus.OK).json(result);
+  }
+
+
   @Get('get')
   async recommendationGet(@Res() res, @Query('isBot') isBot) {
     const result = await this.recommendationService.recommendationGet(isBot);

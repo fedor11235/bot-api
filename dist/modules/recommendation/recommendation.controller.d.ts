@@ -3,6 +3,7 @@ export declare class RecommendationController {
     private recommendationService;
     constructor(recommendationService: RecommendationService);
     recommendationCreate(res: any, body: any): Promise<any>;
+    recommendationSet(res: any, body: any): Promise<any>;
     recommendationGet(res: any, isBot: any): Promise<any>;
     recommendationDeleteBot(res: any, id: any): Promise<any>;
     recommendationGetIndividual(res: any, idRecommendation: any): Promise<any>;

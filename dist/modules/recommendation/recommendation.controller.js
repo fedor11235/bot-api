@@ -24,6 +24,10 @@ let RecommendationController = class RecommendationController {
         const result = await this.recommendationService.recommendationCreate(body);
         return res.status(common_1.HttpStatus.OK).json(result);
     }
+    async recommendationSet(res, body) {
+        const result = await this.recommendationService.recommendationSet(body);
+        return res.status(common_1.HttpStatus.OK).json(result);
+    }
     async recommendationGet(res, isBot) {
         const result = await this.recommendationService.recommendationGet(isBot);
         return res.status(common_1.HttpStatus.OK).json(result);
@@ -63,6 +67,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], RecommendationController.prototype, "recommendationCreate", null);
+__decorate([
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('formdata')),
+    (0, common_1.Post)('edit'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RecommendationController.prototype, "recommendationSet", null);
 __decorate([
     (0, common_1.Get)('get'),
     __param(0, (0, common_1.Res)()),

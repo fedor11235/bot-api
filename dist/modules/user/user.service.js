@@ -46,6 +46,22 @@ let UserService = class UserService {
         });
         return promocode;
     }
+    async allowSuggestions(idUser, isSuggestion) {
+        const isSuggestionLocal = isSuggestion === 'enabled' ? true : false;
+        const users = await this.prisma.user.update({
+            where: {
+                id: idUser
+            },
+            data: {
+                allow_suggestions: isSuggestionLocal
+            }
+        });
+        return users;
+    }
+    async getUserAll() {
+        const users = await this.prisma.user.findMany();
+        return users;
+    }
     async getProfile(idUser) {
         const user = await this.prisma.user.findUnique({
             where: {

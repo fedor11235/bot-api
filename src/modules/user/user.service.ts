@@ -46,6 +46,25 @@ export class UserService {
     
     return promocode;
   }
+
+  async allowSuggestions(idUser: string, isSuggestion: string): Promise<any> {
+    const isSuggestionLocal = isSuggestion === 'enabled'? true: false
+    const users = await this.prisma.user.update({
+      where: {
+        id: idUser
+      },
+      data: {
+        allow_suggestions: isSuggestionLocal
+      }
+    })
+    return users
+  }
+
+  async getUserAll(): Promise<any> {
+    const users = await this.prisma.user.findMany()
+    return users
+  }
+
   async getProfile(idUser: any): Promise<any> {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -62,6 +81,7 @@ export class UserService {
     }
     return "no";
   }
+  
   async setProfile(idUser: any, tariffPlan: any, time:any, isOne: any): Promise<any> {
     if(isOne === 'enabled') {
       const user = await this.prisma.user.findUnique({
