@@ -37,21 +37,21 @@ async function deleteIntoOpt() {
       const dateEndMs = Date.parse(endDateParse)
       const dateEnd =  new Date(dateEndMs)
       if(dateEnd < dateNow) {
-        await prisma.recommendationInto.delete({
-          where: {
-            id: recommendationInto.id
-          }
-        })
+        // await prisma.recommendationInto.delete({
+        //   where: {
+        //     id: recommendationInto.id
+        //   }
+        // })
       }
     } else {
-      await prisma.recommendationInto.update({
-        where: {
-          id: recommendationInto.id
-        },
-        data: {
-          view: false
-        }
-      })
+      // await prisma.recommendationInto.update({
+      //   where: {
+      //     id: recommendationInto.id
+      //   },
+      //   data: {
+      //     view: false
+      //   }
+      // })
     }
   }
 }
