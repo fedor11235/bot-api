@@ -11,7 +11,7 @@ const prisma = new PrismaClient()
 export async function updateTable() {
   createBackupBd()
   await updateSubscription()
-  // await deleteIntoOpt()
+  await deleteIntoOpt()
   setTimeout(() => {
     console.log("Delayed for 1 second.");
     updateTable()
@@ -44,9 +44,12 @@ async function deleteIntoOpt() {
         })
       }
     } else {
-      await prisma.recommendationInto.delete({
+      await prisma.recommendationInto.update({
         where: {
           id: recommendationInto.id
+        },
+        data: {
+          view: false
         }
       })
     }

@@ -10,6 +10,6 @@ export declare class UserController {
     setAllDateProfile(res: any, idUser: any, body: any): Promise<any>;
     getCheckUser(res: any, idUser: any): Promise<any>;
     optProfile(res: any, idUser: any): Promise<any>;
-    recommendationsProfile(res: any, idUser: any): Promise<any>;
+    recommendationsProfile(res: any, idUser: any, bot: any): Promise<any>;
     optUser(res: any, idUser: any): Promise<any>;
 }

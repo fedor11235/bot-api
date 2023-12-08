@@ -281,6 +281,14 @@ let OptService = class OptService {
             return { ...recommendationInto, allowed_dates: recommendation.allowed_dates };
         }
     }
+    async optDelete(chanel) {
+        const opt = await this.prisma.opt.delete({
+            where: {
+                chanel: chanel,
+            },
+        });
+        return opt;
+    }
     async getOptInto(idOpt) {
         const opt = await this.prisma.optInto.findFirst({
             where: {

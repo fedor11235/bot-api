@@ -10,6 +10,6 @@ export declare class UserService {
     uploadPromocode(idUser: any, promocode: any): Promise<any>;
     getCheckUser(idUser: any): Promise<any>;
     optUser(idUser: any): Promise<any>;
-    recommendationsProfile(idUser: any): Promise<any>;
+    recommendationsProfile(idUser: any, isBotProp: string): Promise<any>;
     optProfile(idUser: any): Promise<any>;
 }

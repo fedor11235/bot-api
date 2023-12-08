@@ -39,6 +39,12 @@ export class OptController {
     return res.status(HttpStatus.OK).json(opt);
   }
 
+  // @Get('release-schedule')
+  // async getReleaseSchedule(@Res() res, @Query('idUser') idUser) {
+  //   const opts = await this.modeService.getReleaseSchedule(idUser);
+  //   return res.status(HttpStatus.OK).json(opts);
+  // }
+
   @Get('categories')
   async getOptCategories(@Res() res, @Query('idUser') idUser, @Query('category') category, @Query('filter') filter) {
     const opt = await this.modeService.getOptCategories(idUser, category, filter);
@@ -70,8 +76,11 @@ export class OptController {
     return res.status(HttpStatus.OK).json(opt);
   }
 
-
-
+  @Delete('opt-delete')
+  async optDelete(@Res() res, @Query('chanel') chanel) {
+    const opt = await this.modeService.optDelete(chanel);
+    return res.status(HttpStatus.OK).json(opt);
+  }
 
   @Get('all')
   async getAllOpts(@Res() res) {
