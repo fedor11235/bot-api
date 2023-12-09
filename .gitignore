@@ -16,7 +16,7 @@ lerna-debug.log*
 prisma/dev.db
 prisma/migrations
 prisma/dev.db-journal
-prisma/backups/*
+#prisma/backups/*
 
 # OS
 .DS_Store
