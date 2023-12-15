@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { updateTable } from './worker'
+// import { updateTable } from './worker'
 
 
 async function bootstrap() {
@@ -10,4 +10,4 @@ async function bootstrap() {
 }
 bootstrap();
 
-updateTable()
+// updateTable()
