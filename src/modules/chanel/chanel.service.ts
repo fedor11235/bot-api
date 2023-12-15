@@ -20,7 +20,6 @@ export class ChanelService {
     let status
     const isUserChanel = await this.prisma.userChanel.findFirst({
       where: {
-        idUser: idUser,
         idChanel: idChanel,
       },
     });

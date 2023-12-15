@@ -140,6 +140,15 @@ export class OptService {
       });
     }
 
+    if ("retail_price" in data) {
+      await this.prisma.user.update({
+        where: { id: user.id},
+        data: {
+          byOpt: user.byOpt + Number(data.retail_price)
+        },
+      });
+    }
+
     return opt;
   }
 
@@ -277,9 +286,6 @@ export class OptService {
             dataListFilterJoin = allowed_dates
           }
         }
-
-        console.log('пришло повторение ', allowed_dates)
-        console.log('разрешенные даты для записи ', dataListFilterJoin)
       }
       const recommendation = await this.prisma.recommendation.update({
         where: {
@@ -564,7 +570,6 @@ export class OptService {
           chanel: user.chanel_edit_temp
         }
       })
-      console.log(recommendation)
       result = await this.prisma.recommendationInto.update({
         where: {
           id: recommendation.id
