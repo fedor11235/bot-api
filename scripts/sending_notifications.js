@@ -1,5 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
-const filepath = "./prisma/dev.db";
+const filepath = "../prisma/dev.db";
 const botToken = '6127498929:AAEwKurouSkiF8Snfs1_9Q1EHyFQQZbBHJE'
 
 function createDbConnection() {

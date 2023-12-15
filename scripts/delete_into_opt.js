@@ -1,5 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
-const filepath = "./prisma/dev.db";
+const filepath = "../prisma/dev.db";
 
 function createDbConnection() {
   const db = new sqlite3.Database(filepath, (error) => {
