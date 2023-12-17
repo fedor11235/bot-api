@@ -190,6 +190,15 @@ export class UserService {
         discount: promocodeBd.discount
       }
     })
+    await this.prisma.user.update({
+      where: {
+        id: promocodeBd.owner.id,
+      },
+      data: {
+        invitedUsers: promocodeBd.owner.invitedUsers + 1
+      }
+    })
+
     await this.prisma.promocode.update({
       where: {
         id: promocodeBd.id,
@@ -244,7 +253,12 @@ export class UserService {
         id: idUser
       },
       include: {
-        RecommendationInto: true
+        
+        RecommendationInto: {
+          include: {
+            recommendation: true
+          }
+        }
       }
     });
     let recommendations = []
@@ -257,7 +271,8 @@ export class UserService {
       });
       if(!isBot || recommendationTemp.view) {
         if(recommendation) {
-          (recommendationTemp as any).title = recommendation.title
+          (recommendationTemp as any).title = recommendation.title;
+          (recommendationTemp as any).opt = recommendation
           recommendations.push(recommendationTemp)
         }
       }
@@ -282,7 +297,8 @@ export class UserService {
         }
       });
       if(opt) {
-        (optInto as any).title = opt.title
+        (optInto as any).title = opt.title;
+        (optInto as any).opt = opt
         opts.push(optInto)
       }
     }

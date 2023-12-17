@@ -34,6 +34,7 @@ model User {
   byOpt                 Int         @default(0)
   totalSavings          Int         @default(0)
   invitedUsers          Int         @default(0)
+  // созданно оптов на сумму
   totalEarned           Int         @default(0)
   promocode             Promocode[]
   opt_chanel_create     String?
