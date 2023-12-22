@@ -57,6 +57,24 @@ export class RecommendationService {
     });
     return recommendation
   }
+  
+  async recommendationIntoSetTime(payload: any): Promise<any> {
+    const recommendationIntoOld = await this.prisma.optInto.findFirst({
+      where: {
+        chanel: payload.idOpt,
+        idUser: payload.idUser,
+      },
+    });
+    const recommendationInto = await this.prisma.recommendationInto.update({
+      where: {
+        id: recommendationIntoOld.id
+      },
+      data: {
+        booking_time: payload.booking_time
+      },
+    });
+    return recommendationInto
+  }
 
   async recommendationDeleteBot(id: any): Promise<any> {
     await this.prisma.recommendation.update({
