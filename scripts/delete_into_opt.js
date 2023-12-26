@@ -19,19 +19,7 @@ db.each(`SELECT * FROM recommendationInto`, (error, row) => {
   }
 
   if(row.booking_date) {
-    const bookingDateArray = row.booking_date.split('_')
-    const bookingDateArrayNumber = bookingDateArray.map(element => {
-      const array = element.split('/')[1].split('.')
-      return Number(`${array[1]}.${array[0]}`)
-    });
-    const maxValue = Math.max.apply(null, bookingDateArrayNumber);
-    const prepareDate = String(maxValue).split('.')
-    const dateNow = new Date()
-    const fullYear = dateNow.getFullYear()
-    prepareDate.unshift(String(fullYear))
-    const endDateParse = prepareDate.join('-')
-    const dateEndMs = Date.parse(endDateParse)
-    const dateEnd =  new Date(dateEndMs)
+    const dateEnd = lateDate(row.booking_date)
     if(dateEnd < dateNow) {
       db.run(
         `UPDATE recommendationInto SET view = false WHERE id = ${row.id}`,
@@ -43,5 +31,23 @@ db.each(`SELECT * FROM recommendationInto`, (error, row) => {
         })
     }
   }
-
 });
+
+
+// функция для самой поздней даты, подавать строчку вида "morning/13.12_day/13.12_day/14.12"
+function lateDate(booking_date) {
+  const bookingDateArray = booking_date.split('_');
+  const bookingDateArrayNumber = bookingDateArray.map(element => {
+    const array = element.split('/')[1].split('.')
+    return [Number(array[0]), Number(array[1])]
+  });
+  resultDate = bookingDateArrayNumber[0];
+  for (let i = 0; i < bookingDateArrayNumber.length; i++) {
+      if (bookingDateArrayNumber[i][1] > resultDate[1]) {
+          resultDate = bookingDateArrayNumber[i];
+      } else if (bookingDateArrayNumber[i][1] === resultDate[1] && bookingDateArrayNumber[i][0] > resultDate[0]) {
+          resultDate = bookingDateArrayNumber[i];
+      }
+  }
+  return resultDate; // возвращает массив двух элементов [<число>, <месяц>]
+}
