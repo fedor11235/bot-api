@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Путь к базе данных SQLite
-DATABASE_PATH="../prisma/dev.db"
+DATABASE_PATH="/home/ubuntu/bot-api/prisma/dev.db"
 
 # Путь до папки backups
-BACKUP_DIR="../prisma/backups"
+BACKUP_DIR="/home/ubuntu/bot-api/prisma/backups"
 
 # Проверяем количество существующих backup-файлов
 NUM_BACKUPS=0
