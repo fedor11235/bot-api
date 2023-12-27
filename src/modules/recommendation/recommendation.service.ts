@@ -59,7 +59,7 @@ export class RecommendationService {
   }
   
   async recommendationIntoSetTime(payload: any): Promise<any> {
-    const recommendationIntoOld = await this.prisma.optInto.findFirst({
+    const recommendationIntoOld = await this.prisma.recommendationInto.findFirst({
       where: {
         chanel: payload.idOpt,
         idUser: payload.idUser,
