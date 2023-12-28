@@ -137,6 +137,7 @@ model RecommendationInto {
   chanel                   String?
   creatives                String  @default("")
   booking_date             String  @default("")
+  booking_time             String  @default("")
   // allowed_dates            String  @default("")
   status                   String  @default("created")
   type                     String  @default("recommendation")

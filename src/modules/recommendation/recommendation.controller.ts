@@ -20,11 +20,20 @@ export class RecommendationController {
     return res.status(HttpStatus.OK).json(result);
   }
 
+
   // редактирование дат пользователя войденных в опт
   @UseInterceptors(FileInterceptor('formdata'))
   @Post('edit-date')
   async recommendationIntoEdit(@Res() res, @Body() body) {
     const result = await this.recommendationService.recommendationIntoEdit(body);
+    return res.status(HttpStatus.OK).json(result);
+  }
+
+  // редактирование слотов времени пользователя войденных в опт
+  @UseInterceptors(FileInterceptor('formdata'))
+  @Post('edit-time')
+  async recommendationIntoSetTime(@Res() res, @Body() body) {
+    const result = await this.recommendationService.recommendationIntoSetTime(body);
     return res.status(HttpStatus.OK).json(result);
   }
 
