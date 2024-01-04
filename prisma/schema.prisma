@@ -122,7 +122,7 @@ model Opt {
   max_places     String?
   now_places     String? @default("0")
   booking_date   String  @default("")
-  allowed_dates  String?
+  allowed_dates  String  @default("")
   deadline_date  String?
   placement_time String?
   requisites     String?
@@ -166,7 +166,7 @@ model Recommendation {
   // Выбор разрешенных мест
   placement_time     String?
   data_list          String?
-  allowed_dates      String?
+  allowed_dates      String? @default("")
   requisites         String?
   deadline           String?
   info               String?
