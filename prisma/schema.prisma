@@ -97,6 +97,7 @@ model Catalog {
 model OptInto {
   id             Int     @default(autoincrement()) @id
   booking_date   String  @default("")
+  booking_time   String  @default("")
   creatives      String  @default("")
   // allowed_dates  String  @default("")
   status         String  @default("created")
