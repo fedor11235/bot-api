@@ -16,7 +16,7 @@ db_each() {
   let dateNowMonthInt="$dateNowMonth"
   # в коде выше получили числовые представления дня и месяца текущей даты
 
-  while IFS="|" read -r creatives booking_date idUser check; do
+  while IFS="|" read -r chanel creatives booking_date idUser check; do
       if [[ -z "${booking_date}" ]]; then
         echo "No booking date found"
       else
@@ -47,20 +47,73 @@ db_each() {
         diffMonth=$((dateMaxMonthInt - dateNowMonthInt))
         diffDay=$((dateMaxDayInt - dateNowDayInt))
         if [[ ($diffMonth -eq 0) && ($diffDay -eq 1) ]]; then
-              if [[ (-z "${check}") || (-z "${creatives}") ]]; then
-                sendMessage $idUser "Приближается дата выхода опта! Добавьте чек или посты, если Вы не добавили."
+              if [[ (-z "${check}") && (-z "${creatives}") ]]; then
+                sendMessage $idUser 2
+              elif [[ (-z "${check}") ]]; then
+                sendMessage $idUser 1
+              elif [[ (-z "${creatives}") ]]; then
+                sendMessage $idUser 0
               fi
         fi
       fi
-  done< <(sqlite3 -separator "|" "$filepath" "SELECT creatives, booking_date, idUser, \`check\` FROM recommendationInto")
+  done< <(sqlite3 -separator "|" "$filepath" "SELECT chanel, creatives, booking_date, idUser, \`check\` FROM recommendationInto")
 }
 
 sendMessage() {
   chatId=$1
-  text=$2
+  status=$2
+  username=$(sqlite3 -separator "|" "$filepath" "SELECT chanel FROM RecommendationInto WHERE idUser = $chatId")
+  title=$(sqlite3 -separator "|" "$filepath" "SELECT title FROM Recommendation WHERE username = '$username'")
+  encodedTitle=$(echo "$title" | sed 's/ /_/g')
+  link=$(sqlite3 -separator "|" "$filepath" "SELECT link FROM Recommendation WHERE username = '$username'")
   url="https://api.telegram.org/bot$botToken/sendMessage"
-  data="chat_id=$chatId&text=$text&parse_mode=HTML"
-  curl -s -d "$data" $url
+  if [[ $status -eq 0 ]]; then
+    curl -X POST $url \
+     -H "Content-Type: application/json" \
+     -d '{
+        "chat_id": "'$chatId'",
+        "text": "<b>Похоже, вы ещё не прислали завтрашний пост в канал</b> \n\n<a href=\"'$link'\">'$encodedTitle'</a> \n\nНажмите на кнопку ниже, чтобы добавить пост👇",
+        "parse_mode": "HTML",
+        "reply_markup": {
+          "inline_keyboard": [
+            [
+              {"text": "Добавить пост", "callback_data": "test"}
+            ]
+          ]
+        }
+     }'
+  elif [[ $status -eq 1 ]]; then
+    curl -X POST $url \
+     -H "Content-Type: application/json" \
+     -d '{
+        "chat_id": "'$chatId'",
+        "text": "<b>Похоже, вы ещё не прислали завтрашний чек в канал</b> \n\n<a href=\"'$link'\">'$encodedTitle'</a> \n\nНажмите на кнопку ниже, чтобы добавить чек👇",
+        "parse_mode": "HTML",
+        "reply_markup": {
+          "inline_keyboard": [
+            [
+              {"text": "Добавить чек", "callback_data": "test"}
+            ]
+          ]
+        }
+     }'
+  else
+    curl -X POST $url \
+     -H "Content-Type: application/json" \
+     -d '{
+        "chat_id": "'$chatId'",
+        "text": "<b>Похоже, вы ещё не прислали завтрашний пост и чек в канал</b> \n\n<a href=\"'$link'\">'$encodedTitle'</a> \n\nНажмите на кнопку ниже, чтобы добавить пост и чек👇",
+        "parse_mode": "HTML",
+        "reply_markup": {
+          "inline_keyboard": [
+            [
+              {"text": "Добавить пост", "callback_data": "test"},
+              {"text": "Добавить чек", "callback_data": "test"}
+            ]
+          ]
+        }
+     }'
+  fi
 }
 
 createDbConnection
