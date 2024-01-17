@@ -1,7 +1,7 @@
 #!/bin/bash
 
-filepath="/home/ubuntu/test/bot-api/prisma/test.db"
-botToken='6127498929:AAEwKurouSkiF8Snfs1_9Q1EHyFQQZbBHJE'
+filepath="/home/ubuntu/bot-api/prisma/dev.db"
+botToken='6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
 
 createDbConnection() {
   sqlite3 $filepath <<EOF
