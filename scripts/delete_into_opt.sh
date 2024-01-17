@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filepath="../prisma/test.db"
+filepath="/home/ubuntu/test/bot-api/prisma/test.db"
 
 createDbConnection() {
   sqlite3 "$filepath" <<EOF

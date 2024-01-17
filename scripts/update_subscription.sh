@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filepath="../prisma/test.db"
+filepath="/home/ubuntu/test/bot-api/prisma/test.db"
 
 createDbConnection() {
   sqlite3 "$filepath" <<EOF
@@ -29,6 +29,7 @@ db_each() {
             ((diffYear -eq 0) && (diffMonth -lt 0)) ||
             (diffYear -lt 0) ]]; then
         sqlite3 "$filepath" "UPDATE User SET subscriptionEndDate = 'never' WHERE id = $id"
+        sqlite3 "$filepath" "UPDATE User SET tariffPlan = 'base' WHERE id = $id"
         echo "Row $id has been updated"
       fi
     fi

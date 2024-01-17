@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filepath="../prisma/test.db"
+filepath="/home/ubuntu/test/bot-api/prisma/test.db"
 botToken='6127498929:AAEwKurouSkiF8Snfs1_9Q1EHyFQQZbBHJE'
 
 createDbConnection() {
