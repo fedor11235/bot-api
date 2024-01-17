@@ -1,26 +1,38 @@
 #!/bin/bash
 
-filepath="../prisma/dev.db"
+filepath="../prisma/test.db"
 
 createDbConnection() {
-  sqlite3 $filepath <<EOF
+  sqlite3 "$filepath" <<EOF
 EOF
   echo "Connection with SQLite has been established"
 }
 
 db_each() {
-  sqlite3 $filepath "SELECT * FROM user" | while read -r row; do
-    DateEndSplit=$(echo "$row" | awk '{print $3}' | tr -d '.')
-    newFormatArrayDate=$(echo "$DateEndSplit" | sed 's/\(....\)\(..\)\(..\)/\1-\2-\3/')
-    dateEndMs=$(date -d "$newFormatArrayDate" +%s)
-    dateEnd=$(date -d "@$dateEndMs")
-    dateNow=$(date)
-    if [ "$DateEndSplit" != "" ] && [ "$dateEnd" \< "$dateNow" ]; then
-      id=$(echo "$row" | awk '{print $1}')
-      sqlite3 $filepath "UPDATE user SET subscriptionEndDate = 'never' WHERE id = $id"
-      echo "Row $id has been updated"
+  dateNow=$(date +"%d.%m.%Y") # получаем текущую дату в формате <день>.<месяц>.<год>
+  IFS="." read -r dateNowDay dateNowMonth dateNowYear <<< "$dateNow"
+  dateNowDayInt=$((10#$dateNowDay))
+  dateNowMonthInt=$((10#$dateNowMonth))
+  dateNowYearInt=$((10#$dateNowYear))
+  # в коде выше получили числовые представления дня, месяца и года текущей даты
+
+  while IFS="|" read -r id subscriptionEndDate; do
+    if [[ "$subscriptionEndDate" != "never" ]]; then
+      IFS="." read -r -a subscriptionUserDate <<< "$subscriptionEndDate"
+      subscriptionUserDayInt=$((10#${subscriptionUserDate[0]}))
+      subscriptionUserMonthInt=$((10#${subscriptionUserDate[1]}))
+      subscriptionUserYearInt=$((10#${subscriptionUserDate[2]}))
+      diffYear=$((subscriptionUserYearInt - dateNowYearInt))
+      diffMonth=$((subscriptionUserMonthInt - dateNowMonthInt))
+      diffDay=$((subscriptionUserDayInt - dateNowDayInt))
+      if [[ ((diffYear -eq 0) && (diffMonth -eq 0) && (diffDay -lt 0)) ||
+            ((diffYear -eq 0) && (diffMonth -lt 0)) ||
+            (diffYear -lt 0) ]]; then
+        sqlite3 "$filepath" "UPDATE User SET subscriptionEndDate = 'never' WHERE id = $id"
+        echo "Row $id has been updated"
+      fi
     fi
-  done
+  done < <(sqlite3 -separator "|" "$filepath" "SELECT id, subscriptionEndDate FROM User")
 }
 
 createDbConnection

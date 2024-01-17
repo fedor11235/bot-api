@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filepath="../prisma/dev.db"
+filepath="../prisma/test.db"
 botToken='6127498929:AAEwKurouSkiF8Snfs1_9Q1EHyFQQZbBHJE'
 
 createDbConnection() {
@@ -10,30 +10,49 @@ EOF
 }
 
 db_each() {
-  sqlite3 $filepath "SELECT * FROM recommendationInto"
-    if [ -z "$row.booking_date" ]; then
-      echo "No booking date found"
-    else
-      bookingDateArray=(${row//_/ })
-      bookingDateArrayNumber=(${bookingDateArray//\./})
-      minValue=${bookingDateArrayNumber[0]}
-      prepareDate=(${minValue//\./})
-      dateNow=$(date +%s)
-      fullYear=${prepareDate[0]}
-      endDateParse="${prepareDate[1]}-${prepareDate[2]}-${fullYear}"
-      dateEnd=$(date -d "$endDateParse" +%s)
-      dateEnd=$(date -d "@$dateEnd" +%s)
-      dateEnd=$(date -d "@$dateEnd" +%d)
-      dateEnd=$(date -d "@$dateEnd" +%m)
-      dateEnd=$(date -d "@$dateEnd" +%Y)
-      echo $dateEnd
-      if [ $dateEnd -lt $dateNow ]; then
-        if [ -z "$row.check" ] || [ -z "$row.creatives" ]; then
-          sendMessage "$row.idUser" "Приблежает дата выхода опта добавьте чек или посты если вы не добавили"
+  dateNow=$(date +"%d.%m") # получаем текущую даты в формате <день>.<месяц>
+  IFS="." read -r dateNowDay dateNowMonth <<< "$dateNow"
+  let dateNowDayInt="$dateNowDay"
+  let dateNowMonthInt="$dateNowMonth"
+  # в коде выше получили числовые представления дня и месяца текущей даты
+
+  while IFS="|" read -r creatives booking_date idUser check; do
+      if [[ -z "${booking_date}" ]]; then
+        echo "No booking date found"
+      else
+        IFS="_" read -r -a bookingDateArray <<< "$booking_date"
+        maxValue="0.0"
+        elementArray=()
+        for element in "${bookingDateArray[@]}"; do
+          IFS="/" read -r -a elementArray <<< "$element"
+          date="${elementArray[1]}"
+
+          IFS="." read -r dateElementDay dateElementMonth <<< "$date"
+          let dateElementDayInt="$dateElementDay"
+          let dateElementMonthInt="$dateElementMonth"
+
+          IFS="." read -r dateMaxDay dateMaxMonth <<< "$maxValue"
+          let dateMaxDayInt="$dateMaxDay"
+          let dateMaxMonthInt="$dateMaxMonth"
+
+          if [[ ($dateMaxMonthInt < $dateElementMonthInt)  ||
+                (($dateMaxMonthInt -eq $dateElementMonthInt) && ($dateMaxDayInt < $dateElementDayInt)) ]]; then
+            maxValue=$date
+          fi
+          elementArray=()
+        done
+        IFS="." read -r dateMaxDay dateMaxMonth <<< "$maxValue"
+        let dateMaxDayInt="$dateMaxDay"
+        let dateMaxMonthInt="$dateMaxMonth"
+        diffMonth=$((dateMaxMonthInt - dateNowMonthInt))
+        diffDay=$((dateMaxDayInt - dateNowDayInt))
+        if [[ ($diffMonth -eq 0) && ($diffDay -eq 1) ]]; then
+              if [[ (-z "${check}") || (-z "${creatives}") ]]; then
+                sendMessage $idUser "Приближается дата выхода опта! Добавьте чек или посты, если Вы не добавили."
+              fi
         fi
       fi
-    fi
-
+  done< <(sqlite3 -separator "|" "$filepath" "SELECT creatives, booking_date, idUser, \`check\` FROM recommendationInto")
 }
 
 sendMessage() {
@@ -45,22 +64,4 @@ sendMessage() {
 }
 
 createDbConnection
-
-while IFS=, read -r row
-do
-  db_each
-done
-
-
-
-# Логика запроса к базе данных и отправки сообщений будет зависеть от структуры базы данных и платформы обмена сообщениями
-# Приведенный ниже пример демонстрирует использование утилиты sqlite3 для выполнения запроса к базе данных и отправки сообщения через curl
-# Конкретный SQL-запрос и логика отправки сообщений будут зависеть от структуры базы данных и платформы обмена сообщениями
-
-# Пример выполнения запроса к базе данных с использованием утилиты sqlite3
-# sqlite3 $filepath "SELECT * FROM recommendationInto"
-
-# Пример отправки сообщения с использованием curl
-# chatId="12345"
-# text="Пример сообщения"
-# curl -X POST "https://api.telegram.org/bot$botToken/sendMessage" -H "Content-Type: application/json" -d "{\"chat_id\": \"$chatId\", \"text\": \"$text\", \"parse_mode\": \"HTML\"}"
+db_each
