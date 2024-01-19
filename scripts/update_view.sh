@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filepath="/home/ubuntu/bot-api/prisma/dev.db"
+filepath="../prisma/test.db"
 
 createDbConnection() {
   sqlite3 "$filepath" <<EOF
@@ -9,7 +9,8 @@ EOF
 }
 
 db_each() {
-  while IFS="|" read -r id booking_date view; do
+  let targetMonth=$1
+  while IFS="|" read -r id booking_date; do
     if [ -n "$booking_date" ]; then
       IFS="_" read -r -a bookingDateArray <<< "$booking_date"
       maxValue="0.0"
@@ -22,13 +23,15 @@ db_each() {
         let dateElementDayInt="$dateElementDay"
         let dateElementMonthInt="$dateElementMonth"
 
-        IFS="." read -r dateMaxDay dateMaxMonth <<< "$maxValue"
-        let dateMaxDayInt="$dateMaxDay"
-        let dateMaxMonthInt="$dateMaxMonth"
+        if [[ $dateElementMonthInt -ne $targetMonth ]]; then
+          IFS="." read -r dateMaxDay dateMaxMonth <<< "$maxValue"
+          let dateMaxDayInt="$dateMaxDay"
+          let dateMaxMonthInt="$dateMaxMonth"
 
-        if [[ ($dateMaxMonthInt -lt $dateElementMonthInt)  ||
-              (($dateMaxMonthInt -eq $dateElementMonthInt) && ($dateMaxDayInt -lt $dateElementDayInt)) ]]; then
-          maxValue=$date
+          if [[ ($dateMaxMonthInt < $dateElementMonthInt)  ||
+                (($dateMaxMonthInt -eq $dateElementMonthInt) && ($dateMaxDayInt < $dateElementDayInt)) ]]; then
+            maxValue=$date
+          fi
         fi
         elementArray=()
       done
@@ -47,13 +50,16 @@ db_each() {
 
       # ниже в условии просто проверяем, что текущая дата больше максимальной; и если это так, то апдейтим таблицу по id
       if [[ ($dateMaxMonthInt < $dateNowMonthInt)  ||
-      (($dateMaxMonthInt -eq $dateNowMonthInt) && ($dateMaxDayInt < $dateNowDayInt)) ]]; then
+      (($dateMaxMonthInt -eq $dateNowMonthInt) && ($dateMaxDayInt -lt $dateNowDayInt)) ]]; then
        sqlite3 "$filepath" "UPDATE recommendationInto SET view = false WHERE id = $id"
        echo "Row $id has been updated"
       fi
     fi
-  done < <(sqlite3 -separator "|" "$filepath" "SELECT id, booking_date, view FROM recommendationInto")
+  done < <(sqlite3 -separator "|" "$filepath" "SELECT id, booking_date FROM recommendationInto")
 }
 
 createDbConnection
-db_each
+db_each $1
+
+# запуск -> /bin/bash update_view.sh 12  аргумент (в данном случае число 12) указывает на номер месяца,
+#                                        который не будет учитываться в поиске максимальной даты
