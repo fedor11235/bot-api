@@ -35,8 +35,8 @@ db_each() {
           let dateMaxDayInt="$dateMaxDay"
           let dateMaxMonthInt="$dateMaxMonth"
 
-          if [[ ($dateMaxMonthInt < $dateElementMonthInt)  ||
-                (($dateMaxMonthInt -eq $dateElementMonthInt) && ($dateMaxDayInt < $dateElementDayInt)) ]]; then
+          if [[ ($dateMaxMonthInt -lt $dateElementMonthInt)  ||
+                (($dateMaxMonthInt -eq $dateElementMonthInt) && ($dateMaxDayInt -lt $dateElementDayInt)) ]]; then
             maxValue=$date
           fi
           elementArray=()
