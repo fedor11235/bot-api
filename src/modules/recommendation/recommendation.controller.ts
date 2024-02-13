@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Res, Req, Query, Body, UseInterceptors, HttpStatus, Delete } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { RecommendationService } from './recommendation.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('модуль для работы с подборками, они чуть перемешанны с модулем оптов')
 @Controller('recommendations')
 export class RecommendationController {
   constructor(private recommendationService: RecommendationService) {}

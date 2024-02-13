@@ -1,7 +1,9 @@
 import { Controller, Get, Res, Req, Query, HttpStatus, Post, UseInterceptors, Body } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ChanelService } from './chanel.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('модуль для работы с каналами')
 @Controller('chanel')
 export class ChanelController {
   constructor(private chanelService: ChanelService) {}

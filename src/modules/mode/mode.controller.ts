@@ -1,6 +1,8 @@
 import { Controller, Get, Res, Req, Query, HttpStatus } from '@nestjs/common';
 import { ModeService } from './mode.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('модуль для работы с режимами чата бота и пользователя, уродская логика, нужно удалить и использовать локальные состояния фрейма')
 @Controller('mode')
 export class ModeController {
   constructor(private modeService: ModeService) {}

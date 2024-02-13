@@ -1,6 +1,8 @@
 import { Controller, Get, Res, Req, Post, Query, Body, HttpStatus } from '@nestjs/common';
 import { UserService } from './user.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('модуль для работы с пользователями, тут все эендпоинты важны, дать разрешения, генерация промокода, выдать профиль, задать тарифный план и т.д.')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}

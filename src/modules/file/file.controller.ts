@@ -17,6 +17,9 @@ import { createReadStream } from 'fs';
 
 const checksFolder = '/media/checks/'
 
+import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('модуль для работы с файлами')
 @Controller('file')
 export class FileController {
   constructor(private fileService: FileService) {}

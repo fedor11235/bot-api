@@ -12,7 +12,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { OptService } from './opt.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('модуль для работы с оптами, они чуть перемешанны с модулем подборок')
 @Controller('opt')
 export class OptController {
   constructor(private modeService: OptService) {}
